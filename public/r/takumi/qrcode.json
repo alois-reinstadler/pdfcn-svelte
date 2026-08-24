@@ -4,6 +4,7 @@
   "title": "QR Code",
   "description": "QR Code PDF component for the takumi base.",
   "dependencies": [
+    "@types/qrcode",
     "qrcode"
   ],
   "registryDependencies": [

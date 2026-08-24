@@ -4,13 +4,12 @@
 		"css": "src/app.css",
 		"baseColor": "slate"
 	},
-	"alias": {
+	"aliases": {
 		"components": "$lib/components",
 		"utils": "$lib/utils",
 		"ui": "$lib/components/ui",
-		"assets": "$lib/assets",
 		"lib": "$lib"
 	},
 	"typescript": true,
-	"registry": "https://pdfcn-svelte.dev/registry"
+	"registry": "http://localhost:5173/r"
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://shadcn-svelte.com/schema/registry.json",
   "name": "pdfcn-svelte",
-  "homepage": "https://pdfcn-svelte.dev",
+  "homepage": "http://localhost:5173",
   "aliases": {
     "components": "$lib/components",
     "lib": "$lib",
@@ -135,6 +135,38 @@
       "type": "registry:ui"
     },
     {
+      "name": "forme/graph",
+      "title": "Graph",
+      "description": "Graph PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/graph/graph.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/graph/graph.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/graph/graph.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/graph/graph.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/graph/graph.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/graph/graph.types.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/graph/graph.utils.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/graph/graph.utils.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
       "name": "forme/heading",
       "title": "Heading",
       "description": "Heading PDF component for the forme base.",
@@ -223,9 +255,20 @@
       "description": "Invoice Corporate PDF document block for the forme base.",
       "dependencies": [],
       "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./pdf-image.json",
+        "./table.json",
+        "./text.json",
         "./utils.json"
       ],
       "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate-content.svelte"
+        },
         {
           "path": "src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate.svelte",
           "type": "registry:block",
@@ -245,9 +288,20 @@
       "description": "Invoice Creative PDF document block for the forme base.",
       "dependencies": [],
       "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
         "./utils.json"
       ],
       "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-creative/invoice-creative-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-creative/invoice-creative-content.svelte"
+        },
         {
           "path": "src/lib/bases/forme/blocks/invoice-creative/invoice-creative.svelte",
           "type": "registry:block",
@@ -267,9 +321,20 @@
       "description": "Invoice Minimal PDF document block for the forme base.",
       "dependencies": [],
       "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
         "./utils.json"
       ],
       "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal-content.svelte"
+        },
         {
           "path": "src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.svelte",
           "type": "registry:block",
@@ -289,9 +354,20 @@
       "description": "Invoice Modern PDF document block for the forme base.",
       "dependencies": [],
       "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
         "./utils.json"
       ],
       "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-modern/invoice-modern-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-modern/invoice-modern-content.svelte"
+        },
         {
           "path": "src/lib/bases/forme/blocks/invoice-modern/invoice-modern.svelte",
           "type": "registry:block",
@@ -464,6 +540,7 @@
       "description": "QR Code PDF component for the forme base.",
       "dependencies": [
         "@formepdf/svelte",
+        "@types/qrcode",
         "qrcode"
       ],
       "registryDependencies": [
@@ -477,6 +554,150 @@
         }
       ],
       "type": "registry:ui"
+    },
+    {
+      "name": "forme/report-financial",
+      "title": "Report Financial",
+      "description": "Report Financial PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/report-financial/report-financial.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-financial/report-financial.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-financial/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-financial/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-financial/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-financial/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/report-marketing",
+      "title": "Report Marketing",
+      "description": "Report Marketing PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/report-marketing/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-marketing/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-marketing/report-marketing.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-marketing/report-marketing.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-marketing/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-marketing/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/report-operations",
+      "title": "Report Operations",
+      "description": "Report Operations PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/report-operations/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-operations/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-operations/report-operations.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-operations/report-operations.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-operations/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-operations/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/report-security",
+      "title": "Report Security",
+      "description": "Report Security PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/report-security/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-security/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-security/report-security.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-security/report-security.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/report-security/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/report-security/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
     },
     {
       "name": "forme/section",
@@ -1030,6 +1251,38 @@
       "type": "registry:ui"
     },
     {
+      "name": "takumi/graph",
+      "title": "Graph",
+      "description": "Graph PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/graph/graph.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/graph/graph.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/graph/graph.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/graph/graph.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/graph/graph.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/graph/graph.types.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/graph/graph.utils.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/graph/graph.utils.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
       "name": "takumi/heading",
       "title": "Heading",
       "description": "Heading PDF component for the takumi base.",
@@ -1045,6 +1298,204 @@
         }
       ],
       "type": "registry:ui"
+    },
+    {
+      "name": "takumi/invoice-classic",
+      "title": "Invoice Classic",
+      "description": "Invoice Classic PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./pdf-image.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-classic/invoice-classic-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-classic/invoice-classic-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-classic/invoice-classic.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-classic/invoice-classic.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-classic/invoice-classic.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-classic/invoice-classic.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/invoice-consultant",
+      "title": "Invoice Consultant",
+      "description": "Invoice Consultant PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-consultant/invoice-consultant.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/invoice-corporate",
+      "title": "Invoice Corporate",
+      "description": "Invoice Corporate PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./pdf-image.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-corporate/invoice-corporate.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/invoice-creative",
+      "title": "Invoice Creative",
+      "description": "Invoice Creative PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-creative/invoice-creative-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-creative/invoice-creative-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-creative/invoice-creative.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-creative/invoice-creative.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-creative/invoice-creative.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-creative/invoice-creative.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/invoice-minimal",
+      "title": "Invoice Minimal",
+      "description": "Invoice Minimal PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-minimal/invoice-minimal.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/invoice-modern",
+      "title": "Invoice Modern",
+      "description": "Invoice Modern PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-modern/invoice-modern-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-modern/invoice-modern-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-modern/invoice-modern.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-modern/invoice-modern.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/invoice-modern/invoice-modern.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/invoice-modern/invoice-modern.types.ts"
+        }
+      ],
+      "type": "registry:block"
     },
     {
       "name": "takumi/keep-together",
@@ -1204,6 +1655,7 @@
       "title": "QR Code",
       "description": "QR Code PDF component for the takumi base.",
       "dependencies": [
+        "@types/qrcode",
         "qrcode"
       ],
       "registryDependencies": [
@@ -1217,6 +1669,154 @@
         }
       ],
       "type": "registry:ui"
+    },
+    {
+      "name": "takumi/report-financial",
+      "title": "Report Financial",
+      "description": "Report Financial PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./page-number.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/report-financial/report-financial.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-financial/report-financial.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-financial/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-financial/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-financial/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-financial/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/report-marketing",
+      "title": "Report Marketing",
+      "description": "Report Marketing PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./page-number.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/report-marketing/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-marketing/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-marketing/report-marketing.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-marketing/report-marketing.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-marketing/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-marketing/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/report-operations",
+      "title": "Report Operations",
+      "description": "Report Operations PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./page-number.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/report-operations/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-operations/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-operations/report-operations.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-operations/report-operations.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-operations/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-operations/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "takumi/report-security",
+      "title": "Report Security",
+      "description": "Report Security PDF document block for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./badge.json",
+        "./data-table.json",
+        "./graph.json",
+        "./key-value.json",
+        "./list.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./page-number.json",
+        "./section.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/blocks/report-security/report-layout.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-security/report-layout.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-security/report-security.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-security/report-security.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/blocks/report-security/report.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/takumi/blocks/report-security/report.types.ts"
+        }
+      ],
+      "type": "registry:block"
     },
     {
       "name": "takumi/section",

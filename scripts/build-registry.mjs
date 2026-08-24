@@ -221,6 +221,8 @@ async function buildDirectoryItem(base, kind, name) {
 	for (const dependency of componentDependencies) {
 		registryDependencies.push(outputDependency(base, dependency));
 	}
+	const dependencies = await dependenciesFor(files);
+	if (name === 'qrcode') dependencies.push('@types/qrcode');
 	return {
 		$schema: ITEM_SCHEMA,
 		name: `${base}/${name}`,
@@ -229,7 +231,7 @@ async function buildDirectoryItem(base, kind, name) {
 			kind === 'blocks'
 				? `${humanize(name)} PDF document block for the ${base} base.`
 				: `${humanize(name)} PDF component for the ${base} base.`,
-		dependencies: await dependenciesFor(files),
+		dependencies: [...new Set(dependencies)].sort(),
 		registryDependencies: [...new Set(registryDependencies)].sort(),
 		files: materialized.map(({ file }) => file),
 		type: kind === 'blocks' ? 'registry:block' : 'registry:ui'
@@ -311,7 +313,7 @@ async function main() {
 	const registry = {
 		$schema: REGISTRY_SCHEMA,
 		name: 'pdfcn-svelte',
-		homepage: 'https://pdfcn-svelte.dev',
+		homepage: 'http://localhost:5173',
 		aliases: {
 			components: '$lib/components',
 			lib: '$lib',
