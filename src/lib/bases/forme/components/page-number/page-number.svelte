@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PDFText from '$lib/bases/forme/lib/Text.svelte';
+	import Fixed from '$lib/bases/forme/lib/Fixed.svelte';
 	import View from '$lib/bases/forme/lib/View.svelte';
 	import { PAGE_NUMBER, TOTAL_PAGES, mergeFormeStyles } from '$lib/bases/forme/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
@@ -34,6 +35,7 @@
 		format = 'Page {page} of {total}',
 		align = 'center',
 		size = 'sm',
+		fixed = false,
 		muted = true,
 		style
 	}: Props = $props();
@@ -59,7 +61,7 @@
 	const styles = $derived(createPageNumberStyles(theme));
 
 	const content = $derived(
-		format.replace('{page}', PAGE_NUMBER).replace('{total}', TOTAL_PAGES)
+		format.replaceAll('{page}', PAGE_NUMBER).replaceAll('{total}', TOTAL_PAGES)
 	);
 
 	const textStyle = $derived.by(() => {
@@ -83,6 +85,12 @@
 	});
 </script>
 
-<View style={styles.container}>
+{#snippet number()}
 	<PDFText style={textStyle}>{content}</PDFText>
-</View>
+{/snippet}
+
+{#if fixed}
+	<Fixed position="footer" style={styles.container}>{@render number()}</Fixed>
+{:else}
+	<View style={styles.container}>{@render number()}</View>
+{/if}

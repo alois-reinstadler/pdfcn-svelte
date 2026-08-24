@@ -6,6 +6,7 @@
 	import { resolveColor } from '$lib/utils/resolve-color';
 	import type { PDFComponentProps, Style } from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
+	import type { Snippet } from 'svelte';
 
 	export type BadgeVariant =
 		| 'default'
@@ -20,11 +21,8 @@
 	/**
 	 * Inline label for status, tags, or categories.
 	 *
-	 * Accepts text via either `label` prop or `children` (string). `label` takes
-	 * precedence when both are provided. The children pattern (`<Badge>text</Badge>`)
-	 * is supported for compatibility with common React idioms, but note that
-	 * `Takumi primitives` doesn't support JSX children the way HTML does — only
-	 * string children are accepted.
+	 * Accepts content via either `label` or Svelte children. `label` takes
+	 * precedence when both are provided.
 	 *
 	 * Props - `label` | `children` | `variant` | `size` | `background` | `color` | `style`
 	 * @see {@link BadgeProps}
@@ -32,8 +30,8 @@
 	interface Props extends Omit<PDFComponentProps, 'children'> {
 		/** Text to display. Takes precedence over children when both are provided. */
 		label?: string;
-		/** String children as an alternative to the label prop. */
-		children?: string;
+		/** Svelte children as an alternative to the label prop. */
+		children?: Snippet;
 		/** @default 'default' */
 		variant?: BadgeVariant;
 		/** @default 'md' */
@@ -131,9 +129,6 @@
 
 	const styles = $derived(createBadgeStyles(theme));
 
-	// `label` takes precedence; fall back to string children for React idiom compatibility
-	const text = $derived(label ?? children ?? '');
-
 	const containerStyle = $derived.by(() => {
 		const containerVariantMap = styles.containerVariantMap;
 		const containerSizeMap = styles.containerSizeMap;
@@ -158,5 +153,11 @@
 </script>
 
 <View style={containerStyle}>
-	<PDFText style={textStyle}>{text}</PDFText>
+	<PDFText style={textStyle}>
+		{#if label !== undefined}
+			{label}
+		{:else}
+			{@render children?.()}
+		{/if}
+	</PDFText>
 </View>

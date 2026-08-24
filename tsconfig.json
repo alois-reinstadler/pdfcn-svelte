@@ -1,4 +1,5 @@
 {
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"target": "ES2022",
 		"module": "ESNext",
@@ -13,12 +14,6 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"noEmit": true,
-		"types": ["svelte", "vite/client"],
-		"baseUrl": ".",
-		"paths": {
-			"$lib": ["src/lib/index.ts"],
-			"$lib/*": ["src/lib/*"]
-		}
-	},
-	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+		"types": ["svelte", "vite/client", "node"]
+	}
 }

@@ -117,4 +117,4 @@
 	});
 </script>
 
-<PDFText style={mergedStyle}>{children}</PDFText>
+<PDFText style={mergedStyle}>{@render children?.()}</PDFText>

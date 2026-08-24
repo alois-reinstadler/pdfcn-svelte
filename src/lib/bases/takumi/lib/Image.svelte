@@ -3,15 +3,23 @@
 
 	interface Props {
 		src: string | { uri: string };
+		width?: number;
+		height?: number;
 		style?: StyleInput;
 		alt?: string;
 		class?: string;
 	}
 
-	let { src, style, alt = '', class: className }: Props = $props();
+	let { src, width, height, style, alt = '', class: className }: Props = $props();
 
 	const resolvedSrc = $derived(typeof src === 'string' ? src : src.uri);
-	const css = $derived(styleToCss(flattenTakumiStyle(style) ?? {}));
+	const css = $derived(
+		styleToCss({
+			...(width !== undefined ? { width } : undefined),
+			...(height !== undefined ? { height } : undefined),
+			...flattenTakumiStyle(style)
+		})
+	);
 </script>
 
 <img class={className} src={resolvedSrc} style={css} {alt} />

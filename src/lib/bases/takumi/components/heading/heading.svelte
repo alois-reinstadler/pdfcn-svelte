@@ -38,7 +38,7 @@
 		weight,
 		tracking,
 		noMargin,
-		keepWithNext: _keepWithNext,
+		keepWithNext = false,
 		children,
 		style
 	}: Props = $props();
@@ -153,6 +153,9 @@
 		}
 		if (noMargin) {
 			styleArray.push(styles.noMargin);
+		}
+		if (keepWithNext) {
+			styleArray.push({ breakAfter: 'avoid' });
 		}
 		if (align || color) {
 			const semantic: Record<string, unknown> = {};

@@ -13,14 +13,19 @@
 
 	let {
 		style,
-		fixed: _fixed,
+		fixed = false,
 		href,
 		src,
 		class: className,
 		children
 	}: Props = $props();
 
-	const css = $derived(styleToCss(flattenTakumiStyle(style) ?? {}));
+	const css = $derived(
+		styleToCss({
+			...(fixed ? { position: 'fixed' } : undefined),
+			...flattenTakumiStyle(style)
+		})
+	);
 	const link = $derived(href ?? src);
 </script>
 

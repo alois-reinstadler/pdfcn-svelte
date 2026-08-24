@@ -1,9 +1,15 @@
 <script lang="ts">
+	import PDFText from '$lib/bases/takumi/lib/Text.svelte';
 	import View from '$lib/bases/takumi/lib/View.svelte';
-	import { flattenTakumiStyle, styleToCss } from '$lib/bases/takumi/lib/pdf-primitives';
+	import {
+		flattenTakumiStyle,
+		TAKUMI_PAGE_PAGINATION_CONTEXT,
+		type TakumiPagePagination
+	} from '$lib/bases/takumi/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
 	import type { PDFComponentProps } from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
+	import { getContext } from 'svelte';
 
 	export type PageNumberAlign = 'left' | 'center' | 'right';
 	export type PageNumberSize = 'xs' | 'sm' | 'md';
@@ -33,11 +39,15 @@
 		format = 'Page {page} of {total}',
 		align = 'center',
 		size = 'sm',
+		fixed = false,
 		muted = true,
 		style
 	}: Props = $props();
 
 	const theme = usePdfcnTheme();
+	const pagination = getContext<TakumiPagePagination | undefined>(
+		TAKUMI_PAGE_PAGINATION_CONTEXT
+	);
 
 	const createPageNumberStyles = (t: PdfcnTheme) => {
 		const { typography, colors, primitives } = t;
@@ -93,19 +103,13 @@
 		]);
 	});
 
-	const textCss = $derived(styleToCss(textStyle ?? {}));
-
-	const parts = $derived(format.split(/({page}|{total})/));
+	const content = $derived(
+		format
+			.replaceAll('{page}', String(pagination?.pageNumber ?? 1))
+			.replaceAll('{total}', String(pagination?.totalPages ?? 1))
+	);
 </script>
 
-<View style={containerStyle}>
-	{#each parts as part, index (index)}
-		{#if part === '{page}'}
-			<span data-pdf-page-number style={textCss}></span>
-		{:else if part === '{total}'}
-			<span data-pdf-total-pages style={textCss}></span>
-		{:else if part}
-			<span style={textCss}>{part}</span>
-		{/if}
-	{/each}
+<View style={containerStyle} {fixed}>
+	<PDFText style={textStyle}>{content}</PDFText>
 </View>

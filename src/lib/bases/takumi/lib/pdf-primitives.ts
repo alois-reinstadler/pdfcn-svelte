@@ -2,6 +2,21 @@ import type { Style } from '$lib/types/pdf-components';
 
 export type StyleInput = Style | false | null | undefined | readonly StyleInput[];
 
+export const TAKUMI_DOCUMENT_PAGINATION_CONTEXT = Symbol('takumi-document-pagination');
+export const TAKUMI_PAGE_PAGINATION_CONTEXT = Symbol('takumi-page-pagination');
+
+export interface TakumiDocumentPagination {
+	register(page: symbol): void;
+	unregister(page: symbol): void;
+	pageNumber(page: symbol): number;
+	readonly totalPages: number;
+}
+
+export interface TakumiPagePagination {
+	readonly pageNumber: number;
+	readonly totalPages: number;
+}
+
 /**
  * pdfcn-svelte's shared component tokens follow the PDF convention of using
  * points. Takumi follows browser CSS instead, where numeric lengths are
@@ -21,6 +36,7 @@ const POINT_LENGTH_PROPERTIES = new Set([
 	'borderBlockWidth',
 	'borderBottomLeftRadius',
 	'borderBottomRightRadius',
+	'borderBottomWidth',
 	'borderBlockWidth',
 	'borderEndEndRadius',
 	'borderEndStartRadius',
@@ -153,20 +169,27 @@ const flattenStyleInput = (
 	Object.assign(target, input);
 };
 
-/** Merges conditional/nested style inputs into one normalized style object. */
+/**
+ * Merges conditional/nested style inputs into one point-based style object.
+ *
+ * Length conversion intentionally happens in `styleToCss`, the single output
+ * boundary. Components often flatten styles before passing them to a
+ * primitive; normalizing here would make the primitive convert those values a
+ * second time.
+ */
 export const flattenTakumiStyle = (style?: StyleInput): Style | undefined => {
 	if (!style) return undefined;
 	const merged: Style = {};
 	flattenStyleInput(style, merged);
-	return normalizeTakumiStyle(merged);
+	return merged;
 };
 
 const kebabCase = (property: string): string =>
 	property.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
 
-/** Serializes a normalized style object into an inline CSS string. */
+/** Normalizes a point-based style object and serializes it as inline CSS. */
 export const styleToCss = (style: Style): string =>
-	Object.entries(style)
+	Object.entries(normalizeTakumiStyle(style))
 		.filter(([, value]) => value !== undefined && value !== null && value !== '')
 		.map(([property, value]) => {
 			let serialized: string;
