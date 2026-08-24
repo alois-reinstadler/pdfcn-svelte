@@ -44,11 +44,23 @@
 		Letter: { height: 792, width: 612 },
 		Tabloid: { height: 1224, width: 792 }
 	};
+	// Takumi quantizes paged layout to whole CSS pixels. Keep explicit page
+	// wrappers just inside the paper edge so fractional metric sizes never
+	// round onto a trailing blank page. 0.4pt is only 0.53 CSS px.
+	const PAGE_EDGE_INSET = 0.4;
+	const insetPageDimension = (dimension: number) =>
+		Math.max(dimension - PAGE_EDGE_INSET, 0);
 
 	const sizeStyle = $derived.by((): Style | undefined => {
 		if (!size) return undefined;
-		if (typeof size === 'string') return pageSizes[size];
-		return { height: size.height, width: size.width };
+		const dimensions = typeof size === 'string' ? pageSizes[size] : size;
+		if (!dimensions || typeof dimensions.height !== 'number' || typeof dimensions.width !== 'number') {
+			return undefined;
+		}
+		return {
+			height: insetPageDimension(dimensions.height),
+			width: insetPageDimension(dimensions.width)
+		};
 	});
 
 	const css = $derived(

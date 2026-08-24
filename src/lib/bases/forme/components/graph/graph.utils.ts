@@ -1,5 +1,5 @@
 import type { PdfcnTheme } from '$lib/types/pdf-themes';
-import type { ChartLayout, GraphDataPoint, GraphSeries, GraphWidthOptions } from './graph.types';
+import type { ChartLayout, GraphDataPoint, GraphSeries, GraphWidthOptions } from './graph.types.js';
 
 export const A4_WIDTH = 595;
 export const GRAPH_SAFE_WIDTHS = {

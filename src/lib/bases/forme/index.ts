@@ -205,6 +205,8 @@ export type {
 export { default as Document } from './lib/Document.svelte';
 export { default as Fixed } from './lib/Fixed.svelte';
 export { default as Image } from './lib/Image.svelte';
+export { default as MaybeFixed } from './lib/MaybeFixed.svelte';
+export type { MaybeFixedProps } from './lib/MaybeFixed.svelte';
 export { default as PDFLink } from './lib/Link.svelte';
 export { default as Page } from './lib/Page.svelte';
 export { default as PDFText } from './lib/Text.svelte';
@@ -217,7 +219,13 @@ export {
 	Watermark as PDFWatermark,
 	mergeFormeStyles
 } from './lib/pdf-primitives.js';
-export type { FormeStyleInput } from './lib/pdf-primitives.js';
+export type {
+	FormeStyleInput,
+	Style,
+	Style as FormeStyle
+} from './lib/pdf-primitives.js';
+
+export { THEME_COLOR_KEYS } from '$lib/utils/resolve-color.js';
 
 // SVG primitives
 export { Circle, G, Line, Path, Rect, Svg, SvgText } from './lib/pdf-svg.js';

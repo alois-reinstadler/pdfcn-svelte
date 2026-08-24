@@ -1,6 +1,6 @@
 import { getContext, setContext } from 'svelte';
 
-import type { TableVariant } from './table.types';
+import type { TableVariant } from './table.types.js';
 
 const TABLE_CONTEXT = Symbol('pdfcn-takumi-table');
 const TABLE_SECTION_CONTEXT = Symbol('pdfcn-takumi-table-section');

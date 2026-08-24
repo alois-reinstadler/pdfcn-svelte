@@ -37,7 +37,7 @@ const titleOverrides = new Map([
 
 const baseDependencies = new Map([
 	['forme', ['@formepdf/core', '@formepdf/svelte']],
-	['takumi', []]
+	['takumi', ['@takumi-rs/helpers', 'takumi-pdf']]
 ]);
 
 function toPosix(value) {

@@ -114,12 +114,23 @@ assertRuntimeSurface(Takumi, rendererNames);
 assertRuntimeSurface(Takumi, svgNames);
 
 void Forme.Fixed;
+void Forme.MaybeFixed;
 void Forme.StyleSheet;
+void Forme.THEME_COLOR_KEYS;
 void Forme.mergeFormeStyles;
+void Takumi.StyleSheet;
+void Takumi.THEME_COLOR_KEYS;
+void Takumi.flatten;
 void Takumi.flattenTakumiStyle;
 void Takumi.normalizeTakumiStyle;
 void Takumi.pointToCssPixel;
+void Takumi.renderDocument;
+void Takumi.renderTakumiDocument;
 void Takumi.styleToCss;
+void Themes.THEMES;
+void Themes.THEME_NAMES;
+void Themes.themePresets;
+void Themes.getTheme;
 
 type SharedTypes = [PDFComponentProps, PdfcnTheme, Style];
 type FormeTypes = [
@@ -139,6 +150,7 @@ type FormeTypes = [
 	Forme.TableProps,
 	Forme.BaseReportData,
 	Forme.InvoiceClassicData,
+	Forme.Style,
 	Forme.FormeStyleInput,
 	Forme.SvgRootProps
 ];
@@ -159,9 +171,12 @@ type TakumiTypes = [
 	Takumi.TableProps,
 	Takumi.BaseReportData,
 	Takumi.InvoiceClassicData,
+	Takumi.Style,
 	Takumi.StyleInput,
 	Takumi.SvgRootProps,
-	Takumi.TakumiDocumentPagination
+	Takumi.TakumiDocumentPagination,
+	Takumi.TakumiPdfRenderOptions,
+	Takumi.RenderTakumiDocumentOptions<Record<string, never>>
 ];
 
 void (sharedValues satisfies unknown[]);

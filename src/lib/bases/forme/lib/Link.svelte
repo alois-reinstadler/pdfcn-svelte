@@ -10,11 +10,10 @@
 	interface Props {
 		href: string;
 		style?: FormeStyleInput;
-		bookmark?: string;
 		children?: Snippet;
 	}
 
-	let { href, style, bookmark, children }: Props = $props();
+	let { href, style, children }: Props = $props();
 
 	const merged = $derived(mergeFormeStyles(style ?? undefined));
 </script>

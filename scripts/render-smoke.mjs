@@ -11,11 +11,20 @@ const server = await createServer({
 });
 
 try {
-	const [{ default: FormeDocument }, { default: TakumiDocument }, forme, svelteServer] = await Promise.all([
+	const [
+		{ default: FormeDocument },
+		{ default: TakumiDocument },
+		{ default: TakumiOverflowDocument },
+		forme,
+		svelteServer,
+		takumiAdapter
+	] = await Promise.all([
 		server.ssrLoadModule('/tests/render/forme-document.svelte'),
 		server.ssrLoadModule('/tests/render/takumi-document.svelte'),
+		server.ssrLoadModule('/tests/render/takumi-overflow-document.svelte'),
 		server.ssrLoadModule('@formepdf/svelte'),
-		server.ssrLoadModule('svelte/server')
+		server.ssrLoadModule('svelte/server'),
+		server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts')
 	]);
 
 	const serialized = await forme.serialize(FormeDocument);
@@ -43,10 +52,10 @@ try {
 	const { body: html } = svelteServer.render(TakumiDocument);
 	assert.match(html, /data-pdf-document="pdfcn-svelte Takumi smoke test"/);
 	assert.equal((html.match(/data-pdf-page/g) ?? []).length, 2);
-	assert.match(html, /height:1122\.52px/);
-	assert.match(html, /width:793\.7066666666666px/);
-	assert.match(html, /height:533\.3333333333333px/);
-	assert.match(html, /width:400px/);
+	assert.match(html, /height:1121\.9866666666667px/);
+	assert.match(html, /width:793\.1733333333333px/);
+	assert.match(html, /height:532\.8px/);
+	assert.match(html, /width:399\.4666666666667px/);
 	assert.match(html, /Takumi renderer smoke test/);
 	assert.match(html, /color:#334155/);
 	assert.match(html, /font-family:Helvetica/);
@@ -54,12 +63,35 @@ try {
 	assert.match(html, /<svg[^>]*width="320"[^>]*height="160"[^>]*viewBox="0 0 240 120"/);
 	assert.match(html, /<rect/);
 	assert.match(html, />Alpha</);
-	assert.match(html, />Smoke page 1</);
-	assert.match(html, />Smoke page 2</);
+	assert.match(html, /class="pageNumber">1<\/span>/);
+	assert.match(html, /class="pageNumber">2<\/span>/);
+	assert.match(html, /class="totalPages">1<\/span>/);
 	assert.match(html, /Second page content/);
 
+	const takumiPdf = await takumiAdapter.renderTakumiDocument(TakumiDocument, {
+		margin: 0,
+		size: 'a4'
+	});
+	assert.ok(takumiPdf instanceof Uint8Array);
+	assert.ok(
+		takumiPdf.byteLength > 1_000,
+		`expected a non-trivial Takumi PDF, received ${takumiPdf.byteLength} bytes`
+	);
+	assert.equal(new TextDecoder().decode(takumiPdf.subarray(0, 5)), '%PDF-');
+
+	const overflowPdf = await takumiAdapter.renderTakumiDocument(TakumiOverflowDocument, {
+		margin: 20,
+		props: { lineCount: 60 },
+		size: { width: 300, height: 300 }
+	});
+	const overflowPdfSource = new TextDecoder('latin1').decode(overflowPdf);
+	const overflowPages = (overflowPdfSource.match(/\/Type\s*\/Page\b/g) ?? []).length;
+	assert.ok(overflowPages > 1, `expected overflow pagination, received ${overflowPages} page`);
+
 	console.log(`Forme: serialized one A4 page and rendered ${pdf.byteLength} PDF bytes.`);
-	console.log('Takumi: SSR verified theme, page sizes, text, graph SVG, and two-page numbering.');
+	console.log(
+		`Takumi: rendered ${takumiPdf.byteLength} PDF bytes and overflowed content across ${overflowPages} pages.`
+	);
 } finally {
 	await server.close();
 }

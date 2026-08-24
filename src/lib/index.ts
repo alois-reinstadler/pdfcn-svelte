@@ -19,4 +19,4 @@ export type {
 } from './types/pdf-themes.js';
 
 export { cn } from './utils.js';
-export { resolveColor } from './utils/resolve-color.js';
+export { resolveColor, THEME_COLOR_KEYS } from './utils/resolve-color.js';

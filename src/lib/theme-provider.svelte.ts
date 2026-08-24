@@ -1,7 +1,7 @@
 import { getContext, setContext } from 'svelte';
 
-import { professionalTheme } from '$lib/themes/professional';
-import type { PdfcnTheme } from '$lib/types/pdf-themes';
+import { professionalTheme } from '$lib/themes/professional.js';
+import type { PdfcnTheme } from '$lib/types/pdf-themes.js';
 
 const PDFCN_THEME_KEY = Symbol('pdfcn-theme');
 

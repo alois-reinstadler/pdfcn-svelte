@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="pdfcn">
+  <rect width="64" height="64" rx="14" fill="#14261e"/>
+  <path d="M18 10h23l9 9v35H18z" fill="#f4f3ed"/>
+  <path d="M41 10v11h9M25 31h18M25 39h14" fill="none" stroke="#14261e" stroke-linecap="round" stroke-width="3"/>
+  <circle cx="48" cy="48" r="8" fill="#b6f13b"/>
+</svg>

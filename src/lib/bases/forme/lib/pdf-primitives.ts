@@ -1,4 +1,6 @@
-import type { Style } from '$lib/types/pdf-components';
+import type { Style } from '@formepdf/svelte';
+
+export type { Style } from '@formepdf/svelte';
 
 export {
 	Document,
@@ -10,7 +12,14 @@ export {
 	TOTAL_PAGES
 } from '@formepdf/svelte';
 
-export type FormeStyleInput = Style | false | null | undefined | readonly FormeStyleInput[];
+type CompatibleStyle = Style | Record<string, unknown>;
+
+export type FormeStyleInput =
+	| CompatibleStyle
+	| false
+	| null
+	| undefined
+	| readonly FormeStyleInput[];
 
 const mergeStyleInput = (target: Style, input: FormeStyleInput): void => {
 	if (Array.isArray(input)) {
@@ -23,10 +32,10 @@ const mergeStyleInput = (target: Style, input: FormeStyleInput): void => {
 };
 
 /** Flattens nested/conditional style inputs into a single Forme style object. */
-export const mergeFormeStyles = (...inputs: FormeStyleInput[]): Style => {
+export const mergeFormeStyles = (...inputs: FormeStyleInput[]): Style | undefined => {
 	const merged: Style = {};
 	for (const input of inputs) {
 		mergeStyleInput(merged, input);
 	}
-	return merged;
+	return Object.keys(merged).length > 0 ? merged : undefined;
 };

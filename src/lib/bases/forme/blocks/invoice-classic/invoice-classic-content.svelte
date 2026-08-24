@@ -23,7 +23,7 @@
 </script>
 
 {#snippet logo()}
-	<PdfImage src={data.logo ?? '/favicon.png'} style={{ margin: 0 }} />
+	<PdfImage src={data.logo ?? '/favicon.svg'} style={{ margin: 0 }} />
 {/snippet}
 
 <Document title={`Invoice ${data.invoiceNumber}`}>

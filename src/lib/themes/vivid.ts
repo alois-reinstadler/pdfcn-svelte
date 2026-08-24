@@ -1,6 +1,6 @@
 import type { PdfcnTheme } from "$lib/types/pdf-themes";
 
-import { defaultPrimitives } from "./primitives";
+import { defaultPrimitives } from "./primitives.js";
 
 /**
  * Vivid theme preset.

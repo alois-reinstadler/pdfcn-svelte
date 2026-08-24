@@ -1,9 +1,12 @@
 <script lang="ts">
 	import View from '$lib/bases/forme/lib/View.svelte';
 	import PDFText from '$lib/bases/forme/lib/Text.svelte';
-	import { mergeFormeStyles } from '$lib/bases/forme/lib/pdf-primitives';
+	import {
+		mergeFormeStyles,
+		type Style
+	} from '$lib/bases/forme/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
-	import type { PDFComponentProps, Style } from '$lib/types/pdf-components';
+	import type { PDFComponentProps } from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
 	/** List visual style variant. */
@@ -200,7 +203,7 @@
 		mergeFormeStyles(
 			align === 'center' ? styles.itemRowCenter : styles.itemRow,
 			index !== total - 1 ? getGapStyle() : undefined
-		);
+		) ?? {};
 
 	const containerStyle = $derived(
 		mergeFormeStyles(

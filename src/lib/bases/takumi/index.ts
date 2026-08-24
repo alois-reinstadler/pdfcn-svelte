@@ -225,6 +225,12 @@ export type {
 	TakumiDocumentPagination,
 	TakumiPagePagination
 } from './lib/pdf-primitives.js';
+export { renderDocument, renderTakumiDocument } from './lib/render-document.js';
+export type {
+	RenderTakumiDocumentOptions,
+	TakumiPdfRenderOptions
+} from './lib/render-document.js';
+export { THEME_COLOR_KEYS } from '../../utils/resolve-color.js';
 
 // SVG primitives
 export { Circle, G, Line, Path, Rect, Svg, SvgText } from './lib/pdf-svg.js';

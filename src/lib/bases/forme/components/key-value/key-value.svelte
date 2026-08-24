@@ -1,10 +1,17 @@
 <script lang="ts">
-	import { mergeFormeStyles } from '$lib/bases/forme/lib/pdf-primitives';
+	import {
+		mergeFormeStyles,
+		type FormeStyleInput,
+		type Style
+	} from '$lib/bases/forme/lib/pdf-primitives';
 	import View from '$lib/bases/forme/lib/View.svelte';
 	import PDFText from '$lib/bases/forme/lib/Text.svelte';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
 	import { resolveColor } from '$lib/utils/resolve-color';
-	import type { PDFComponentProps, Style } from '$lib/types/pdf-components';
+	import type {
+		PDFComponentProps,
+		Style as SharedStyle
+	} from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
 	export type KeyValueDirection = 'horizontal' | 'vertical';
@@ -19,8 +26,8 @@
 		key: string;
 		value: string;
 		valueColor?: string;
-		valueStyle?: Style;
-		keyStyle?: Style;
+		valueStyle?: SharedStyle;
+		keyStyle?: SharedStyle;
 	}
 
 	/**
@@ -133,18 +140,18 @@
 	);
 
 	const getKeyStyles = (item: KeyValueEntry): Style => {
-		const args: Record<string, unknown>[] = [sizeMaps.key[size]];
+		const args: FormeStyleInput[] = [sizeMaps.key[size]];
 		if (labelColor) {
 			args.push({ color: resolveColor(labelColor, theme.colors) });
 		}
 		if (item.keyStyle) {
 			args.push(item.keyStyle);
 		}
-		return mergeFormeStyles(...args);
+		return mergeFormeStyles(...args) ?? {};
 	};
 
 	const getValStyles = (item: KeyValueEntry): Style => {
-		const args: Record<string, unknown>[] = [sizeMaps.value[size]];
+		const args: FormeStyleInput[] = [sizeMaps.value[size]];
 		if (boldValue) {
 			args.push(styles.valueBold);
 		}
@@ -155,12 +162,12 @@
 		if (item.valueStyle) {
 			args.push(item.valueStyle);
 		}
-		return mergeFormeStyles(...args);
+		return mergeFormeStyles(...args) ?? {};
 	};
 
 	const getHorizontalRowStyles = (item: KeyValueEntry, index: number): Style => {
 		const isLast = index === items.length - 1;
-		const args: Record<string, unknown>[] = [styles.rowHorizontal];
+		const args: FormeStyleInput[] = [styles.rowHorizontal];
 		if (divided) {
 			if (isLast) {
 				args.push(styles.lastRowStretch);
@@ -169,27 +176,30 @@
 				if (dividerColor) {
 					dividerStyle = mergeFormeStyles(dividerStyle, {
 						borderBottomColor: resolveColor(dividerColor, theme.colors)
-					});
+					}) ?? dividerStyle;
 				}
 				if (dividerThickness) {
 					dividerStyle = mergeFormeStyles(dividerStyle, {
 						borderBottomWidth: dividerThickness
-					});
+					}) ?? dividerStyle;
 				}
 				if (dividerMargin) {
 					dividerStyle = mergeFormeStyles(dividerStyle, {
 						marginBottom: dividerMargin
-					});
+					}) ?? dividerStyle;
 				}
-				args.push(mergeFormeStyles(styles.divider, dividerStyle));
+				args.push(mergeFormeStyles(styles.divider, dividerStyle) ?? {});
 			}
 		}
-		return mergeFormeStyles(...args);
+		return mergeFormeStyles(...args) ?? {};
 	};
 
 	const getVerticalRowStyles = (index: number): Style => {
 		const isLast = index === items.length - 1;
-		return mergeFormeStyles(styles.rowVertical, divided && !isLast ? styles.divider : undefined);
+		return mergeFormeStyles(
+			styles.rowVertical,
+			divided && !isLast ? styles.divider : undefined
+		) ?? {};
 	};
 </script>
 

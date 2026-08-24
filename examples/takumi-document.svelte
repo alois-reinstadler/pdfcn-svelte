@@ -25,8 +25,8 @@
 
 				<Card title="Scope" variant="bordered">
 					<Text noMargin>
-						This base renders an HTML/CSS-compatible document tree for preview or a
-						separate compatible integration.
+						This base renders an HTML/CSS preview tree and can produce paged PDF bytes
+						through the server-side takumi-pdf adapter.
 					</Text>
 				</Card>
 			</Stack>

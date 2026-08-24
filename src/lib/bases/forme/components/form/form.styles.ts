@@ -1,7 +1,7 @@
 import type { Style } from '$lib/types/pdf-components';
 import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
-import type { PdfFormVariant } from './form.types';
+import type { PdfFormVariant } from './form.types.js';
 
 export type FormStyles = Record<string, Style>;
 

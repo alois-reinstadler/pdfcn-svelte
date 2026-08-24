@@ -1,14 +1,17 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import { flattenTakumiStyle, styleToCss, type StyleInput } from './pdf-primitives';
 
-	interface Props {
+	interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'class' | 'style'> {
 		style?: StyleInput;
 		wrap?: boolean;
 		fixed?: boolean;
 		break?: boolean;
 		minPresenceAhead?: number;
-		class?: string;
+		class?: HTMLAttributes<HTMLDivElement>['class'];
+		/** React-compatible alias used by upstream pdfcn examples. */
+		className?: string;
 		children?: Snippet;
 	}
 
@@ -18,8 +21,10 @@
 		fixed,
 		break: pageBreak,
 		minPresenceAhead: _minPresenceAhead,
-		class: className,
-		children
+		class: classValue,
+		className,
+		children,
+		...rest
 	}: Props = $props();
 
 	const css = $derived.by(() => {
@@ -41,4 +46,4 @@
 	});
 </script>
 
-<div class={className} style={css}>{@render children?.()}</div>
+<div {...rest} class={classValue ?? className} style={css}>{@render children?.()}</div>

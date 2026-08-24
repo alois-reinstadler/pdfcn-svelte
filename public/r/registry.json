@@ -1023,6 +1023,11 @@
           "target": "~/src/lib/bases/forme/lib/Link.svelte"
         },
         {
+          "path": "src/lib/bases/forme/lib/MaybeFixed.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/MaybeFixed.svelte"
+        },
+        {
           "path": "src/lib/bases/forme/lib/Page.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/bases/forme/lib/Page.svelte"
@@ -2100,7 +2105,10 @@
       "name": "takumi/utils",
       "title": "Takumi PDF Utilities",
       "description": "Shared theme context, types, color helpers, and PDF primitives for the takumi base.",
-      "dependencies": [],
+      "dependencies": [
+        "@takumi-rs/helpers",
+        "takumi-pdf"
+      ],
       "registryDependencies": [],
       "files": [
         {
@@ -2157,6 +2165,11 @@
           "path": "src/lib/bases/takumi/lib/Rect.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/bases/takumi/lib/Rect.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/render-document.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/render-document.ts"
         },
         {
           "path": "src/lib/bases/takumi/lib/svg-utils.ts",

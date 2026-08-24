@@ -103,13 +103,9 @@
 		]);
 	});
 
-	const content = $derived(
-		format
-			.replaceAll('{page}', String(pagination?.pageNumber ?? 1))
-			.replaceAll('{total}', String(pagination?.totalPages ?? 1))
-	);
+	const parts = $derived(format.split(/(\{page\}|\{total\})/g).filter(Boolean));
 </script>
 
 <View style={containerStyle} {fixed}>
-	<PDFText style={textStyle}>{content}</PDFText>
+	<PDFText style={textStyle}>{#each parts as part}{#if part === '{page}'}<span class="pageNumber">{pagination?.pageNumber ?? 1}</span>{:else if part === '{total}'}<span class="totalPages">{pagination?.totalPages ?? 1}</span>{:else}{part}{/if}{/each}</PDFText>
 </View>

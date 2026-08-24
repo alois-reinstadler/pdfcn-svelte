@@ -27,7 +27,7 @@
 				legend="none"
 				showValues
 			/>
-			<PageNumber format={'Smoke page {page}'} />
+			<PageNumber format={'Smoke page {page} of {total}'} />
 		</Page>
 		<Page size={{ width: 300, height: 400 }}>
 			<Text noMargin>Second page content</Text>

@@ -9,15 +9,16 @@ The project supports two bases with the same themed component vocabulary:
 | Base | Output in this repository | Use it when |
 | --- | --- | --- |
 | Forme | A Forme document tree that `@formepdf/svelte` can render to PDF bytes | You need server-side or local PDF generation |
-| Takumi | An HTML/CSS-compatible Svelte document tree | You need the Takumi-style primitives in a browser or another compatible pipeline |
+| Takumi | An HTML/CSS-compatible Svelte tree rendered to PDF by `takumi-pdf` | You want live browser previews and an HTML-to-paged-PDF pipeline |
 
-The Takumi base does **not** expose a Takumi binary renderer. Rendering its
-component tree to PDF requires an integration outside this package.
+The Takumi base includes a server/build-time adapter that SSRs the Svelte tree
+to HTML and passes it to the official `takumi-pdf` renderer.
 
 ## Requirements
 
 - Svelte `^5.30.0`
 - `@formepdf/svelte` and `@formepdf/core` `^0.11.1` when using the Forme base
+- `takumi-pdf` `^0.11.3` and `@takumi-rs/helpers` `^2.12.0` when rendering with Takumi
 - A Svelte project configured for TypeScript and Svelte 5 snippets/runes
 
 This repository is currently consumable as a local/workspace package or as
@@ -39,6 +40,8 @@ For Forme PDF rendering, install its renderer as well:
 
 ```sh
 npm install @formepdf/svelte @formepdf/core
+# or, for Takumi
+npm install takumi-pdf @takumi-rs/helpers
 ```
 
 Imports are split deliberately:
@@ -80,12 +83,25 @@ export async function GET() {
 `@formepdf/core` is needed when producing PDF bytes. The Forme adapter can
 serialize templates without it.
 
-### Render the Takumi component tree
+### Render a Takumi template
 
 The Takumi example can be mounted like any other Svelte component or rendered
-with Svelte's server APIs. It produces document/page containers and CSS from
-the PDF-style point-based values. This is useful for previewing or handing the
-tree to a compatible integration; it is not, by itself, a PDF-byte API.
+with Svelte's server APIs for a live HTML preview. To create PDF bytes, use the
+base-local server adapter:
+
+```ts
+import { renderDocument } from 'pdfcn-svelte/bases/takumi';
+import TakumiDocument from '$lib/TakumiDocument.svelte';
+
+const pdf = await renderDocument(TakumiDocument, {
+	props: { project: 'Apollo' },
+	size: 'a4',
+	margin: 0
+});
+```
+
+The adapter lazily imports `svelte/server` and `takumi-pdf`, so ordinary
+browser imports of Takumi components do not eagerly load the PDF renderer.
 
 ## shadcn-style source registry
 
@@ -182,14 +198,26 @@ automatic parity with future upstream pdfcn changes.
 ```sh
 npm run check          # Svelte and TypeScript diagnostics
 npm run package        # build the distributable library into dist/
-npm run build          # Vite build followed by library packaging
+npm run build          # build the docs site, then package the library
 npm run registry:build # regenerate registry.json and public/r/
+npm run test:primitives # focused primitive and theme contracts
+npm run test:components # render all 24 component families in both bases
+npm run test:render    # real Forme and Takumi PDF smoke tests
+npm run test:documents # render all 20 renderer/template combinations
+npm run test:consumer  # pack/install into a fresh Svelte 5 consumer
+npm run docs:build     # generate preview PDFs and prerender the docs site
+npm run docs:check     # crawl the built docs and verify every showcase route
 npm run validate:api   # package and type-check the public export surface
 npm run validate:pack  # inspect the files that an npm tarball would contain
-npm run validate       # run checks plus both package validations
+npm run validate       # run the complete test, docs, and package gate
 npm run dev            # run the local Vite development server
 npm run preview        # preview a completed Vite build
 ```
+
+The docs site includes an exact 24-component catalog, live Takumi previews for
+all ten document templates, downloadable Forme PDFs, renderer and theme guides,
+and additional recipes for statements, proposals, audit packs, certificates,
+product briefs, and inspection reports.
 
 When changing a shared component, keep the Forme and Takumi variants aligned
 where their renderer semantics allow it, then run `npm run validate`.
