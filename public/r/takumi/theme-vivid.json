@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "takumi/theme-vivid",
+  "title": "Vivid Theme (Takumi)",
+  "description": "Vivid PDF theme tokens for the takumi base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "import type { PdfcnTheme } from \"$lib/types/pdf-themes\";\n\nimport { defaultPrimitives } from \"./primitives\";\n\n/**\n * Vivid theme preset.\n *\n * Character: Deep violet/purple palette, Nunito rounded sans-serif, playful\n * but still professional. High-energy creative accent.\n * Ideal for creative agencies, startups, marketing decks, and pitch docs.\n */\nexport const vividTheme: PdfcnTheme = {\n  colors: {\n    accent: \"#8b5cf6\",\n    background: \"#ffffff\",\n    border: \"#ddd6fe\",\n    destructive: \"#dc2626\",\n    foreground: \"#1e1b4b\",\n    info: \"#0ea5e9\",\n    muted: \"#f5f3ff\",\n    mutedForeground: \"#7c3aed\",\n    primary: \"#6d28d9\",\n    primaryForeground: \"#ffffff\",\n    success: \"#16a34a\",\n    warning: \"#d97706\",\n  },\n  name: \"vivid\",\n  page: {\n    orientation: \"portrait\",\n    size: \"A4\",\n  },\n  primitives: defaultPrimitives,\n  spacing: {\n    componentGap: 14,\n    page: {\n      marginBottom: 48,\n      marginLeft: 44,\n      marginRight: 44,\n      marginTop: 48,\n    },\n    paragraphGap: 10,\n    sectionGap: 26,\n  },\n  typography: {\n    body: {\n      fontFamily: \"Nunito\",\n      fontSize: 11,\n      lineHeight: 1.6,\n    },\n    heading: {\n      fontFamily: \"Nunito\",\n      fontSize: {\n        h1: 32,\n        h2: 24,\n        h3: 19,\n        h4: 16,\n        h5: 14,\n        h6: 12,\n      },\n      fontWeight: 700,\n      lineHeight: 1.2,\n    },\n  },\n};\n",
+      "type": "registry:theme",
+      "target": "~/src/lib/themes/vivid.ts"
+    }
+  ],
+  "type": "registry:theme"
+}

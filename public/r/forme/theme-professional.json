@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/theme-professional",
+  "title": "Professional Theme (Forme)",
+  "description": "Professional PDF theme tokens for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "import type { PdfcnTheme } from \"$lib/types/pdf-themes\";\n\nimport { defaultPrimitives } from \"./primitives\";\n\n/**\n * Professional theme preset.\n *\n * Character: Serif headings (Times-Roman), refined zinc/slate palette,\n * generous margins, formal document feel. shadcn-inspired minimal aesthetic.\n * Ideal for business documents, reports, and official correspondence.\n */\nexport const professionalTheme: PdfcnTheme = {\n  colors: {\n    accent: \"#3b82f6\",\n    background: \"#ffffff\",\n    border: \"#e4e4e7\",\n    destructive: \"#dc2626\",\n    foreground: \"#18181b\",\n    info: \"#0ea5e9\",\n    muted: \"#f4f4f5\",\n    mutedForeground: \"#71717a\",\n    primary: \"#18181b\",\n    primaryForeground: \"#ffffff\",\n    success: \"#16a34a\",\n    warning: \"#d97706\",\n  },\n  name: \"professional\",\n  page: {\n    orientation: \"portrait\",\n    size: \"A4\",\n  },\n  primitives: defaultPrimitives,\n  spacing: {\n    componentGap: 14,\n    page: {\n      marginBottom: 56,\n      marginLeft: 48,\n      marginRight: 48,\n      marginTop: 56,\n    },\n    paragraphGap: 10,\n    sectionGap: 28,\n  },\n  typography: {\n    body: {\n      fontFamily: \"Helvetica\",\n      fontSize: 11,\n      lineHeight: 1.6,\n    },\n    heading: {\n      fontFamily: \"Times-Roman\",\n      fontSize: {\n        h1: 32,\n        h2: 24,\n        h3: 20,\n        h4: 16,\n        h5: 14,\n        h6: 12,\n      },\n      fontWeight: 700,\n      lineHeight: 1.25,\n    },\n  },\n};\n",
+      "type": "registry:theme",
+      "target": "~/src/lib/themes/professional.ts"
+    }
+  ],
+  "type": "registry:theme"
+}

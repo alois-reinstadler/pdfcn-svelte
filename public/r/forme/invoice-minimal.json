@@ -1,0 +1,23 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/invoice-minimal",
+  "title": "Invoice Minimal",
+  "description": "Invoice Minimal PDF document block for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport PdfcnThemeProvider from '$lib/PdfcnThemeProvider.svelte';\n\timport type { PdfcnTheme } from '$lib/types/pdf-themes';\n\n\timport InvoiceMinimalContent from './invoice-minimal-content.svelte';\n\timport type { InvoiceMinimalData } from './invoice-minimal.types';\n\n\tconst sampleData: InvoiceMinimalData = {\n\t\tbillTo: { address: '500 Enterprise Way, Building A', email: 'finance@enterprisecorp.io', name: 'Enterprise Corp', phone: '+1 (555) 246-8135' },\n\t\tcompanyAddress: 'Nagpur, IN', companyEmail: 'hello@pdfcn.app', companyName: 'pdfcn',\n\t\tdueDate: 'March 22, 2026', invoiceDate: 'February 20, 2026', invoiceNumber: 'INV-2026-003',\n\t\titems: [\n\t\t\t{ description: 'Annual License Plan', quantity: 1, unitPrice: 25_000 },\n\t\t\t{ description: 'Support & Maintenance', quantity: 12, unitPrice: 1500 },\n\t\t\t{ description: 'Custom Integration', quantity: 1, unitPrice: 12_000 }\n\t\t],\n\t\tnotes: 'Invoice for annual enterprise subscription. Please retain for your records.',\n\t\tpaymentTerms: { dueDate: 'March 22, 2026', gst: 'GSTIN 123456789', method: 'ACH Transfer / Check' },\n\t\tsubtitle: 'Innovative PDF Solutions', summary: { subtotal: 55_000, tax: 3850, total: 58_850 }\n\t};\n\n\tlet { theme, data = sampleData }: { theme?: PdfcnTheme; data?: InvoiceMinimalData } = $props();\n</script>\n\n<PdfcnThemeProvider {theme}><InvoiceMinimalContent {data} /></PdfcnThemeProvider>\n",
+      "type": "registry:block",
+      "target": "~/src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.svelte"
+    },
+    {
+      "content": "export interface InvoiceMinimalData {\n\tinvoiceNumber: string;\n\tinvoiceDate: string;\n\tdueDate: string;\n\tcompanyName: string;\n\tsubtitle: string;\n\tcompanyAddress: string;\n\tcompanyEmail: string;\n\tbillTo: { name: string; address: string; email: string; phone: string };\n\titems: { description: string; quantity: number; unitPrice: number }[];\n\tsummary: { subtotal: number; tax: number; total: number };\n\tpaymentTerms: { dueDate: string; method: string; gst: string };\n\tnotes?: string;\n}\n",
+      "type": "registry:block",
+      "target": "~/src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.types.ts"
+    }
+  ],
+  "type": "registry:block"
+}

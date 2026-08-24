@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "takumi/page-break",
+  "title": "Page Break",
+  "description": "Page Break PDF component for the takumi base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport View from '$lib/bases/takumi/lib/View.svelte';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\n\tinterface PageBreakProps extends Omit<PDFComponentProps, 'children'> {\n\t\tchildren?: never;\n\t}\n\n\texport type { PageBreakProps };\n\n\tlet { style }: PageBreakProps = $props();\n</script>\n\n<View style={[{ breakBefore: 'page' }, style]} />\n",
+      "type": "registry:component",
+      "target": "~/src/lib/bases/takumi/components/page-break/page-break.svelte"
+    }
+  ],
+  "type": "registry:ui"
+}

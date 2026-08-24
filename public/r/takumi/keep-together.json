@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "takumi/keep-together",
+  "title": "Keep Together",
+  "description": "Keep Together PDF component for the takumi base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport View from '$lib/bases/takumi/lib/View.svelte';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\n\texport interface KeepTogetherProps {\n\t\tchildren?: PDFComponentProps['children'];\n\t\tminPresenceAhead?: number;\n\t\tstyle?: PDFComponentProps['style'];\n\t}\n\n\tlet { children, style }: KeepTogetherProps = $props();\n</script>\n\n<View style={[{ breakInside: 'avoid' }, style]}>\n\t{@render children?.()}\n</View>\n",
+      "type": "registry:component",
+      "target": "~/src/lib/bases/takumi/components/keep-together/keep-together.svelte"
+    }
+  ],
+  "type": "registry:ui"
+}

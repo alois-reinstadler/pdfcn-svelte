@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "takumi/theme-corporate",
+  "title": "Corporate Theme (Takumi)",
+  "description": "Corporate PDF theme tokens for the takumi base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "import type { PdfcnTheme } from \"$lib/types/pdf-themes\";\n\nimport { defaultPrimitives } from \"./primitives\";\n\n/**\n * Corporate theme preset.\n *\n * Character: Blue-gray palette, Lato sans-serif throughout, structured and\n * dependable. Sky-blue accent adds clarity without distraction.\n * Ideal for business proposals, project plans, and client-facing reports.\n */\nexport const corporateTheme: PdfcnTheme = {\n  colors: {\n    accent: \"#0ea5e9\",\n    background: \"#ffffff\",\n    border: \"#e2e8f0\",\n    destructive: \"#ef4444\",\n    foreground: \"#1e293b\",\n    info: \"#3b82f6\",\n    muted: \"#f8fafc\",\n    mutedForeground: \"#64748b\",\n    primary: \"#0f4c81\",\n    primaryForeground: \"#ffffff\",\n    success: \"#22c55e\",\n    warning: \"#f59e0b\",\n  },\n  name: \"corporate\",\n  page: {\n    orientation: \"portrait\",\n    size: \"A4\",\n  },\n  primitives: defaultPrimitives,\n  spacing: {\n    componentGap: 13,\n    page: {\n      marginBottom: 52,\n      marginLeft: 44,\n      marginRight: 44,\n      marginTop: 52,\n    },\n    paragraphGap: 9,\n    sectionGap: 24,\n  },\n  typography: {\n    body: {\n      fontFamily: \"Lato\",\n      fontSize: 11,\n      lineHeight: 1.55,\n    },\n    heading: {\n      fontFamily: \"Lato\",\n      fontSize: {\n        h1: 30,\n        h2: 22,\n        h3: 18,\n        h4: 15,\n        h5: 13,\n        h6: 11,\n      },\n      fontWeight: 700,\n      lineHeight: 1.2,\n    },\n  },\n};\n",
+      "type": "registry:theme",
+      "target": "~/src/lib/themes/corporate.ts"
+    }
+  ],
+  "type": "registry:theme"
+}

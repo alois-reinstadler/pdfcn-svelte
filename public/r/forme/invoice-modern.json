@@ -1,0 +1,23 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/invoice-modern",
+  "title": "Invoice Modern",
+  "description": "Invoice Modern PDF document block for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport PdfcnThemeProvider from '$lib/PdfcnThemeProvider.svelte';\n\timport type { PdfcnTheme } from '$lib/types/pdf-themes';\n\n\timport InvoiceModernContent from './invoice-modern-content.svelte';\n\timport type { InvoiceModernData } from './invoice-modern.types';\n\n\tconst sampleData: InvoiceModernData = {\n\t\tbillTo: { address: '789 Innovation Blvd, Floor 3', email: 'billing@techstart.com', name: 'TechStart Solutions', phone: '+1 (555) 987-6543' },\n\t\tcompanyAddress: 'Nagpur, IN', companyEmail: 'hello@pdfcn.app', companyName: 'pdfcn',\n\t\tdueDate: 'March 20, 2026', invoiceDate: 'February 18, 2026', invoiceNumber: 'INV-2026-002',\n\t\titems: [\n\t\t\t{ description: 'API Integration', quantity: 1, unitPrice: 15_000 },\n\t\t\t{ description: 'SEO', quantity: 2, unitPrice: 5500 },\n\t\t\t{ description: 'Security Audit', quantity: 1, unitPrice: 7200 }\n\t\t],\n\t\tnotes: 'Payment terms: Net 30 days. Thank you for your business!',\n\t\tpaymentTerms: { dueDate: 'March 20, 2026', gst: 'GSTIN 123456789', method: 'Wire Transfer / Bank Account' },\n\t\tsubtitle: 'Innovative PDF Solutions', summary: { subtotal: 33_200, tax: 2324, total: 35_524 }\n\t};\n\n\tlet { theme, data = sampleData }: { theme?: PdfcnTheme; data?: InvoiceModernData } = $props();\n</script>\n\n<PdfcnThemeProvider {theme}><InvoiceModernContent {data} /></PdfcnThemeProvider>\n",
+      "type": "registry:block",
+      "target": "~/src/lib/bases/forme/blocks/invoice-modern/invoice-modern.svelte"
+    },
+    {
+      "content": "export interface InvoiceModernData {\n\tinvoiceNumber: string;\n\tinvoiceDate: string;\n\tdueDate: string;\n\tcompanyName: string;\n\tsubtitle: string;\n\tcompanyAddress: string;\n\tcompanyEmail: string;\n\tbillTo: { name: string; address: string; email: string; phone: string };\n\titems: { description: string; quantity: number; unitPrice: number }[];\n\tsummary: { subtotal: number; tax: number; total: number };\n\tpaymentTerms: { dueDate: string; method: string; gst: string };\n\tnotes?: string;\n}\n",
+      "type": "registry:block",
+      "target": "~/src/lib/bases/forme/blocks/invoice-modern/invoice-modern.types.ts"
+    }
+  ],
+  "type": "registry:block"
+}

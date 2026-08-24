@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/card",
+  "title": "Card",
+  "description": "Card PDF component for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport PDFText from '$lib/bases/forme/lib/Text.svelte';\n\timport View from '$lib/bases/forme/lib/View.svelte';\n\timport { usePdfcnTheme } from '$lib/theme-provider.svelte';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\timport type { PdfcnTheme } from '$lib/types/pdf-themes';\n\n\texport type CardVariant = 'default' | 'bordered' | 'muted';\n\n\t/**\n\t * Bordered content card with optional title and padding presets.\n\t * Props - `title` | `children` | `variant` | `padding` | `wrap` | `style`\n\t */\n\tinterface Props extends Omit<PDFComponentProps, 'children'> {\n\t\ttitle?: string;\n\t\tchildren?: PDFComponentProps['children'];\n\t\t/** @default 'default' */\n\t\tvariant?: CardVariant;\n\t\t/** @default 'md' */\n\t\tpadding?: 'sm' | 'md' | 'lg';\n\t\t/**\n\t\t * When false, the card will not split across PDF pages.\n\t\t * @default false\n\t\t */\n\t\twrap?: boolean;\n\t}\n\n\tlet {\n\t\ttitle,\n\t\tchildren,\n\t\tvariant = 'default',\n\t\tpadding = 'md',\n\t\twrap = false,\n\t\tstyle\n\t}: Props = $props();\n\n\tconst theme = usePdfcnTheme();\n\n\tconst createCardStyles = (t: PdfcnTheme) => {\n\t\tconst { spacing, borderRadius, fontWeights } = t.primitives;\n\t\treturn {\n\t\t\tbody: {\n\t\t\t\tcolor: t.colors.foreground,\n\t\t\t\tfontFamily: t.typography.body.fontFamily,\n\t\t\t\tfontSize: t.typography.body.fontSize,\n\t\t\t\tlineHeight: t.typography.body.lineHeight\n\t\t\t},\n\t\t\tcard: {\n\t\t\t\tbackgroundColor: t.colors.background,\n\t\t\t\tborderColor: t.colors.border,\n\t\t\t\tborderRadius: borderRadius.sm,\n\t\t\t\tborderStyle: 'solid',\n\t\t\t\tborderWidth: 1,\n\t\t\t\tmarginBottom: t.spacing.componentGap\n\t\t\t},\n\t\t\tcardBordered: { borderWidth: 2 },\n\t\t\tcardMuted: { backgroundColor: t.colors.muted },\n\t\t\tpaddingLg: { padding: spacing[4] },\n\t\t\tpaddingMd: { padding: spacing[3] },\n\t\t\tpaddingSm: { padding: spacing[2] },\n\t\t\ttitle: {\n\t\t\t\tborderBottomColor: t.colors.border,\n\t\t\t\tborderBottomStyle: 'solid',\n\t\t\t\tborderBottomWidth: 1,\n\t\t\t\tcolor: t.colors.foreground,\n\t\t\t\tfontFamily: t.typography.heading.fontFamily,\n\t\t\t\tfontSize: t.primitives.typography.base,\n\t\t\t\tfontWeight: fontWeights.semibold,\n\t\t\t\tlineHeight: t.typography.heading.lineHeight,\n\t\t\t\tmarginBottom: spacing[2],\n\t\t\t\tpaddingBottom: spacing[1] + 2\n\t\t\t}\n\t\t};\n\t};\n\n\tconst styles = $derived(createCardStyles(theme));\n\n\tconst cardStyle = $derived.by(() => {\n\t\tconst paddingMap: Record<string, Record<string, unknown>> = {\n\t\t\tlg: styles.paddingLg,\n\t\t\tmd: styles.paddingMd,\n\t\t\tsm: styles.paddingSm\n\t\t};\n\t\treturn [\n\t\t\tstyles.card,\n\t\t\tvariant === 'bordered' ? styles.cardBordered : undefined,\n\t\t\tvariant === 'muted' ? styles.cardMuted : undefined,\n\t\t\tpaddingMap[padding],\n\t\t\tstyle\n\t\t];\n\t});\n</script>\n\n<View wrap={wrap} style={cardStyle}>\n\t{#if title}\n\t\t<PDFText style={styles.title}>{title}</PDFText>\n\t{/if}\n\t{@render children?.()}\n</View>\n",
+      "type": "registry:component",
+      "target": "~/src/lib/bases/forme/components/card/card.svelte"
+    }
+  ],
+  "type": "registry:ui"
+}

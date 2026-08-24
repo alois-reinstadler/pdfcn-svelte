@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/page-break",
+  "title": "Page Break",
+  "description": "Page Break PDF component for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport { PageBreak } from '$lib/bases/forme/lib/pdf-primitives';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\n\tinterface PageBreakProps extends Omit<PDFComponentProps, 'children'> {\n\t\tchildren?: never;\n\t}\n\n\texport type { PageBreakProps };\n</script>\n\n<PageBreak />\n",
+      "type": "registry:component",
+      "target": "~/src/lib/bases/forme/components/page-break/page-break.svelte"
+    }
+  ],
+  "type": "registry:ui"
+}

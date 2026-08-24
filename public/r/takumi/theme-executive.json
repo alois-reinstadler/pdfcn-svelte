@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "takumi/theme-executive",
+  "title": "Executive Theme (Takumi)",
+  "description": "Executive PDF theme tokens for the takumi base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "import type { PdfcnTheme } from \"$lib/types/pdf-themes\";\n\nimport { defaultPrimitives } from \"./primitives\";\n\n/**\n * Executive theme preset.\n *\n * Character: Deep navy palette, Merriweather serif headings, Open Sans body.\n * Generous margins, high contrast, premium boardroom aesthetic.\n * Ideal for board reports, executive briefs, and investor documents.\n */\nexport const executiveTheme: PdfcnTheme = {\n  colors: {\n    accent: \"#1e40af\",\n    background: \"#ffffff\",\n    border: \"#cbd5e1\",\n    destructive: \"#dc2626\",\n    foreground: \"#0f172a\",\n    info: \"#0369a1\",\n    muted: \"#f1f5f9\",\n    mutedForeground: \"#64748b\",\n    primary: \"#1e3a5f\",\n    primaryForeground: \"#ffffff\",\n    success: \"#15803d\",\n    warning: \"#b45309\",\n  },\n  name: \"executive\",\n  page: {\n    orientation: \"portrait\",\n    size: \"A4\",\n  },\n  primitives: defaultPrimitives,\n  spacing: {\n    componentGap: 16,\n    page: {\n      marginBottom: 64,\n      marginLeft: 56,\n      marginRight: 56,\n      marginTop: 64,\n    },\n    paragraphGap: 10,\n    sectionGap: 32,\n  },\n  typography: {\n    body: {\n      fontFamily: \"Open Sans\",\n      fontSize: 11,\n      lineHeight: 1.65,\n    },\n    heading: {\n      fontFamily: \"Merriweather\",\n      fontSize: {\n        h1: 34,\n        h2: 26,\n        h3: 20,\n        h4: 16,\n        h5: 14,\n        h6: 12,\n      },\n      fontWeight: 700,\n      lineHeight: 1.25,\n    },\n  },\n};\n",
+      "type": "registry:theme",
+      "target": "~/src/lib/themes/executive.ts"
+    }
+  ],
+  "type": "registry:theme"
+}

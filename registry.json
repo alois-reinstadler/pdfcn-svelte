@@ -1,0 +1,1642 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry.json",
+  "name": "pdfcn-svelte",
+  "homepage": "https://pdfcn-svelte.dev",
+  "aliases": {
+    "components": "$lib/components",
+    "lib": "$lib",
+    "ui": "$lib/components/ui",
+    "utils": "$lib/utils"
+  },
+  "items": [
+    {
+      "name": "forme/alert",
+      "title": "Alert",
+      "description": "Alert PDF component for the forme base.",
+      "dependencies": [
+        "@formepdf/svelte"
+      ],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/alert/alert.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/alert/alert.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/badge",
+      "title": "Badge",
+      "description": "Badge PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/badge/badge.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/badge/badge.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/card",
+      "title": "Card",
+      "description": "Card PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/card/card.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/card/card.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/data-table",
+      "title": "Data Table",
+      "description": "Data Table PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./table.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/data-table/data-table.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/data-table/data-table.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/data-table/data-table.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/data-table/data-table.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/data-table/data-table.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/data-table/data-table.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/divider",
+      "title": "Divider",
+      "description": "Divider PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/divider/divider.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/divider/divider.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/form",
+      "title": "Form",
+      "description": "Form PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/form/form.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/form/form.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/form/form.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/form/form.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/form/form.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/form/form.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/heading",
+      "title": "Heading",
+      "description": "Heading PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/heading/heading.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/heading/heading.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/invoice-classic",
+      "title": "Invoice Classic",
+      "description": "Invoice Classic PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./page-header.json",
+        "./pdf-image.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-classic/invoice-classic-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-classic/invoice-classic-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-classic/invoice-classic.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-classic/invoice-classic.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-classic/invoice-classic.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-classic/invoice-classic.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/invoice-consultant",
+      "title": "Invoice Consultant",
+      "description": "Invoice Consultant PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./key-value.json",
+        "./page-footer.json",
+        "./section.json",
+        "./table.json",
+        "./text.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant-content.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant-content.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-consultant/invoice-consultant.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/invoice-corporate",
+      "title": "Invoice Corporate",
+      "description": "Invoice Corporate PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-corporate/invoice-corporate.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/invoice-creative",
+      "title": "Invoice Creative",
+      "description": "Invoice Creative PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-creative/invoice-creative.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-creative/invoice-creative.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-creative/invoice-creative.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-creative/invoice-creative.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/invoice-minimal",
+      "title": "Invoice Minimal",
+      "description": "Invoice Minimal PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-minimal/invoice-minimal.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/invoice-modern",
+      "title": "Invoice Modern",
+      "description": "Invoice Modern PDF document block for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-modern/invoice-modern.svelte",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-modern/invoice-modern.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/blocks/invoice-modern/invoice-modern.types.ts",
+          "type": "registry:block",
+          "target": "~/src/lib/bases/forme/blocks/invoice-modern/invoice-modern.types.ts"
+        }
+      ],
+      "type": "registry:block"
+    },
+    {
+      "name": "forme/keep-together",
+      "title": "Keep Together",
+      "description": "Keep Together PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/keep-together/keep-together.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/keep-together/keep-together.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/key-value",
+      "title": "Key Value",
+      "description": "Key Value PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/key-value/key-value.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/key-value/key-value.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/link",
+      "title": "Link",
+      "description": "Link PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/link/link.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/link/link.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/list",
+      "title": "List",
+      "description": "List PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/list/list.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/list/list.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/page-break",
+      "title": "Page Break",
+      "description": "Page Break PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/page-break/page-break.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/page-break/page-break.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/page-footer",
+      "title": "Page Footer",
+      "description": "Page Footer PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/page-footer/page-footer.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/page-footer/page-footer.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/page-header",
+      "title": "Page Header",
+      "description": "Page Header PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/page-header/page-header.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/page-header/page-header.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/page-number",
+      "title": "Page Number",
+      "description": "Page Number PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/page-number/page-number.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/page-number/page-number.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/pdf-image",
+      "title": "PDF Image",
+      "description": "PDF Image PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/pdf-image/pdf-image.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/pdf-image/pdf-image.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/qrcode",
+      "title": "QR Code",
+      "description": "QR Code PDF component for the forme base.",
+      "dependencies": [
+        "@formepdf/svelte",
+        "qrcode"
+      ],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/qrcode/qrcode.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/qrcode/qrcode.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/section",
+      "title": "Section",
+      "description": "Section PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/section/section.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/section/section.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/signature",
+      "title": "Signature",
+      "description": "Signature PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/signature/signature.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/signature/signature.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/stack",
+      "title": "Stack",
+      "description": "Stack PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/stack/stack.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/stack/stack.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/table",
+      "title": "Table",
+      "description": "Table PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/table/table-body.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-body.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table-cell.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-cell.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table-context.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-context.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table-footer.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-footer.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table-header.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-header.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table-row.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table-row.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/components/table/table.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/table/table.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/text",
+      "title": "Text",
+      "description": "Text PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/text/text.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/text/text.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "forme/theme-blueprint",
+      "title": "Blueprint Theme (Forme)",
+      "description": "Blueprint PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/blueprint.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/blueprint.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-corporate",
+      "title": "Corporate Theme (Forme)",
+      "description": "Corporate PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/corporate.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/corporate.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-elegant",
+      "title": "Elegant Theme (Forme)",
+      "description": "Elegant PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/elegant.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/elegant.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-executive",
+      "title": "Executive Theme (Forme)",
+      "description": "Executive PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/executive.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/executive.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-forest",
+      "title": "Forest Theme (Forme)",
+      "description": "Forest PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/forest.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/forest.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-minimal",
+      "title": "Minimal Theme (Forme)",
+      "description": "Minimal PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/minimal.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/minimal.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-modern",
+      "title": "Modern Theme (Forme)",
+      "description": "Modern PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/modern.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/modern.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-professional",
+      "title": "Professional Theme (Forme)",
+      "description": "Professional PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/professional.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/professional.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/theme-vivid",
+      "title": "Vivid Theme (Forme)",
+      "description": "Vivid PDF theme tokens for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/vivid.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/vivid.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "forme/utils",
+      "title": "Forme PDF Utilities",
+      "description": "Shared theme context, types, color helpers, and PDF primitives for the forme base.",
+      "dependencies": [
+        "@formepdf/core",
+        "@formepdf/svelte"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/lib/Circle.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Circle.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Document.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Document.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Fixed.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Fixed.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/G.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/G.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Image.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Image.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Line.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Line.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Link.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Link.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Page.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Page.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Path.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Path.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/pdf-primitives.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/pdf-primitives.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/pdf-svg.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/pdf-svg.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Rect.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Rect.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/svg-utils.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/svg-utils.ts"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Svg.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Svg.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/SvgText.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/SvgText.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/Text.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/Text.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/View.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/View.svelte"
+        },
+        {
+          "path": "src/lib/PdfcnThemeProvider.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/PdfcnThemeProvider.svelte"
+        },
+        {
+          "path": "src/lib/theme-provider.svelte.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/theme-provider.svelte.ts"
+        },
+        {
+          "path": "src/lib/themes/primitives.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/themes/primitives.ts"
+        },
+        {
+          "path": "src/lib/themes/professional.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/themes/professional.ts"
+        },
+        {
+          "path": "src/lib/types/pdf-components.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/types/pdf-components.ts"
+        },
+        {
+          "path": "src/lib/types/pdf-themes.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/types/pdf-themes.ts"
+        },
+        {
+          "path": "src/lib/utils/resolve-color.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/resolve-color.ts"
+        }
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "forme/watermark",
+      "title": "Watermark",
+      "description": "Watermark PDF component for the forme base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/forme/components/watermark/watermark.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/forme/components/watermark/watermark.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/alert",
+      "title": "Alert",
+      "description": "Alert PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/alert/alert.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/alert/alert.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/badge",
+      "title": "Badge",
+      "description": "Badge PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/badge/badge.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/badge/badge.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/card",
+      "title": "Card",
+      "description": "Card PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/card/card.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/card/card.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/data-table",
+      "title": "Data Table",
+      "description": "Data Table PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./table.json",
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/data-table/data-table.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/data-table/data-table.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/data-table/data-table.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/data-table/data-table.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/data-table/data-table.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/data-table/data-table.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/divider",
+      "title": "Divider",
+      "description": "Divider PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/divider/divider.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/divider/divider.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/form",
+      "title": "Form",
+      "description": "Form PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/form/form.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/form/form.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/form/form.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/form/form.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/form/form.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/form/form.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/heading",
+      "title": "Heading",
+      "description": "Heading PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/heading/heading.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/heading/heading.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/keep-together",
+      "title": "Keep Together",
+      "description": "Keep Together PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/keep-together/keep-together.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/keep-together/keep-together.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/key-value",
+      "title": "Key Value",
+      "description": "Key Value PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/key-value/key-value.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/key-value/key-value.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/link",
+      "title": "Link",
+      "description": "Link PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/link/link.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/link/link.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/list",
+      "title": "List",
+      "description": "List PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/list/list.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/list/list.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/page-break",
+      "title": "Page Break",
+      "description": "Page Break PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/page-break/page-break.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/page-break/page-break.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/page-footer",
+      "title": "Page Footer",
+      "description": "Page Footer PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/page-footer/page-footer.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/page-footer/page-footer.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/page-header",
+      "title": "Page Header",
+      "description": "Page Header PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/page-header/page-header.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/page-header/page-header.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/page-number",
+      "title": "Page Number",
+      "description": "Page Number PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/page-number/page-number.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/page-number/page-number.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/pdf-image",
+      "title": "PDF Image",
+      "description": "PDF Image PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/pdf-image/pdf-image.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/pdf-image/pdf-image.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/qrcode",
+      "title": "QR Code",
+      "description": "QR Code PDF component for the takumi base.",
+      "dependencies": [
+        "qrcode"
+      ],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/qrcode/qrcode.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/qrcode/qrcode.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/section",
+      "title": "Section",
+      "description": "Section PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/section/section.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/section/section.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/signature",
+      "title": "Signature",
+      "description": "Signature PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/signature/signature.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/signature/signature.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/stack",
+      "title": "Stack",
+      "description": "Stack PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/stack/stack.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/stack/stack.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/table",
+      "title": "Table",
+      "description": "Table PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/table/table-body.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-body.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table-cell.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-cell.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table-context.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-context.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table-footer.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-footer.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table-header.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-header.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table-row.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table-row.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table.styles.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table.styles.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/components/table/table.types.ts",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/table/table.types.ts"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/text",
+      "title": "Text",
+      "description": "Text PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/text/text.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/text/text.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    },
+    {
+      "name": "takumi/theme-blueprint",
+      "title": "Blueprint Theme (Takumi)",
+      "description": "Blueprint PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/blueprint.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/blueprint.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-corporate",
+      "title": "Corporate Theme (Takumi)",
+      "description": "Corporate PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/corporate.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/corporate.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-elegant",
+      "title": "Elegant Theme (Takumi)",
+      "description": "Elegant PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/elegant.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/elegant.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-executive",
+      "title": "Executive Theme (Takumi)",
+      "description": "Executive PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/executive.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/executive.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-forest",
+      "title": "Forest Theme (Takumi)",
+      "description": "Forest PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/forest.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/forest.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-minimal",
+      "title": "Minimal Theme (Takumi)",
+      "description": "Minimal PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/minimal.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/minimal.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-modern",
+      "title": "Modern Theme (Takumi)",
+      "description": "Modern PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/modern.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/modern.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-professional",
+      "title": "Professional Theme (Takumi)",
+      "description": "Professional PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/professional.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/professional.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/theme-vivid",
+      "title": "Vivid Theme (Takumi)",
+      "description": "Vivid PDF theme tokens for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/themes/vivid.ts",
+          "type": "registry:theme",
+          "target": "~/src/lib/themes/vivid.ts"
+        }
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "takumi/utils",
+      "title": "Takumi PDF Utilities",
+      "description": "Shared theme context, types, color helpers, and PDF primitives for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/lib/Circle.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Circle.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Document.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Document.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/G.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/G.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Image.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Image.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Line.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Line.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Link.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Link.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Page.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Page.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Path.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Path.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/pdf-primitives.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/pdf-primitives.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/pdf-svg.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/pdf-svg.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Rect.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Rect.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/svg-utils.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/svg-utils.ts"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Svg.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Svg.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/SvgText.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/SvgText.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/Text.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/Text.svelte"
+        },
+        {
+          "path": "src/lib/bases/takumi/lib/View.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/View.svelte"
+        },
+        {
+          "path": "src/lib/PdfcnThemeProvider.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/PdfcnThemeProvider.svelte"
+        },
+        {
+          "path": "src/lib/theme-provider.svelte.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/theme-provider.svelte.ts"
+        },
+        {
+          "path": "src/lib/themes/primitives.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/themes/primitives.ts"
+        },
+        {
+          "path": "src/lib/themes/professional.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/themes/professional.ts"
+        },
+        {
+          "path": "src/lib/types/pdf-components.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/types/pdf-components.ts"
+        },
+        {
+          "path": "src/lib/types/pdf-themes.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/types/pdf-themes.ts"
+        },
+        {
+          "path": "src/lib/utils/resolve-color.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/resolve-color.ts"
+        }
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "takumi/watermark",
+      "title": "Watermark",
+      "description": "Watermark PDF component for the takumi base.",
+      "dependencies": [],
+      "registryDependencies": [
+        "./utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/lib/bases/takumi/components/watermark/watermark.svelte",
+          "type": "registry:component",
+          "target": "~/src/lib/bases/takumi/components/watermark/watermark.svelte"
+        }
+      ],
+      "type": "registry:ui"
+    }
+  ]
+}

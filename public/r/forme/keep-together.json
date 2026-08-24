@@ -1,0 +1,18 @@
+{
+  "$schema": "https://shadcn-svelte.com/schema/registry-item.json",
+  "name": "forme/keep-together",
+  "title": "Keep Together",
+  "description": "Keep Together PDF component for the forme base.",
+  "dependencies": [],
+  "registryDependencies": [
+    "./utils.json"
+  ],
+  "files": [
+    {
+      "content": "<script lang=\"ts\">\n\timport View from '$lib/bases/forme/lib/View.svelte';\n\timport type { Snippet } from 'svelte';\n\timport type { Style } from '$lib/types/pdf-components';\n\n\texport interface KeepTogetherProps {\n\t\tchildren?: Snippet;\n\t\tminPresenceAhead?: number;\n\t\tstyle?: Style;\n\t}\n\n\tlet { children, style }: KeepTogetherProps = $props();\n</script>\n\n<View wrap={false} style={style}>\n\t{@render children?.()}\n</View>\n",
+      "type": "registry:component",
+      "target": "~/src/lib/bases/forme/components/keep-together/keep-together.svelte"
+    }
+  ],
+  "type": "registry:ui"
+}
