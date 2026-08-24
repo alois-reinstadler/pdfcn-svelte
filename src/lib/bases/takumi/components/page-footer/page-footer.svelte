@@ -49,10 +49,12 @@
 	{#if variant === 'branded'}
 		{#if leftText}<PDFText style={colorize(styles.textBranded)}>{@render value(leftText)}</PDFText>{/if}{#if rightText}<PDFText style={colorize(styles.textBrandedRight)}>{@render value(rightText)}</PDFText>{/if}
 	{:else if variant === 'centered'}
-		{#if leftText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(leftText)}</PDFText>{/if}{#if rightText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(rightText)}</PDFText>{/if}
+		{#if leftText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(leftText)}</PDFText>{/if}
+		{#if centerText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(centerText)}</PDFText>{/if}
+		{#if rightText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(rightText)}</PDFText>{/if}
 	{:else if variant === 'three-column'}
-		<View style={styles.threeColumnLeft}>{#if leftText}<PDFText style={colorize(styles.companyName)}>{@render value(leftText)}</PDFText>{/if}{#if address}<PDFText style={styles.textLeft}>{address}</PDFText>{/if}</View>
-		<View style={styles.threeColumnCenter}>{#if phone}<PDFText style={colorize(styles.contactInfoCenter)}>{phone}</PDFText>{/if}{#if email}<PDFText style={colorize(styles.contactInfoCenter)}>{email}</PDFText>{/if}{#if website}<PDFText style={colorize(styles.contactInfoCenter)}>{website}</PDFText>{/if}</View>
+		<View style={styles.threeColumnLeft}>{#if leftText}<PDFText style={colorize(styles.companyName)}>{@render value(leftText)}</PDFText>{/if}{#if address}<PDFText style={colorize(styles.textLeft)}>{address}</PDFText>{/if}</View>
+		<View style={styles.threeColumnCenter}>{#if centerText}<PDFText style={colorize(styles.textCenteredVariant)}>{@render value(centerText)}</PDFText>{/if}{#if phone}<PDFText style={colorize(styles.contactInfoCenter)}>{phone}</PDFText>{/if}{#if email}<PDFText style={colorize(styles.contactInfoCenter)}>{email}</PDFText>{/if}{#if website}<PDFText style={colorize(styles.contactInfoCenter)}>{website}</PDFText>{/if}</View>
 		<View style={styles.threeColumnRight}>{#if rightText}<PDFText style={colorize(styles.textRight)}>{@render value(rightText)}</PDFText>{/if}</View>
 	{:else if variant === 'detailed'}
 		<View style={styles.detailedTopRow}><View style={styles.detailedLeft}>{#if leftText}<PDFText style={colorize(styles.companyBold)}>{@render value(leftText)}</PDFText>{/if}{#if address}<PDFText style={colorize(styles.textLeft)}>{address}</PDFText>{/if}</View><View style={styles.detailedRight}>{#if phone}<PDFText style={colorize(styles.textRight)}>Phone: {phone}</PDFText>{/if}{#if email}<PDFText style={colorize(styles.textRight)}>Email: {email}</PDFText>{/if}{#if website}<PDFText style={colorize(styles.textRight)}>Web: {website}</PDFText>{/if}</View></View>

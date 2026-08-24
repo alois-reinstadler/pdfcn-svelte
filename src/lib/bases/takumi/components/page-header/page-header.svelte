@@ -85,7 +85,7 @@
 		{#if rightText || rightSubText}<View style={styles.simpleRight}>{#if rightText}<PDFText style={styles.rightText}>{rightText}</PDFText>{/if}{#if rightSubText}<PDFText style={styles.rightSubText}>{rightSubText}</PDFText>{/if}</View>{/if}
 	{:else if variant === 'two-column'}
 		<View style={styles.twoColumnLeft}><PDFText style={titleStyle}>{title}</PDFText>{#if subtitle}<PDFText style={styles.subtitle}>{subtitle}</PDFText>{/if}</View>
-		{#if address || phone || email}<View style={styles.twoColumnRight}>{#if address}<PDFText style={styles.contactInfo}>{address}</PDFText>{/if}{#if phone}<PDFText style={styles.contactInfo}>{phone}</PDFText>{/if}{#if email}<PDFText style={styles.contactInfo}>{email}</PDFText>{/if}</View>{/if}
+		{#if rightText || rightSubText || address || phone || email}<View style={styles.twoColumnRight}>{#if rightText}<PDFText style={styles.rightText}>{rightText}</PDFText>{/if}{#if rightSubText}<PDFText style={styles.rightSubText}>{rightSubText}</PDFText>{/if}{#if address}<PDFText style={styles.contactInfo}>{address}</PDFText>{/if}{#if phone}<PDFText style={styles.contactInfo}>{phone}</PDFText>{/if}{#if email}<PDFText style={styles.contactInfo}>{email}</PDFText>{/if}</View>{/if}
 	{:else}
 		<View style={variant === 'minimal' ? styles.minimalLeft : styles.simpleLeft}><PDFText style={titleStyle}>{title}</PDFText>{#if subtitle}<PDFText style={styles.subtitle}>{subtitle}</PDFText>{/if}</View>
 		{#if rightText || rightSubText}<View style={variant === 'minimal' ? styles.minimalRight : styles.simpleRight}>{#if rightText}<PDFText style={styles.rightText}>{rightText}</PDFText>{/if}{#if rightSubText}<PDFText style={styles.rightSubText}>{rightSubText}</PDFText>{/if}</View>{/if}

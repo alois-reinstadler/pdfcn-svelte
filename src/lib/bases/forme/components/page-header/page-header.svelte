@@ -194,8 +194,10 @@
 				<PDFText style={titleStyle}>{title}</PDFText>
 				{#if subtitle}<PDFText style={styles.subtitle}>{subtitle}</PDFText>{/if}
 			</View>
-			{#if address || phone || email}
+			{#if rightText || rightSubText || address || phone || email}
 				<View style={styles.twoColumnRight}>
+					{#if rightText}<PDFText style={styles.rightText}>{rightText}</PDFText>{/if}
+					{#if rightSubText}<PDFText style={styles.rightSubText}>{rightSubText}</PDFText>{/if}
 					{#if address}<PDFText style={styles.contactInfo}>{address}</PDFText>{/if}
 					{#if phone}<PDFText style={styles.contactInfo}>{phone}</PDFText>{/if}
 					{#if email}<PDFText style={styles.contactInfo}>{email}</PDFText>{/if}
