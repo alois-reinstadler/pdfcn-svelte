@@ -11,7 +11,10 @@ export function createPdfPreviewTheme(
 	theme: PdfcnTheme,
 	renderer: PdfPreviewRenderer
 ): PdfcnTheme {
-	const fontFamily = renderer === 'forme' ? 'Helvetica' : 'Helvetica, Arial, sans-serif';
+	// Forme ships the core Helvetica face. Takumi maps the generic sans-serif
+	// family to its bundled Geist fallback, keeping previews offline and
+	// deterministic without claiming that Helvetica was registered there.
+	const fontFamily = renderer === 'forme' ? 'Helvetica' : 'sans-serif';
 
 	return {
 		...theme,

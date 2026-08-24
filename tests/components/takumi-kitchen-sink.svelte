@@ -59,6 +59,8 @@
 				rightText="TAKUMI"
 				variant="two-column"
 			/>
+			<PageBreak />
+			<Text noMargin variant="xs">CMP:page-break</Text>
 			<Heading level={2} transform="uppercase" tracking="wide">CMP:heading</Heading>
 			<Text variant="sm" weight="bold" italic decoration="underline">CMP:text</Text>
 			<Stack direction="horizontal" gap="sm" justify="between" noWrap>
@@ -141,8 +143,6 @@
 					{ label: 'Approved by', name: 'Grace Hopper', title: 'Reviewer' }
 				]}
 			/>
-			<PageBreak />
-			<Text noMargin variant="xs">CMP:page-break</Text>
 			<PageNumber format={pageNumberFormat} align="right" size="xs" muted={false} />
 			<PageFooter
 				variant="three-column"

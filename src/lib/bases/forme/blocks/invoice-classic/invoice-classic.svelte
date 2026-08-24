@@ -14,7 +14,7 @@
 			{ description: 'UI/UX Design', quantity: 1, unitPrice: 8750 },
 			{ description: 'Consulting', quantity: 10, unitPrice: 1500 }
 		],
-		logo: '/favicon.svg', notes: 'Thank you for your business!',
+		notes: 'Thank you for your business!',
 		paymentTerms: { dueDate: 'March 17, 2026', gst: 'GSTIN 123456789', method: 'UPI / Card / Bank Transfer' },
 		subtitle: 'Innovative PDF Solutions', summary: { subtotal: 36_250, tax: 2537.5, total: 38_787.5 }
 	};

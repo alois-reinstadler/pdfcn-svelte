@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 import { blockCatalog, blockComponentPath } from '../tests/render/block-catalog.mjs';
+import { inspectPdf } from '../tests/render/pdf-inspection.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const args = new Set(process.argv.slice(2));
@@ -19,7 +20,6 @@ const runForme = !takumiOnly;
 const runTakumi = !formeOnly;
 const previewDirectory = fileURLToPath(new URL('../public/previews/', import.meta.url));
 const decoder = new TextDecoder();
-const latin1Decoder = new TextDecoder('latin1');
 
 async function assertCompleteCatalog(renderer) {
 	const blocksDirectory = fileURLToPath(new URL(`../src/lib/bases/${renderer}/blocks/`, import.meta.url));
@@ -35,10 +35,6 @@ function assertPdf(pdf, label) {
 	assert.equal(decoder.decode(pdf.subarray(0, 5)), '%PDF-', `${label}: missing PDF signature`);
 }
 
-function countPdfPages(pdf) {
-	return (latin1Decoder.decode(pdf).match(/\/Type\s*\/Page\b/g) ?? []).length;
-}
-
 function countTakumiSourcePages(html) {
 	return (html.match(/data-pdf-page(?:=|\s|>)/g) ?? []).length;
 }
@@ -50,6 +46,12 @@ function decodeHtmlText(html) {
 		.replaceAll('&gt;', '>')
 		.replaceAll('&quot;', '"')
 		.replaceAll('&#39;', "'");
+}
+
+function assertSampleBrandMark(inspection, block, label) {
+	if (block.slug === 'invoice-classic' || block.slug === 'invoice-corporate') {
+		assert.match(inspection.text, /\bPDF\b/, `${label}: rendered PDF is missing the sample brand mark`);
+	}
 }
 
 const server = await createServer({
@@ -111,8 +113,12 @@ try {
 				);
 				const label = `forme/${themeName}/${block.slug}`;
 				assertPdf(pdf, label);
-				const renderedPages = countPdfPages(pdf);
+				const inspection = await inspectPdf(pdf);
+				const renderedPages = inspection.pages;
 				assert.equal(renderedPages, block.expectedPages, `${label}: unexpected rendered page count`);
+				assert.match(inspection.text, new RegExp(block.identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${label}: rendered PDF is missing identifying text`);
+				assert.ok(inspection.baseFonts.length > 0, `${label}: rendered PDF contains no font resources`);
+				assertSampleBrandMark(inspection, block, label);
 
 				if (writePreviews) {
 					const directory = `${previewDirectory}forme/${themeName}/`;
@@ -160,8 +166,12 @@ try {
 				});
 				const label = `takumi/${themeName}/${block.slug}`;
 				assertPdf(pdf, label);
-				const renderedPages = countPdfPages(pdf);
+				const inspection = await inspectPdf(pdf);
+				const renderedPages = inspection.pages;
 				assert.equal(renderedPages, block.expectedPages, `${label}: unexpected rendered page count`);
+				assert.match(inspection.text, new RegExp(block.identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${label}: rendered PDF is missing identifying text`);
+				assert.ok(inspection.baseFonts.length > 0, `${label}: rendered PDF contains no font resources`);
+				assertSampleBrandMark(inspection, block, label);
 
 				if (writePreviews) {
 					const directory = `${previewDirectory}takumi/${themeName}/`;

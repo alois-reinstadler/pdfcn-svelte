@@ -15,7 +15,7 @@
 			{ description: 'Training Workshop (per session)', quantity: 3, unitPrice: 2500 },
 			{ description: 'Annual Support Package', quantity: 1, unitPrice: 8500 }
 		],
-		logo: '/favicon.svg', notes: 'Corporate billing – Net 30 terms apply. For inquiries, contact accounts@pdfcn.app',
+		notes: 'Corporate billing – Net 30 terms apply. For inquiries, contact accounts@pdfcn.app',
 		paymentTerms: { dueDate: 'March 24, 2026', gst: 'GSTIN 987654321', method: 'Wire Transfer / Corporate Account' },
 		subtitle: 'Innovative PDF Solutions', summary: { subtotal: 56_500, tax: 4520, total: 61_020 }
 	};

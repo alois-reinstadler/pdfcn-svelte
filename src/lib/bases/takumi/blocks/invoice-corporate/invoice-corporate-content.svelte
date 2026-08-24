@@ -24,7 +24,13 @@
 </script>
 
 {#snippet logo()}
-	<PdfImage src={data.logo ?? '/favicon.svg'} width={56} height={56} style={{ margin: 0 }} />
+	{#if data.logo}
+		<PdfImage src={data.logo} width={56} height={56} style={{ margin: 0 }} />
+	{:else}
+		<View style={{ alignItems: 'center', backgroundColor: theme.colors.primary, borderRadius: 8, height: 56, justifyContent: 'center', width: 56 }}>
+			<Text color="primaryForeground" noMargin weight="bold">PDF</Text>
+		</View>
+	{/if}
 {/snippet}
 
 <Document title={`Invoice ${data.invoiceNumber}`}>

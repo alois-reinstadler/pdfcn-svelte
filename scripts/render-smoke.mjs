@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url';
 
 import { createServer } from 'vite';
 
+import { inspectPdf } from '../tests/render/pdf-inspection.mjs';
+
 const root = fileURLToPath(new URL('..', import.meta.url));
 const server = await createServer({
 	root,
@@ -48,6 +50,9 @@ try {
 	assert.ok(pdf instanceof Uint8Array);
 	assert.ok(pdf.byteLength > 1_000, `expected a non-trivial PDF, received ${pdf.byteLength} bytes`);
 	assert.equal(new TextDecoder().decode(pdf.subarray(0, 5)), '%PDF-');
+	const formeInspection = await inspectPdf(pdf);
+	assert.match(formeInspection.text, /Forme renderer smoke test/);
+	assert.ok(formeInspection.baseFonts.length > 0, 'expected the Forme PDF to embed a font');
 
 	const { body: html } = svelteServer.render(TakumiDocument);
 	assert.match(html, /data-pdf-document="pdfcn-svelte Takumi smoke test"/);
@@ -78,6 +83,10 @@ try {
 		`expected a non-trivial Takumi PDF, received ${takumiPdf.byteLength} bytes`
 	);
 	assert.equal(new TextDecoder().decode(takumiPdf.subarray(0, 5)), '%PDF-');
+	const takumiInspection = await inspectPdf(takumiPdf);
+	assert.match(takumiInspection.text, /Takumi renderer smoke test/);
+	assert.match(takumiInspection.text, /Second page content/);
+	assert.ok(takumiInspection.baseFonts.length > 0, 'expected the Takumi PDF to embed a font');
 
 	const overflowPdf = await takumiAdapter.renderTakumiDocument(TakumiOverflowDocument, {
 		margin: 20,
@@ -87,6 +96,9 @@ try {
 	const overflowPdfSource = new TextDecoder('latin1').decode(overflowPdf);
 	const overflowPages = (overflowPdfSource.match(/\/Type\s*\/Page\b/g) ?? []).length;
 	assert.ok(overflowPages > 1, `expected overflow pagination, received ${overflowPages} page`);
+	const overflowInspection = await inspectPdf(overflowPdf);
+	assert.match(overflowInspection.text, /Overflow row 1/);
+	assert.match(overflowInspection.text, /Overflow row 60/);
 
 	console.log(`Forme: serialized one A4 page and rendered ${pdf.byteLength} PDF bytes.`);
 	console.log(
