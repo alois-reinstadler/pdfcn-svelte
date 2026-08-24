@@ -1,7 +1,7 @@
 <script lang="ts">
 	let { slug, renderer = 'takumi' }: { slug: string; renderer?: 'forme' | 'takumi' } = $props();
 	let copied = $state(false);
-	const command = $derived(`npx shadcn-svelte@latest add http://localhost:5173/r/${renderer}/${slug}.json`);
+	const command = $derived(`pnpm dlx shadcn-svelte@latest add http://localhost:5173/r/${renderer}/${slug}.json`);
 
 	async function copy() {
 		if (!globalThis.navigator?.clipboard) return;

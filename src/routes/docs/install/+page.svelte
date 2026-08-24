@@ -3,19 +3,19 @@
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
 	import DocPage from '../../../docs/components/DocPage.svelte';
 
-	const packageInstall = 'npm install pdfcn-svelte\nnpm install @formepdf/svelte @formepdf/core  # Forme\nnpm install takumi-pdf @takumi-rs/helpers   # Takumi';
-	const localBuild = 'npm install\nnpm run package\nnpm pack';
+	const packageInstall = 'pnpm add pdfcn-svelte\npnpm add @formepdf/svelte @formepdf/core  # Forme\npnpm add takumi-pdf @takumi-rs/helpers   # Takumi';
+	const localBuild = 'pnpm install\npnpm run package\npnpm pack';
 	const registry = [
-		'npm run registry:build',
-		'npm run dev -- --host 127.0.0.1',
-		'npx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/alert.json'
+		'pnpm run registry:build',
+		'pnpm run dev -- --host 127.0.0.1',
+		'pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/alert.json'
 	].join('\n');
 </script>
 
 <svelte:head><title>Installation — pdfcn / svelte</title></svelte:head>
 
 <DocPage title="Installation" description="Use pdfcn-svelte as a package when you want stable imports, or use the shadcn-style registry when you want the readable component source inside your application.">
-	<Callout title="Current distribution status" tone="warning"><p>This checkout does not assume a published npm release or a hosted registry. Package commands below apply to a packed or workspace-linked build; registry commands use your local development server.</p></Callout>
+	<Callout title="Current distribution status" tone="warning"><p>This checkout does not assume a published package release or a hosted registry. Package commands below apply to a packed or workspace-linked build; registry commands use your local development server.</p></Callout>
 
 	<h2>Package or workspace</h2>
 	<p>For a published or linked package, install the library and your renderer dependencies. Forme dependencies are optional at the package level because Takumi consumers do not use them.</p>

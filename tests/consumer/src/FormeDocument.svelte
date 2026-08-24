@@ -13,7 +13,7 @@
 		<Page size="A4" margin={36}>
 			<Stack gap="sm">
 				<Text variant="xl" weight="bold">Packed Forme import</Text>
-				<Text noMargin>The installed npm tarball rendered this page.</Text>
+				<Text noMargin>The installed package tarball rendered this page.</Text>
 			</Stack>
 		</Page>
 	</Document>

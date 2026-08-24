@@ -22,7 +22,7 @@ to HTML and passes it to the official `takumi-pdf` renderer.
 - A Svelte project configured for TypeScript and Svelte 5 snippets/runes
 
 This repository is currently consumable as a local/workspace package or as
-shadcn-style copied source. No published npm release or hosted registry is
+shadcn-style copied source. No published package release or hosted registry is
 assumed by this documentation.
 
 ## Package-style usage
@@ -30,18 +30,18 @@ assumed by this documentation.
 Build the package from this checkout:
 
 ```sh
-npm install
-npm run package
-npm pack
+pnpm install
+pnpm run package
+pnpm pack
 ```
 
 Install the generated tarball (or link the workspace) in a Svelte 5 project.
 For Forme PDF rendering, install its renderer as well:
 
 ```sh
-npm install @formepdf/svelte @formepdf/core
+pnpm add @formepdf/svelte @formepdf/core
 # or, for Takumi
-npm install takumi-pdf @takumi-rs/helpers
+pnpm add takumi-pdf @takumi-rs/helpers
 ```
 
 Imports are split deliberately:
@@ -113,24 +113,24 @@ when you want to own and edit the generated files.
 Build and serve the registry locally from this checkout:
 
 ```sh
-npm install
-npm run registry:build
-npm run dev -- --host 127.0.0.1
+pnpm install
+pnpm run registry:build
+pnpm run dev -- --host 127.0.0.1
 ```
 
 Then, from a Svelte project that has a valid `components.json`, add an item by
 its local registry URL:
 
 ```sh
-npx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/alert.json
-npx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/invoice-modern.json
+pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/alert.json
+pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/invoice-modern.json
 ```
 
 Replace `forme` with `takumi` to copy that base. Theme presets are registry
 items too:
 
 ```sh
-npx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/theme-modern.json
+pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/theme-modern.json
 ```
 
 Registry-installed files are local source, so import them through the paths
@@ -196,22 +196,22 @@ automatic parity with future upstream pdfcn changes.
 ## Development
 
 ```sh
-npm run check          # Svelte and TypeScript diagnostics
-npm run package        # build the distributable library into dist/
-npm run build          # build the docs site, then package the library
-npm run registry:build # regenerate registry.json and public/r/
-npm run test:primitives # focused primitive and theme contracts
-npm run test:components # render all 24 component families in both bases
-npm run test:render    # real Forme and Takumi PDF smoke tests
-npm run test:documents # render all 20 renderer/template combinations
-npm run test:consumer  # pack/install into a fresh Svelte 5 consumer
-npm run docs:build     # generate preview PDFs and prerender the docs site
-npm run docs:check     # crawl the built docs and verify every showcase route
-npm run validate:api   # package and type-check the public export surface
-npm run validate:pack  # inspect the files that an npm tarball would contain
-npm run validate       # run the complete test, docs, and package gate
-npm run dev            # run the local Vite development server
-npm run preview        # preview a completed Vite build
+pnpm run check           # Svelte and TypeScript diagnostics
+pnpm run package         # build the distributable library into dist/
+pnpm run build           # build the docs site, then package the library
+pnpm run registry:build  # regenerate registry.json and public/r/
+pnpm run test:primitives # focused primitive and theme contracts
+pnpm run test:components # render all 24 component families in both bases
+pnpm run test:render     # real Forme and Takumi PDF smoke tests
+pnpm run test:documents  # render all 20 renderer/template combinations
+pnpm run test:consumer   # pack/install into a fresh Svelte 5 consumer
+pnpm run docs:build      # generate preview PDFs and prerender the docs site
+pnpm run docs:check      # crawl the built docs and verify every showcase route
+pnpm run validate:api    # package and type-check the public export surface
+pnpm run validate:pack   # inspect the package tarball contents
+pnpm run validate        # run the complete test, docs, and package gate
+pnpm run dev             # run the local Vite development server
+pnpm run preview         # preview a completed Vite build
 ```
 
 The docs site includes an exact 24-component catalog, live Takumi previews for
@@ -220,7 +220,7 @@ and additional recipes for statements, proposals, audit packs, certificates,
 product briefs, and inspection reports.
 
 When changing a shared component, keep the Forme and Takumi variants aligned
-where their renderer semantics allow it, then run `npm run validate`.
+where their renderer semantics allow it, then run `pnpm run validate`.
 Regenerate the registry after changing any source copied by registry items.
 
 ## License

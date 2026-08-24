@@ -4,11 +4,11 @@
 	import DocPage from '../../../docs/components/DocPage.svelte';
 
 	const commands = [
-		'npm run registry:build',
-		'npm run dev -- --host 127.0.0.1',
+		'pnpm run registry:build',
+		'pnpm run dev -- --host 127.0.0.1',
 		'',
 		'# In a configured Svelte project:',
-		'npx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/table.json'
+		'pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/table.json'
 	].join('\n');
 </script>
 

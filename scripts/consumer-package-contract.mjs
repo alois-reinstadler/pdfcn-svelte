@@ -9,7 +9,7 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const fixtureRoot = join(repositoryRoot, 'tests', 'consumer');
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 const nodeCommand = process.execPath;
 const startedAt = performance.now();
 const temporaryRoot = await mkdtemp(join(tmpdir(), 'pdfcn-svelte-consumer-'));
@@ -21,9 +21,7 @@ async function run(command, args, options = {}) {
 		cwd: repositoryRoot,
 		env: {
 			...process.env,
-			npm_config_audit: 'false',
-			npm_config_fund: 'false',
-			npm_config_update_notifier: 'false'
+			CI: 'true'
 		},
 		maxBuffer: 20 * 1024 * 1024,
 		...options
@@ -39,11 +37,11 @@ try {
 
 	// Build first so this contract can be run independently of the rest of the
 	// validation pipeline and always exercises the current source tree.
-	await run(npmCommand, ['run', 'package', '--silent']);
-	await run(npmCommand, ['pack', '--silent', '--pack-destination', packRoot]);
+	await run(pnpmCommand, ['--silent', 'run', 'package']);
+	await run(pnpmCommand, ['--silent', 'pack', '--pack-destination', packRoot]);
 
 	const tarballs = (await readdir(packRoot)).filter((name) => name.endsWith('.tgz'));
-	assert.equal(tarballs.length, 1, `expected one npm tarball, found ${tarballs.length}`);
+	assert.equal(tarballs.length, 1, `expected one package tarball, found ${tarballs.length}`);
 	const tarballPath = join(packRoot, tarballs[0]);
 
 	const rootPackage = JSON.parse(
@@ -53,6 +51,7 @@ try {
 		name: 'pdfcn-svelte-package-contract-consumer',
 		private: true,
 		type: 'module',
+		packageManager: rootPackage.packageManager,
 		dependencies: {
 			'pdfcn-svelte': `file:${tarballPath}`,
 			'@formepdf/core': rootPackage.peerDependencies['@formepdf/core'],
@@ -75,7 +74,7 @@ try {
 		cp(fixtureRoot, consumerRoot, { recursive: true })
 	]);
 
-	await run(npmCommand, ['install', '--prefer-offline', '--no-package-lock', '--include=dev'], {
+	await run(pnpmCommand, ['install', '--prefer-offline', '--no-lockfile'], {
 		cwd: consumerRoot
 	});
 

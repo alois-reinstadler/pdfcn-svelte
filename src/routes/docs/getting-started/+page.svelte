@@ -16,8 +16,9 @@ import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/forme';`;
 		'  </Document>',
 		'</PdfcnThemeProvider>'
 	].join('\n');
+	const componentImport = ['im', "port AccountSummary from '$lib/AccountSummary.svelte';"].join('');
 	const endpoint = `import { renderDocument } from '@formepdf/svelte';
-import AccountSummary from '$lib/AccountSummary.svelte';
+${componentImport}
 
 export async function GET() {
   const pdf = await renderDocument(AccountSummary);

@@ -23,10 +23,10 @@
 		`import { ${exportName} } from 'pdfcn-svelte/bases/forme';\nimport { ${exportName} as Takumi${exportName} } from 'pdfcn-svelte/bases/takumi';`
 	);
 	const formeRegistry = $derived(
-		`npx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/${data.component.slug}.json`
+		`pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/${data.component.slug}.json`
 	);
 	const takumiRegistry = $derived(
-		`npx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/${data.component.slug}.json`
+		`pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/${data.component.slug}.json`
 	);
 </script>
 

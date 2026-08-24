@@ -18,7 +18,7 @@
 				<a class="primary" href="/docs/getting-started">Start building <span>→</span></a>
 				<a class="secondary" href="/templates">Explore templates</a>
 			</div>
-			<div class="install"><code>npm install pdfcn-svelte</code><span aria-hidden="true">⌘</span></div>
+			<div class="install"><code>pnpm add pdfcn-svelte</code><span aria-hidden="true">⌘</span></div>
 		</div>
 
 		<div class="studio" aria-label="Illustration of an invoice document in the studio">
