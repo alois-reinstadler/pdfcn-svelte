@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { components, templates } from '../docs/catalog';
 
 	const featured = templates.filter((item) => ['invoice-modern', 'report-financial', 'report-security'].includes(item.slug));
@@ -15,8 +16,8 @@
 			<h1>Documents,<br /><em>composed.</em></h1>
 			<p>Build polished invoices, reports, and data-rich PDFs from a small vocabulary of Svelte components you can actually own.</p>
 			<div class="hero-actions">
-				<a class="primary" href="/docs/getting-started">Start building <span>→</span></a>
-				<a class="secondary" href="/templates">Explore templates</a>
+				<a class="primary" href={`${base}/docs/getting-started`}>Start building <span>→</span></a>
+				<a class="secondary" href={`${base}/templates`}>Explore templates</a>
 			</div>
 			<div class="install"><code>pnpm add pdfcn-svelte</code><span aria-hidden="true">⌘</span></div>
 		</div>
@@ -55,7 +56,7 @@
 			<p>Use composable primitives instead of pixel coordinates and one-off templates. pdfcn-svelte gives your documents the same care as the rest of your product.</p>
 			<div class="principles">
 				<div><span>01</span><strong>Copy-ready</strong><p>Install as a package or bring readable source into your project through the registry.</p></div>
-				<div><span>02</span><strong>Renderer-aware</strong><p>Render real PDF bytes with Forme or Takumi while keeping a browser-visible Takumi preview.</p></div>
+				<div><span>02</span><strong>Renderer-aware</strong><p>Render real PDF bytes with Forme or Takumi, then inspect either output in the browser-native PDF viewer.</p></div>
 				<div><span>03</span><strong>Theme-native</strong><p>Change document character with semantic color, type, spacing, and radius tokens.</p></div>
 				<div><span>04</span><strong>Svelte-first</strong><p>Built around Svelte 5 props, snippets, context, and renderer-specific composition.</p></div>
 			</div>
@@ -66,11 +67,11 @@
 <section class="templates section-wrap">
 	<div class="templates-head">
 		<div><div class="section-label">Made to ship</div><h2>Start with a complete document.</h2></div>
-		<a href="/templates">View all ten templates <span>→</span></a>
+		<a href={`${base}/templates`}>View all ten templates <span>→</span></a>
 	</div>
 	<div class="template-grid">
 		{#each featured as item, index}
-			<a class="template-card" href={`/templates/${item.slug}`}>
+			<a class="template-card" href={`${base}/templates/${item.slug}`}>
 				<div class="paper-preview variant-{index}">
 					<div class="paper-title"><i></i><span></span></div>
 					<div class="paper-lines"><b></b><b></b><b></b></div>
@@ -87,14 +88,14 @@
 	<div class="section-wrap renderer-inner">
 		<div><div class="section-label light">Choose your output</div><h2>One vocabulary.<br />Two foundations.</h2></div>
 		<div class="renderer-cards">
-			<a href="/docs/renderers#forme"><span class="renderer-icon">F</span><div><small>PDF OUTPUT</small><strong>Forme</strong><p>Build a Forme document tree and render real PDF bytes with the official Svelte adapter.</p></div><b>→</b></a>
-			<a href="/docs/renderers#takumi"><span class="renderer-icon acid">T</span><div><small>PDF + LIVE PREVIEW</small><strong>Takumi</strong><p>SSR the Svelte tree to HTML, then render paged PDF bytes through the official takumi-pdf engine.</p></div><b>→</b></a>
+			<a href={`${base}/docs/renderers#forme`}><span class="renderer-icon">F</span><div><small>PDF OUTPUT</small><strong>Forme</strong><p>Build a Forme document tree and render real PDF bytes with the official Svelte adapter.</p></div><b>→</b></a>
+			<a href={`${base}/docs/renderers#takumi`}><span class="renderer-icon acid">T</span><div><small>PDF + LIVE PREVIEW</small><strong>Takumi</strong><p>SSR the Svelte tree to HTML, then render paged PDF bytes through the official takumi-pdf engine.</p></div><b>→</b></a>
 		</div>
 	</div>
 </section>
 
 <footer>
-	<div class="footer-inner"><strong>pdfcn<span>/</span>svelte</strong><p>Composable documents for Svelte 5.</p><nav><a href="/docs">Docs</a><a href="/components">Components</a><a href="/templates">Templates</a></nav></div>
+	<div class="footer-inner"><strong>pdfcn<span>/</span>svelte</strong><p>Composable documents for Svelte 5.</p><nav><a href={`${base}/docs`}>Docs</a><a href={`${base}/components`}>Components</a><a href={`${base}/templates`}>Templates</a></nav></div>
 </footer>
 
 <style>

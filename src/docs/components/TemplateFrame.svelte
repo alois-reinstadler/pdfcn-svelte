@@ -1,19 +1,31 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+
 	let {
 		slug,
 		title,
 		theme = 'professional',
+		renderer = 'takumi',
 		compact = false
-	}: { slug: string; title: string; theme?: string; compact?: boolean } = $props();
+	}: {
+		slug: string;
+		title: string;
+		theme?: string;
+		renderer?: 'forme' | 'takumi';
+		compact?: boolean;
+	} = $props();
+
+	const previewUrl = $derived(`${base}/previews/${renderer}/${theme}/${slug}.pdf`);
 </script>
 
 <div class:compact class="frame">
 	<iframe
-		src={`/preview/takumi/${slug}?theme=${theme}`}
-		title={`${title} live Takumi preview`}
+		src={`${previewUrl}#view=FitH&toolbar=${compact ? 0 : 1}&navpanes=0`}
+		title={`${title} ${renderer === 'forme' ? 'Forme' : 'Takumi'} PDF preview`}
 		loading="lazy"
 		aria-hidden={compact}
 	></iframe>
+	<noscript><a href={previewUrl}>Open the {title} PDF</a></noscript>
 </div>
 
 <style>

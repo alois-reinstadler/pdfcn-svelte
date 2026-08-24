@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import Callout from '../../../docs/components/Callout.svelte';
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
 	import DocPage from '../../../docs/components/DocPage.svelte';
@@ -46,7 +47,7 @@ export async function GET() {
 	<p>The official <code>@formepdf/svelte</code> adapter serializes the component and the Forme core produces the PDF. This is typically done in a SvelteKit server route.</p>
 	<Callout title="Rendering with Takumi"><p>Import <code>renderDocument</code> from <code>pdfcn-svelte/bases/takumi</code> and pass it a Takumi document component. The adapter SSRs the Svelte tree and renders the resulting HTML with <code>takumi-pdf</code>.</p></Callout>
 
-	<div class="next"><small>NEXT</small><a href="/docs/renderers">Understand the renderer tradeoffs <span>→</span></a></div>
+	<div class="next"><small>NEXT</small><a href={`${base}/docs/renderers`}>Understand the renderer tradeoffs <span>→</span></a></div>
 </DocPage>
 
 <style>

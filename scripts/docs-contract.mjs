@@ -7,6 +7,7 @@ import { blockCatalog } from '../tests/render/block-catalog.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const buildDirectory = path.join(root, 'build');
+const configuredBase = process.env.PDFCN_BASE_PATH ?? '';
 const componentSlugs = [
 	'alert',
 	'badge',
@@ -33,6 +34,8 @@ const componentSlugs = [
 	'text',
 	'watermark'
 ];
+const renderers = ['forme', 'takumi'];
+const themes = ['blueprint', 'corporate', 'elegant', 'executive', 'forest', 'minimal', 'modern', 'professional', 'vivid'];
 
 assert.equal(new Set(componentSlugs).size, 24, 'docs contract must cover all 24 component families');
 assert.equal(blockCatalog.length, 10, 'docs contract must cover all 10 document templates');
@@ -49,7 +52,12 @@ async function walk(directory) {
 }
 
 async function assertBuiltPath(pathname) {
-	const relative = pathname === '/' ? 'index.html' : pathname.replace(/^\//, '');
+	const sitePath = configuredBase && pathname.startsWith(`${configuredBase}/`)
+		? pathname.slice(configuredBase.length)
+		: pathname === configuredBase
+			? '/'
+			: pathname;
+	const relative = sitePath === '/' ? 'index.html' : sitePath.replace(/^\//, '');
 	const candidates = path.extname(relative)
 		? [relative]
 		: [`${relative}.html`, path.join(relative, 'index.html'), relative];
@@ -71,6 +79,8 @@ const fixedRoutes = [
 	'/docs',
 	'/docs/getting-started',
 	'/docs/install',
+	'/docs/fonts',
+	'/docs/parity',
 	'/docs/primitives',
 	'/docs/registry',
 	'/docs/renderers',
@@ -82,15 +92,24 @@ for (const slug of componentSlugs) await assertBuiltPath(`/components/${slug}`);
 for (const { slug } of blockCatalog) {
 	await assertBuiltPath(`/templates/${slug}`);
 	await assertBuiltPath(`/preview/takumi/${slug}`);
-	await assertBuiltPath(`/previews/forme/${slug}.pdf`);
-
-	const pdf = await readFile(path.join(buildDirectory, 'previews', 'forme', `${slug}.pdf`));
-	assert.ok(pdf.byteLength > 1_000, `${slug}: docs preview PDF is unexpectedly small`);
-	assert.equal(pdf.subarray(0, 5).toString(), '%PDF-', `${slug}: docs preview is not a PDF`);
+	for (const renderer of renderers) {
+		for (const theme of themes) {
+			const previewPath = `/previews/${renderer}/${theme}/${slug}.pdf`;
+			await assertBuiltPath(previewPath);
+				const pdf = await readFile(path.join(buildDirectory, previewPath));
+				assert.ok(pdf.byteLength > 1_000, `${renderer}/${theme}/${slug}: preview PDF is unexpectedly small`);
+				assert.equal(pdf.subarray(0, 5).toString(), '%PDF-', `${renderer}/${theme}/${slug}: preview is not a PDF`);
+				if (renderer === 'forme') {
+					const source = pdf.toString('latin1');
+					assert.match(source, /\/BaseFont\s*\/Helvetica\b/, `${renderer}/${theme}/${slug}: preview did not use the sans-serif preview font`);
+					assert.doesNotMatch(source, /\/BaseFont\s*\/(?:Times|Courier)/, `${renderer}/${theme}/${slug}: preview fell back to an unintended serif or monospace base font`);
+				}
+			}
+	}
 }
 
 const htmlFiles = (await walk(buildDirectory)).filter((file) => file.endsWith('.html'));
-assert.ok(htmlFiles.length >= 54, `expected at least 54 prerendered HTML pages, received ${htmlFiles.length}`);
+assert.ok(htmlFiles.length >= 57, `expected at least 57 prerendered HTML pages, received ${htmlFiles.length}`);
 
 for (const file of htmlFiles) {
 	const html = await readFile(file, 'utf8');
@@ -107,5 +126,5 @@ for (const file of htmlFiles) {
 }
 
 console.log(
-	`Docs contract: ${htmlFiles.length} prerendered pages, 24 components, 10 live templates, 10 PDF previews, and internal links passed.`
+	`Docs contract: ${htmlFiles.length} prerendered pages, 24 components, 10 live templates, 180 renderer/theme PDF previews, and internal links passed.`
 );

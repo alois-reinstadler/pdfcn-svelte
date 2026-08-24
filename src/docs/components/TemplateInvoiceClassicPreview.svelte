@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import InvoiceClassic from '$lib/bases/takumi/blocks/invoice-classic/invoice-classic.svelte';
 	import type { InvoiceClassicData } from '$lib/bases/takumi/blocks/invoice-classic/invoice-classic.types';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
@@ -13,6 +14,7 @@
 			{ description: 'UI/UX Design', quantity: 1, unitPrice: 8750 },
 			{ description: 'Consulting', quantity: 10, unitPrice: 1500 }
 		],
+		logo: `${base}/favicon.svg`,
 		notes: 'Thank you for your business!',
 		paymentTerms: { dueDate: 'March 17, 2026', gst: 'GSTIN 123456789', method: 'UPI / Card / Bank Transfer' },
 		subtitle: 'Innovative PDF Solutions', summary: { subtotal: 36_250, tax: 2537.5, total: 38_787.5 }

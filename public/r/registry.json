@@ -1,7 +1,7 @@
 {
   "$schema": "https://shadcn-svelte.com/schema/registry.json",
   "name": "pdfcn-svelte",
-  "homepage": "http://localhost:5173",
+  "homepage": "https://alois-reinstadler.github.io/pdfcn-svelte",
   "aliases": {
     "components": "$lib/components",
     "lib": "$lib",

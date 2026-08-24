@@ -42,6 +42,15 @@ const assertPdf = (bytes, base) => {
 	assert.equal(decoder.decode(bytes.subarray(0, 5)), '%PDF-', `${base} output lacked PDF signature`);
 };
 
+const findNode = (node, predicate) => {
+	if (predicate(node)) return node;
+	for (const child of node?.children ?? []) {
+		const match = findNode(child, predicate);
+		if (match) return match;
+	}
+	return undefined;
+};
+
 const server = await createServer({
 	root,
 	server: { middlewareMode: true },
@@ -51,12 +60,16 @@ const server = await createServer({
 try {
 	const [
 		{ default: FormeKitchenSink },
+		{ default: FormeParityRegressions },
+		{ default: FormeUnsupportedImageSource },
 		{ default: TakumiKitchenSink },
 		forme,
 		{ render: renderSvelte },
 		{ renderTakumiDocument }
 	] = await Promise.all([
 		server.ssrLoadModule('/tests/components/forme-kitchen-sink.svelte'),
+		server.ssrLoadModule('/tests/components/forme-parity-regressions.svelte'),
+		server.ssrLoadModule('/tests/components/forme-unsupported-image-source.svelte'),
 		server.ssrLoadModule('/tests/components/takumi-kitchen-sink.svelte'),
 		server.ssrLoadModule('@formepdf/svelte'),
 		server.ssrLoadModule('svelte/server'),
@@ -68,6 +81,33 @@ try {
 	assert.equal(formeDocument.metadata.title, 'Component contract: Forme');
 	assert.ok(formeDocument.children.length >= 1, 'Forme fixture must serialize at least one Page');
 	assertMarkers(formeSource, 'Forme');
+
+	const formeParityDocument = await forme.serialize(FormeParityRegressions);
+	const formeParitySource = JSON.stringify(formeParityDocument);
+	assert.match(formeParitySource, /Checklist spacing contract/);
+	const checklistTextWrapper = findNode(
+		formeParityDocument,
+		(node) =>
+			node?.kind?.type === 'View' &&
+			node.children?.some(
+				(child) => child?.kind?.type === 'Text' && child.kind.content === 'Checklist spacing contract'
+			)
+	);
+	assert.equal(
+		checklistTextWrapper?.style?.margin?.left,
+		8,
+		'Forme checklist text wrapper must retain upstream 8pt left spacing'
+	);
+	assert.match(
+		formeParitySource,
+		/data:image\/png;base64,iVBORw0KGgo/,
+		'Forme image string source must survive serialization'
+	);
+	await assert.rejects(
+		forme.serialize(FormeUnsupportedImageSource),
+		/Forme Svelte renderer accepts only string URLs, file paths, or data URIs/,
+		'Forme structured image sources must fail loudly instead of dropping request options'
+	);
 
 	const { body: takumiHtml } = renderSvelte(TakumiKitchenSink);
 	assert.match(takumiHtml, /data-pdf-document="Component contract: Takumi"/);

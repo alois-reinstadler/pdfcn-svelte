@@ -74,6 +74,10 @@
 				backgroundColor: t.colors.success,
 				borderColor: t.colors.success
 			},
+			checklistTextWrap: {
+				flex: 1,
+				marginLeft: spacing[2]
+			},
 			childrenContainer: {
 				display: 'flex',
 				flexDirection: 'column',
@@ -266,7 +270,7 @@
 						(item.checked ?? true) ? styles.checkBoxChecked : undefined
 					)}
 				/>
-				<View style={styles.itemTextWrap}>
+				<View style={styles.checklistTextWrap}>
 					<PDFText style={styles.itemText}>{item.text}</PDFText>
 				</View>
 			</View>

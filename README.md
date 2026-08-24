@@ -22,8 +22,8 @@ to HTML and passes it to the official `takumi-pdf` renderer.
 - A Svelte project configured for TypeScript and Svelte 5 snippets/runes
 
 This repository is currently consumable as a local/workspace package or as
-shadcn-style copied source. No published package release or hosted registry is
-assumed by this documentation.
+shadcn-style copied source. The generated registry is published with the docs
+at `https://alois-reinstadler.github.io/pdfcn-svelte/r`.
 
 ## Package-style usage
 
@@ -54,6 +54,14 @@ import { modernTheme } from 'pdfcn-svelte/themes';
 import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/forme';
 // import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/takumi';
 ```
+
+## Fonts
+
+Theme presets specify font-family names, but PDF renderers must be given the
+matching font resources. Register Forme fonts with `Font.register()` from
+`@formepdf/svelte`; pass Takumi fonts through `renderDocument` options (for
+example, `fonts` from `googleFonts()` plus an explicit `fontFamilies` fallback
+chain). The docs include complete examples for both renderers.
 
 See [examples/forme-document.svelte](./examples/forme-document.svelte) and
 [examples/takumi-document.svelte](./examples/takumi-document.svelte) for
@@ -110,27 +118,26 @@ including the chosen base's primitives, theme context, types, and component
 dependencies. It is separate from installing the package and is the best fit
 when you want to own and edit the generated files.
 
-Build and serve the registry locally from this checkout:
+Install directly from the GitHub Pages registry:
 
 ```sh
-pnpm install
-pnpm run registry:build
-pnpm run dev -- --host 127.0.0.1
-```
-
-Then, from a Svelte project that has a valid `components.json`, add an item by
-its local registry URL:
-
-```sh
-pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/alert.json
-pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/invoice-modern.json
+pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/alert.json
+pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/invoice-modern.json
 ```
 
 Replace `forme` with `takumi` to copy that base. Theme presets are registry
 items too:
 
 ```sh
-pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/theme-modern.json
+pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/takumi/theme-modern.json
+```
+
+To inspect registry changes locally before pushing:
+
+```sh
+pnpm install
+pnpm run registry:build
+pnpm run dev -- --host 127.0.0.1
 ```
 
 Registry-installed files are local source, so import them through the paths
@@ -188,10 +195,13 @@ Both bases include Classic, Consultant, Corporate, Creative, Minimal, and
 Modern invoice blocks, plus Financial, Marketing, Operations, and Security
 report blocks.
 
-The repository's checked-in component and block inventory is the parity
-contract for this port. The public APIs use Svelte 5 props, snippets, and
-context rather than React conventions, and the project does not claim
-automatic parity with future upstream pdfcn changes.
+The port is audited against `shadcn-labs/pdfcn` commit
+`e7543753c872a173bb6e063819df52f8f83f7402`: 24/24 component families,
+10/10 blocks, and 9/9 theme presets are present in both bases. The public APIs
+use Svelte 5 props, snippets, and context rather than React conventions. Tests
+cover inventory, package/API contracts, real PDF rendering, and exact document
+page counts; they do not claim pixel-golden identity for every prop combination
+or automatic parity with future upstream changes.
 
 ## Development
 
@@ -214,10 +224,10 @@ pnpm run dev             # run the local Vite development server
 pnpm run preview         # preview a completed Vite build
 ```
 
-The docs site includes an exact 24-component catalog, live Takumi previews for
-all ten document templates, downloadable Forme PDFs, renderer and theme guides,
-and additional recipes for statements, proposals, audit packs, certificates,
-product briefs, and inspection reports.
+The docs site includes an exact 24-component catalog and browser-native PDFs for
+all ten document templates across both renderers and all nine themes. It also
+includes renderer, theme, and font guides plus recipes for statements, proposals,
+audit packs, certificates, product briefs, and inspection reports.
 
 When changing a shared component, keep the Forme and Takumi variants aligned
 where their renderer semantics allow it, then run `pnpm run validate`.

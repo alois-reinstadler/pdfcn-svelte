@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
 	import DocPage from '../../../docs/components/DocPage.svelte';
 
@@ -34,6 +35,8 @@ import { forestTheme } from 'pdfcn-svelte/themes';
 	<h2>Apply a preset</h2>
 	<CodeBlock code={usage} label="Document.svelte" />
 	<p>Without a provider, components use <code>professionalTheme</code>. The provider captures its theme at component initialization; if your application needs to swap presets dynamically, recreate the provider subtree.</p>
+
+	<p>Theme tokens only name typefaces; PDF renderers still need the matching font files. See the <a href={`${base}/docs/fonts`}>font registration guide</a> for Forme, Takumi, deterministic self-hosting, and licensing guidance.</p>
 
 	<h2>Semantic colors</h2>
 	<p>Component color props resolve semantic names such as <code>foreground</code>, <code>mutedForeground</code>, <code>primary</code>, <code>success</code>, <code>warning</code>, and <code>destructive</code>. This keeps a document coherent when its preset changes.</p>

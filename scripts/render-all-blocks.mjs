@@ -17,7 +17,7 @@ assert.ok(!(formeOnly && takumiOnly), '--forme-only and --takumi-only are mutual
 
 const runForme = !takumiOnly;
 const runTakumi = !formeOnly;
-const previewDirectory = fileURLToPath(new URL('../public/previews/forme/', import.meta.url));
+const previewDirectory = fileURLToPath(new URL('../public/previews/', import.meta.url));
 const decoder = new TextDecoder();
 const latin1Decoder = new TextDecoder('latin1');
 
@@ -65,13 +65,23 @@ try {
 	if (runForme) await assertCompleteCatalog('forme');
 	if (runTakumi) await assertCompleteCatalog('takumi');
 
-	const [forme, svelteServer, takumiAdapter] = await Promise.all([
+	const [forme, svelteServer, takumiAdapter, themesModule, showcaseModule, previewThemeModule] = await Promise.all([
 		runForme ? server.ssrLoadModule('@formepdf/svelte') : undefined,
 		runTakumi ? server.ssrLoadModule('svelte/server') : undefined,
-		runTakumi ? server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts') : undefined
+		runTakumi ? server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts') : undefined,
+		writePreviews ? server.ssrLoadModule('/src/lib/themes/index.ts') : undefined,
+		writePreviews ? server.ssrLoadModule('/src/docs/template-showcase.ts') : undefined,
+		writePreviews ? server.ssrLoadModule('/src/docs/pdf-preview-theme.ts') : undefined
 	]);
 
-	if (writePreviews && runForme) await mkdir(previewDirectory, { recursive: true });
+	const previewThemes = writePreviews
+		? Object.entries(themesModule.themePresets)
+		: [['default', undefined]];
+	const defaultThemes = new Map(
+		(showcaseModule?.documentTemplates ?? []).map((template) => [template.slug, template.theme])
+	);
+
+	if (writePreviews) await mkdir(previewDirectory, { recursive: true });
 
 	for (const block of blockCatalog) {
 		if (runForme) {
@@ -90,22 +100,39 @@ try {
 				`forme/${block.slug}: unexpected source page count`
 			);
 
-			const pdf = await forme.renderDocument(component);
-			assertPdf(pdf, `forme/${block.slug}`);
-			const renderedPages = countPdfPages(pdf);
-			assert.equal(renderedPages, block.expectedPages, `forme/${block.slug}: unexpected rendered page count`);
 
-			if (writePreviews) {
-				await writeFile(`${previewDirectory}${block.slug}.pdf`, pdf);
+			for (const [themeName, theme] of previewThemes) {
+				const previewTheme = theme
+					? previewThemeModule.createPdfPreviewTheme(theme, 'forme')
+					: undefined;
+				const pdf = await forme.renderDocument(
+					component,
+					previewTheme ? { props: { theme: previewTheme } } : undefined
+				);
+				const label = `forme/${themeName}/${block.slug}`;
+				assertPdf(pdf, label);
+				const renderedPages = countPdfPages(pdf);
+				assert.equal(renderedPages, block.expectedPages, `${label}: unexpected rendered page count`);
+
+				if (writePreviews) {
+					const directory = `${previewDirectory}forme/${themeName}/`;
+					await mkdir(directory, { recursive: true });
+					await writeFile(`${directory}${block.slug}.pdf`, pdf);
+					if (defaultThemes.get(block.slug) === themeName) {
+						await mkdir(`${previewDirectory}forme/`, { recursive: true });
+						await writeFile(`${previewDirectory}forme/${block.slug}.pdf`, pdf);
+					}
+				}
+
+				results.push({
+					renderer: 'forme',
+					theme: themeName,
+					slug: block.slug,
+					bytes: pdf.byteLength,
+					pages: renderedPages,
+					preview: writePreviews ? `public/previews/forme/${themeName}/${block.slug}.pdf` : undefined
+				});
 			}
-
-			results.push({
-				renderer: 'forme',
-				slug: block.slug,
-				bytes: pdf.byteLength,
-				pages: renderedPages,
-				preview: writePreviews ? `public/previews/forme/${block.slug}.pdf` : undefined
-			});
 		}
 
 		if (runTakumi) {
@@ -123,16 +150,31 @@ try {
 				`takumi/${block.slug}: unexpected source page count`
 			);
 
-			const pdf = await takumiAdapter.renderTakumiDocument(component, { margin: 0 });
-			assertPdf(pdf, `takumi/${block.slug}`);
-			const renderedPages = countPdfPages(pdf);
-			assert.equal(
-				renderedPages,
-				block.expectedPages,
-				`takumi/${block.slug}: unexpected rendered page count`
-			);
+			for (const [themeName, theme] of previewThemes) {
+				const previewTheme = theme
+					? previewThemeModule.createPdfPreviewTheme(theme, 'takumi')
+					: undefined;
+				const pdf = await takumiAdapter.renderTakumiDocument(component, {
+					margin: 0,
+					...(previewTheme ? { props: { theme: previewTheme } } : {})
+				});
+				const label = `takumi/${themeName}/${block.slug}`;
+				assertPdf(pdf, label);
+				const renderedPages = countPdfPages(pdf);
+				assert.equal(renderedPages, block.expectedPages, `${label}: unexpected rendered page count`);
 
-			results.push({ renderer: 'takumi', slug: block.slug, bytes: pdf.byteLength, pages: renderedPages });
+				if (writePreviews) {
+					const directory = `${previewDirectory}takumi/${themeName}/`;
+					await mkdir(directory, { recursive: true });
+					await writeFile(`${directory}${block.slug}.pdf`, pdf);
+					if (defaultThemes.get(block.slug) === themeName) {
+						await mkdir(`${previewDirectory}takumi/`, { recursive: true });
+						await writeFile(`${previewDirectory}takumi/${block.slug}.pdf`, pdf);
+					}
+				}
+
+				results.push({ renderer: 'takumi', theme: themeName, slug: block.slug, bytes: pdf.byteLength, pages: renderedPages });
+			}
 		}
 	}
 } finally {
@@ -142,7 +184,20 @@ try {
 if (jsonOutput) {
 	console.log(JSON.stringify(results, null, 2));
 } else {
-	console.table(results.map(({ renderer, slug, bytes, pages }) => ({ renderer, slug, bytes, pages })));
-	const previewMessage = writePreviews && runForme ? ' Canonical Forme previews were refreshed.' : '';
+	if (writePreviews) {
+		console.table(['forme', 'takumi']
+			.filter((renderer) => results.some((result) => result.renderer === renderer))
+			.map((renderer) => {
+				const rendererResults = results.filter((result) => result.renderer === renderer);
+				return {
+					renderer,
+					previews: rendererResults.length,
+					bytes: rendererResults.reduce((total, result) => total + result.bytes, 0)
+				};
+			}));
+	} else {
+		console.table(results.map(({ renderer, theme, slug, bytes, pages }) => ({ renderer, theme, slug, bytes, pages })));
+	}
+	const previewMessage = writePreviews ? ' Browser-native PDF previews were refreshed.' : '';
 	console.log(`Rendered ${results.length} block contracts successfully.${previewMessage}`);
 }

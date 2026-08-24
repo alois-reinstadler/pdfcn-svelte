@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import TemplateFrame from '../../../docs/components/TemplateFrame.svelte';
 	import TemplateInstallCommand from '../../../docs/components/TemplateInstallCommand.svelte';
 	import type { PageData } from './$types';
@@ -10,6 +11,7 @@
 	const themes = ['professional', 'modern', 'corporate', 'minimal', 'elegant', 'executive', 'blueprint', 'forest', 'vivid'] as const;
 	const requestedTheme = $derived(browser ? page.url.searchParams.get('theme') : null);
 	const activeTheme = $derived(themes.includes(requestedTheme as (typeof themes)[number]) ? requestedTheme! : data.template.theme);
+	const pdfUrl = $derived(`${base}/previews/${renderer}/${activeTheme}/${data.template.slug}.pdf`);
 </script>
 
 <svelte:head>
@@ -18,7 +20,7 @@
 </svelte:head>
 
 <nav class="crumbs" aria-label="Breadcrumb">
-	<a href="/templates">Templates</a><span aria-hidden="true">/</span><span>{data.template.name}</span>
+	<a href={`${base}/templates`}>Templates</a><span aria-hidden="true">/</span><span>{data.template.name}</span>
 </nav>
 
 <section class="template-hero">
@@ -27,10 +29,10 @@
 		<h1>{data.template.name}</h1>
 		<p class="lede">{data.template.longDescription}</p>
 		<div class="hero-actions">
-			<a class="primary" href={`/previews/forme/${data.template.slug}.pdf`} download>Download Forme PDF <span>↓</span></a>
-			<a class="secondary" href={`/r/forme/${data.template.slug}.json`}>View registry JSON</a>
+			<a class="primary" href={pdfUrl} target="_blank" rel="noreferrer">Open {renderer === 'forme' ? 'Forme' : 'Takumi'} PDF <span>↗</span></a>
+			<a class="secondary" href={pdfUrl} download>Download PDF <span>↓</span></a>
 		</div>
-		<p class="artifact-note">The PDF link targets the checked-in Forme preview artifact for this template.</p>
+		<p class="artifact-note">The preview is a generated PDF artifact rendered with the selected engine and theme.</p>
 		<div class="best-for">
 			<small>BEST FOR</small>
 			<ul>{#each data.template.bestFor as use}<li>{use}</li>{/each}</ul>
@@ -38,8 +40,15 @@
 	</div>
 
 	<div class="preview-studio">
-		<div class="studio-bar"><span><i></i><i></i><i></i></span><small>LIVE · TAKUMI</small><b>{activeTheme}</b></div>
-		<TemplateFrame slug={data.template.slug} title={data.template.name} theme={activeTheme} />
+		<div class="studio-bar">
+			<span class="window-dots"><i></i><i></i><i></i></span>
+			<div class="preview-renderers" aria-label="PDF preview renderer">
+				<button class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
+				<button class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
+			</div>
+			<a href={pdfUrl} target="_blank" rel="noreferrer">Open PDF ↗</a>
+		</div>
+		<TemplateFrame slug={data.template.slug} title={data.template.name} theme={activeTheme} {renderer} />
 	</div>
 </section>
 
@@ -58,7 +67,7 @@
 		<h2>Choose the pipeline that fits.</h2>
 		<div class="renderers">
 			<article><span class="renderer-mark">F</span><div><small>FORME</small><h3>PDF-native tree</h3><p>Render PDF bytes through <code>@formepdf/svelte</code> and <code>@formepdf/core</code>. Strong pagination semantics make this the direct PDF pipeline.</p><ul><li>Server-side PDF output</li><li>Native document primitives</li><li>Download preview above</li></ul></div></article>
-			<article><span class="renderer-mark alt">T</span><div><small>TAKUMI</small><h3>Inspectable + PDF-ready</h3><p>The live preview above is the browser-visible Takumi component tree. The official adapter renders the same tree to real PDF bytes through <code>takumi-pdf</code>.</p><ul><li>Live HTML/CSS inspection</li><li>SSR-compatible markup</li><li>Official PDF-byte renderer</li></ul></div></article>
+			<article><span class="renderer-mark alt">T</span><div><small>TAKUMI</small><h3>Inspectable + PDF-ready</h3><p>The Takumi preview above is a real PDF rendered from the same SSR-compatible component tree through <code>takumi-pdf</code>.</p><ul><li>HTML/CSS document source</li><li>SSR-compatible markup</li><li>Official PDF-byte renderer</li></ul></div></article>
 		</div>
 
 		<div class="section-label ingredients-label">Document anatomy</div>
@@ -66,26 +75,26 @@
 		<p class="section-lede">Each template is readable Svelte source. Replace its sample data, reorder sections, or pull out the smaller components for a completely different document.</p>
 		<div class="ingredients">
 			{#each data.template.components as component, index}
-				<a href="/components"><span>{String(index + 1).padStart(2, '0')}</span><strong>{component}</strong><b>↗</b></a>
+				<a href={`${base}/components`}><span>{String(index + 1).padStart(2, '0')}</span><strong>{component}</strong><b>↗</b></a>
 			{/each}
 		</div>
 	</div>
 
 	<aside>
 		<div class="aside-card install-card">
-			<small>ADD TO YOUR PROJECT</small><h3>Own the source</h3><p>Run the local registry server, choose a renderer, and install this template plus its dependencies.</p>
+			<small>ADD TO YOUR PROJECT</small><h3>Own the source</h3><p>Choose a renderer and install this template plus its dependencies from the hosted GitHub registry.</p>
 			<div class="renderer-toggle" aria-label="Registry renderer">
 				<button class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
 				<button class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
 			</div>
 			<TemplateInstallCommand slug={data.template.slug} {renderer} />
-			<p class="local-note">Commands use the local docs server at <code>localhost:5173</code>.</p>
+			<p class="local-note"><a href={`${base}/r/${renderer}/${data.template.slug}.json`}>Inspect this registry item ↗</a></p>
 		</div>
 		<div class="aside-card metadata">
 			<small>TEMPLATE METADATA</small>
 			<dl><div><dt>Type</dt><dd>{data.template.kind}</dd></div><div><dt>Default theme</dt><dd>{data.template.theme}</dd></div><div><dt>Renderers</dt><dd>Forme, Takumi</dd></div><div><dt>Source format</dt><dd>Svelte 5</dd></div><div><dt>Registry item</dt><dd>{data.template.slug}</dd></div></dl>
 		</div>
-		<a class="next-card" href="/templates"><small>EXPLORE THE COLLECTION</small><strong>All ten templates <span>→</span></strong></a>
+		<a class="next-card" href={`${base}/templates`}><small>EXPLORE THE COLLECTION</small><strong>All ten templates <span>→</span></strong></a>
 	</aside>
 </section>
 
@@ -108,11 +117,13 @@
 	.best-for ul { display: flex; margin: 0.65rem 0 0; padding: 0; flex-wrap: wrap; gap: 0.4rem; list-style: none; }
 	.best-for li { padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.6rem; }
 	.preview-studio { min-width: 0; padding: 0.7rem; border-radius: 0.8rem; background: #182b22; box-shadow: 0 2rem 4rem rgb(20 38 30 / 0.2); }
-	.studio-bar { display: flex; height: 2.2rem; padding: 0 0.35rem; align-items: center; color: #9baba3; font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.08em; text-transform: uppercase; }
-	.studio-bar > span { display: flex; gap: 0.3rem; }
+	.studio-bar { display: flex; height: 2.6rem; padding: 0 0.35rem; align-items: center; gap: 0.7rem; color: #9baba3; font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.08em; text-transform: uppercase; }
+	.window-dots { display: flex; gap: 0.3rem; }
 	.studio-bar i { width: 0.43rem; height: 0.43rem; border-radius: 50%; background: #41564b; }
-	.studio-bar small { margin: auto; }
-	.studio-bar b { color: var(--acid); font-weight: 600; }
+	.preview-renderers { display: flex; margin: auto; padding: 0.16rem; border: 1px solid #41564b; border-radius: 0.35rem; }
+	.preview-renderers button { padding: 0.3rem 0.52rem; border: 0; border-radius: 0.22rem; background: transparent; color: #9baba3; cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: uppercase; }
+	.preview-renderers button.active { background: var(--acid); color: #182b22; }
+	.studio-bar > a { color: #dbe6df; font-size: 0.48rem; text-decoration: none; }
 	.theme-strip { display: flex; width: min(100% - 2rem, 76rem); margin: 0 auto 7rem; padding: 1rem; align-items: center; gap: 2rem; border: 1px solid var(--line); border-radius: 0.65rem; background: var(--paper); }
 	.theme-strip > div { display: grid; min-width: 8rem; gap: 0.2rem; }
 	.theme-strip small { color: var(--faint); font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -139,6 +150,7 @@
 	.renderer-toggle { display: flex; width: fit-content; margin: 1rem 0 0.55rem; padding: 0.2rem; border: 1px solid var(--line); border-radius: 0.4rem; }
 	.renderer-toggle button { padding: 0.38rem 0.55rem; border: 0; border-radius: 0.25rem; background: transparent; color: var(--muted); cursor: pointer; font-size: 0.58rem; font-weight: 700; }.renderer-toggle button.active { background: var(--ink); color: white; }
 	.install-card .local-note { margin-bottom: 0; color: var(--faint); font-size: 0.53rem; }
+	.install-card .local-note a { color: var(--green-dark); }
 	dl { margin: 0.7rem 0 0; }dl div { display: flex; padding: 0.6rem 0; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: 0.62rem;}dl div:last-child { border: 0; }dt { color: var(--muted); }dd { margin: 0; font-family: var(--font-mono); font-size: 0.55rem; text-transform: capitalize; }
 	.next-card { display: grid; padding: 1.2rem; gap: 0.55rem; border-radius: 0.65rem; background: var(--ink); color: white; text-decoration: none; }.next-card small { color: var(--acid); font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.1em; }.next-card strong { display: flex; justify-content: space-between; font-size: 0.75rem; }
 	@media (max-width: 980px) { .template-hero { grid-template-columns: 0.85fr 1.15fr; gap: 3vw; } .detail-grid { grid-template-columns: 1fr; } aside { grid-template-columns: 1fr 1fr; } .next-card { grid-column: 1 / -1; } }

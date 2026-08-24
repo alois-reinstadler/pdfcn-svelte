@@ -11,6 +11,7 @@ const REGISTRY_PATH = path.join(ROOT, 'registry.json');
 
 const REGISTRY_SCHEMA = 'https://shadcn-svelte.com/schema/registry.json';
 const ITEM_SCHEMA = 'https://shadcn-svelte.com/schema/registry-item.json';
+const REGISTRY_HOMEPAGE = 'https://alois-reinstadler.github.io/pdfcn-svelte';
 const SOURCE_EXTENSIONS = new Set(['.svelte', '.ts', '.js', '.css']);
 
 const CORE_FILES = [
@@ -313,7 +314,7 @@ async function main() {
 	const registry = {
 		$schema: REGISTRY_SCHEMA,
 		name: 'pdfcn-svelte',
-		homepage: 'http://localhost:5173',
+		homepage: REGISTRY_HOMEPAGE,
 		aliases: {
 			components: '$lib/components',
 			lib: '$lib',

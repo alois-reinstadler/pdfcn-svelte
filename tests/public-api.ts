@@ -179,7 +179,21 @@ type TakumiTypes = [
 	Takumi.RenderTakumiDocumentOptions<Record<string, never>>
 ];
 
+const formeImageSource: Forme.PdfImageSrc = 'https://example.com/image.png';
+// @ts-expect-error @formepdf/svelte cannot serialize React's structured request source.
+const unsupportedFormeImageSource: Forme.PdfImageSrc = {
+	uri: 'https://example.com/private.png',
+	method: 'GET'
+};
+const takumiImageSource: Takumi.PdfImageSrc = {
+	uri: 'https://example.com/image.png',
+	method: 'GET'
+};
+
 void (sharedValues satisfies unknown[]);
 void (null as unknown as SharedTypes);
 void (null as unknown as FormeTypes);
 void (null as unknown as TakumiTypes);
+void formeImageSource;
+void unsupportedFormeImageSource;
+void takumiImageSource;

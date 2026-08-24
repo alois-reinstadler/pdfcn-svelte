@@ -8,12 +8,14 @@
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
 	export type PdfImageHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-	export type PdfImageSrc = string | {
-		uri: string;
-		method?: PdfImageHTTPMethod;
-		headers?: Record<string, string>;
-		body?: string;
-	};
+	/**
+	 * A URL, file path, or data URI accepted by `@formepdf/svelte`.
+	 *
+	 * The React renderer's structured request source (`{ uri, method, headers, body }`)
+	 * is not supported by Forme's Svelte serializer. Keeping this type string-only
+	 * prevents request options from being silently discarded.
+	 */
+	export type PdfImageSrc = string;
 	export type PdfImageFit = 'cover' | 'contain' | 'fill' | 'none';
 	export type PdfImageVariant = 'default' | 'full-width' | 'thumbnail' | 'avatar' | 'cover' | 'bordered' | 'rounded';
 
@@ -38,6 +40,14 @@
 	let { src, variant = 'default', width, height, fit, position = '50% 50%', caption,
 		aspectRatio, borderRadius, noWrap = true, style }: PdfImageProps = $props();
 	const theme = usePdfcnTheme();
+	const validatedSrc = $derived.by(() => {
+		if (typeof src !== 'string') {
+			throw new TypeError(
+				'[PdfImage] The Forme Svelte renderer accepts only string URLs, file paths, or data URIs.'
+			);
+		}
+		return src;
+	});
 
 	interface VariantDefaults { width?: number | string; height?: number | string; fit: PdfImageFit; borderRadius?: number }
 	const VARIANT_DEFAULTS: Record<PdfImageVariant, VariantDefaults> = {
@@ -48,7 +58,6 @@
 	};
 	const UNSUPPORTED_FORMATS = new Set(['webp', 'avif', 'heic', 'heif', 'ico']);
 	const detectFormat = (value: PdfImageSrc): string | null => {
-		if (typeof value !== 'string') return null;
 		const dataMatch = value.match(/^data:image\/([a-zA-Z0-9+.-]+)/);
 		if (dataMatch) return dataMatch[1].toLowerCase();
 		return value.split('?')[0].split('.').pop()?.toLowerCase() ?? null;
@@ -59,7 +68,7 @@
 			console.warn(`[PdfImage] Unsupported format "${format}" detected. react-pdf supports: JPEG, PNG, GIF (first frame), BMP, SVG. Convert to PNG or JPEG before use.`);
 		}
 	};
-	$effect.pre(() => warnIfUnsupported(src));
+	$effect.pre(() => warnIfUnsupported(validatedSrc));
 
 	const createImageStyles = (t: PdfcnTheme) => ({
 		caption: { color: t.colors.mutedForeground, fontFamily: t.typography.body.fontFamily, fontSize: t.primitives.typography.xs, marginTop: t.primitives.spacing[1], textAlign: 'center' },
@@ -86,7 +95,7 @@
 
 {#snippet imageContent()}
 	<View style={styles.container}>
-		<Image src={src} style={imageStyle} />
+		<Image src={validatedSrc} style={imageStyle} />
 		{#if caption}<PDFText style={styles.caption}>{caption}</PDFText>{/if}
 	</View>
 {/snippet}

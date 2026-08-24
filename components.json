@@ -11,5 +11,5 @@
 		"lib": "$lib"
 	},
 	"typescript": true,
-	"registry": "http://localhost:5173/r"
+	"registry": "https://alois-reinstadler.github.io/pdfcn-svelte/r"
 }

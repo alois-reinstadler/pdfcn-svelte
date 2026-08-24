@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import DocPage from '../../docs/components/DocPage.svelte';
 	import { components, templates } from '../../docs/catalog';
 </script>
@@ -16,9 +17,9 @@
 
 	<h2>Pick a path</h2>
 	<div class="path-grid">
-		<a href="/docs/getting-started"><span>01</span><strong>Build your first document</strong><p>Choose a base, add a provider, and compose a page.</p><b>Read the guide →</b></a>
-		<a href="/templates"><span>02</span><strong>Start from a template</strong><p>Explore invoices and reports designed to adapt.</p><b>Browse templates →</b></a>
-		<a href="/components"><span>03</span><strong>Explore the vocabulary</strong><p>See all 24 reusable component families.</p><b>View components →</b></a>
+		<a href={`${base}/docs/getting-started`}><span>01</span><strong>Build your first document</strong><p>Choose a base, add a provider, and compose a page.</p><b>Read the guide →</b></a>
+		<a href={`${base}/templates`}><span>02</span><strong>Start from a template</strong><p>Explore invoices and reports designed to adapt.</p><b>Browse templates →</b></a>
+		<a href={`${base}/components`}><span>03</span><strong>Explore the vocabulary</strong><p>See all 24 reusable component families.</p><b>View components →</b></a>
 	</div>
 
 	<h2>How it fits together</h2>

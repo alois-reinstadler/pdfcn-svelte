@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
+	import { registryInstallCommand } from '../../../docs/site';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -22,12 +24,8 @@
 	const packageImport = $derived(
 		`import { ${exportName} } from 'pdfcn-svelte/bases/forme';\nimport { ${exportName} as Takumi${exportName} } from 'pdfcn-svelte/bases/takumi';`
 	);
-	const formeRegistry = $derived(
-		`pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/forme/${data.component.slug}.json`
-	);
-	const takumiRegistry = $derived(
-		`pnpm dlx shadcn-svelte@latest add http://127.0.0.1:5173/r/takumi/${data.component.slug}.json`
-	);
+	const formeRegistry = $derived(registryInstallCommand('forme', data.component.slug));
+	const takumiRegistry = $derived(registryInstallCommand('takumi', data.component.slug));
 </script>
 
 <svelte:head>
@@ -37,7 +35,7 @@
 
 <div class="page-shell">
 	<nav aria-label="Breadcrumb">
-		<a href="/components">Components</a><span>/</span><span>{data.component.name}</span>
+		<a href={`${base}/components`}>Components</a><span>/</span><span>{data.component.name}</span>
 	</nav>
 
 	<header>
@@ -73,7 +71,7 @@
 			<div class="section-copy">
 				<p class="kicker">Source registry</p>
 				<h2>Bring the component into your project.</h2>
-				<p>The local shadcn-svelte registry resolves this item and its source dependencies. Run the registry-enabled docs server, then choose the renderer command that matches your document.</p>
+				<p>The hosted shadcn-svelte registry resolves this item and its source dependencies directly from the project’s GitHub Pages deployment.</p>
 			</div>
 			<div class="commands">
 				<div><span><b>F</b> Forme</span><CodeBlock code={formeRegistry} label="terminal" /></div>
@@ -85,15 +83,15 @@
 			<p class="kicker">Renderer notes</p>
 			<h2>Same document vocabulary. Different output trees.</h2>
 			<div class="renderer-grid">
-				<article><span class="renderer-mark">F</span><div><h3>Forme</h3><p>Use <code>@formepdf/svelte</code> and <code>@formepdf/core</code> to serialize the Svelte document tree and produce PDF bytes with native pagination semantics.</p><a href="/docs/renderers#forme">Forme details <span>→</span></a></div></article>
-				<article><span class="renderer-mark takumi">T</span><div><h3>Takumi</h3><p>Use <code>renderTakumiDocument</code> on the server to SSR the component tree and render real PDF bytes through <code>takumi-pdf</code>.</p><a href="/docs/renderers#takumi">Takumi details <span>→</span></a></div></article>
+				<article><span class="renderer-mark">F</span><div><h3>Forme</h3><p>Use <code>@formepdf/svelte</code> and <code>@formepdf/core</code> to serialize the Svelte document tree and produce PDF bytes with native pagination semantics.</p><a href={`${base}/docs/renderers#forme`}>Forme details <span>→</span></a></div></article>
+				<article><span class="renderer-mark takumi">T</span><div><h3>Takumi</h3><p>Use <code>renderTakumiDocument</code> on the server to SSR the component tree and render real PDF bytes through <code>takumi-pdf</code>.</p><a href={`${base}/docs/renderers#takumi`}>Takumi details <span>→</span></a></div></article>
 			</div>
 		</section>
 	</main>
 
 	<footer>
 		<div><small>KEEP EXPLORING</small><h2>Build the rest of the document.</h2></div>
-		<div class="footer-links"><a href="/components">All components <span>→</span></a><a href="/templates">Document templates <span>→</span></a></div>
+		<div class="footer-links"><a href={`${base}/components`}>All components <span>→</span></a><a href={`${base}/templates`}>Document templates <span>→</span></a></div>
 	</footer>
 </div>
 

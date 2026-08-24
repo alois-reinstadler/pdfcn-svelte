@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { docsNavigation } from '../navigation';
 
 	let open = $state(false);
 	let { pathname = '/docs' }: { pathname?: string } = $props();
-	const active = (href: string) => href === '/docs' ? pathname === href : pathname.startsWith(href);
+	const active = (href: string) => {
+		const resolved = `${base}${href}`;
+		return href === '/docs' ? pathname === resolved : pathname.startsWith(resolved);
+	};
 </script>
 
 <button class="mobile-trigger" onclick={() => (open = !open)} aria-expanded={open}>
@@ -16,7 +20,7 @@
 			<div class="group">
 				<p>{group.label}</p>
 				{#each group.items as item}
-					<a class:active={active(item.href)} href={item.href} onclick={() => (open = false)}>{item.label}</a>
+					<a class:active={active(item.href)} href={`${base}${item.href}`} onclick={() => (open = false)}>{item.label}</a>
 				{/each}
 			</div>
 		{/each}

@@ -6,7 +6,7 @@
 	} from './pdf-primitives';
 
 	interface Props {
-		src: string | { uri: string };
+		src: string;
 		width?: number;
 		height?: number;
 		style?: FormeStyleInput;
@@ -17,7 +17,14 @@
 	let { src, width, height, style, href, alt }: Props = $props();
 
 	const merged = $derived(mergeFormeStyles(style ?? undefined));
-	const resolvedSrc = $derived(typeof src === 'string' ? src : src.uri);
+	const validatedSrc = $derived.by(() => {
+		if (typeof src !== 'string') {
+			throw new TypeError(
+				'[Image] The Forme Svelte renderer accepts only string URLs, file paths, or data URIs.'
+			);
+		}
+		return src;
+	});
 </script>
 
-<FormeImage style={merged as never} src={resolvedSrc} {width} {height} {href} {alt} />
+<FormeImage style={merged as never} src={validatedSrc} {width} {height} {href} {alt} />

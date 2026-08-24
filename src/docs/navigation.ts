@@ -15,6 +15,8 @@ export const docsNavigation: readonly NavGroup[] = [
 		items: [
 			{ label: 'Renderers', href: '/docs/renderers' },
 			{ label: 'Themes', href: '/docs/themes' },
+			{ label: 'Fonts', href: '/docs/fonts' },
+			{ label: 'Parity', href: '/docs/parity' },
 			{ label: 'Registry', href: '/docs/registry' },
 			{ label: 'Primitives', href: '/docs/primitives' }
 		]

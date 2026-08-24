@@ -2,6 +2,14 @@
 	"name": "pdfcn-svelte",
 	"version": "0.1.0",
 	"description": "Beautiful PDF components for Svelte, built on Forme and Takumi. shadcn-svelte conventions, copy, paste, and ship.",
+	"homepage": "https://alois-reinstadler.github.io/pdfcn-svelte",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/alois-reinstadler/pdfcn-svelte.git"
+	},
+	"bugs": {
+		"url": "https://github.com/alois-reinstadler/pdfcn-svelte/issues"
+	},
 	"license": "MIT",
 	"type": "module",
 	"packageManager": "pnpm@11.23.0",
@@ -47,7 +55,7 @@
 		"test:consumer": "node scripts/consumer-package-contract.mjs",
 		"test:render": "node scripts/render-smoke.mjs",
 		"test:documents": "node scripts/render-all-blocks.mjs",
-		"docs:previews": "node scripts/render-all-blocks.mjs --forme-only --write-previews",
+		"docs:previews": "node scripts/render-all-blocks.mjs --write-previews",
 		"docs:build": "pnpm run docs:previews && vite build",
 		"docs:check": "node scripts/docs-contract.mjs",
 		"registry:build": "node scripts/build-registry.mjs",

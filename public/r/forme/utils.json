@@ -30,7 +30,7 @@
       "target": "~/src/lib/bases/forme/lib/G.svelte"
     },
     {
-      "content": "<script lang=\"ts\">\n\timport { Image as FormeImage } from '@formepdf/svelte';\n\timport {\n\t\tmergeFormeStyles,\n\t\ttype FormeStyleInput\n\t} from './pdf-primitives';\n\n\tinterface Props {\n\t\tsrc: string | { uri: string };\n\t\twidth?: number;\n\t\theight?: number;\n\t\tstyle?: FormeStyleInput;\n\t\thref?: string;\n\t\talt?: string;\n\t}\n\n\tlet { src, width, height, style, href, alt }: Props = $props();\n\n\tconst merged = $derived(mergeFormeStyles(style ?? undefined));\n\tconst resolvedSrc = $derived(typeof src === 'string' ? src : src.uri);\n</script>\n\n<FormeImage style={merged as never} src={resolvedSrc} {width} {height} {href} {alt} />\n",
+      "content": "<script lang=\"ts\">\n\timport { Image as FormeImage } from '@formepdf/svelte';\n\timport {\n\t\tmergeFormeStyles,\n\t\ttype FormeStyleInput\n\t} from './pdf-primitives';\n\n\tinterface Props {\n\t\tsrc: string;\n\t\twidth?: number;\n\t\theight?: number;\n\t\tstyle?: FormeStyleInput;\n\t\thref?: string;\n\t\talt?: string;\n\t}\n\n\tlet { src, width, height, style, href, alt }: Props = $props();\n\n\tconst merged = $derived(mergeFormeStyles(style ?? undefined));\n\tconst validatedSrc = $derived.by(() => {\n\t\tif (typeof src !== 'string') {\n\t\t\tthrow new TypeError(\n\t\t\t\t'[Image] The Forme Svelte renderer accepts only string URLs, file paths, or data URIs.'\n\t\t\t);\n\t\t}\n\t\treturn src;\n\t});\n</script>\n\n<FormeImage style={merged as never} src={validatedSrc} {width} {height} {href} {alt} />\n",
       "type": "registry:lib",
       "target": "~/src/lib/bases/forme/lib/Image.svelte"
     },

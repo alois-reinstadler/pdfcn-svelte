@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { componentCategories, components, type CatalogItem } from '../../docs/catalog';
 
 	type Filter = 'All' | CatalogItem['category'];
@@ -42,7 +43,7 @@
 	{#if visible.length}
 		<div class="component-grid">
 			{#each visible as component, index}
-				<a href={`/components/${component.slug}`} class="component-card">
+				<a href={`${base}/components/${component.slug}`} class="component-card">
 					<div class="preview type-{component.category.toLowerCase()}">
 						{#if component.category === 'Content'}
 							<div class="content-demo"><span></span><strong>{component.name}</strong><i></i><i></i></div>
@@ -63,7 +64,7 @@
 	{/if}
 </section>
 
-<footer><div><strong>Need a complete document?</strong><p>Start from one of ten invoice and report templates.</p></div><a href="/templates">Explore templates <span>→</span></a></footer>
+<footer><div><strong>Need a complete document?</strong><p>Start from one of ten invoice and report templates.</p></div><a href={`${base}/templates`}>Explore templates <span>→</span></a></footer>
 
 <style>
 	.catalog-head { padding: 6rem 0 4.5rem; border-bottom: 1px solid var(--line); background-image: radial-gradient(var(--line) 0.7px, transparent 0.7px); background-size: 18px 18px; }

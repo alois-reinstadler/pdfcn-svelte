@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import TemplateFrame from '../../docs/components/TemplateFrame.svelte';
 	import { documentRecipes, documentTemplates } from '../../docs/template-showcase';
 
@@ -22,7 +23,7 @@
 		</div>
 		<div class="intro-copy">
 			<p>Ten complete documents, built from the same composable primitives available in the registry. Open any template to inspect its ingredients, change its theme, or install the source.</p>
-			<div class="legend"><span><i class="live"></i> Live Takumi preview</span><span>Forme + Takumi source</span></div>
+			<div class="legend"><span><i class="live"></i> Browser-native PDF previews</span><span>Forme + Takumi source</span></div>
 		</div>
 	</div>
 </section>
@@ -39,7 +40,7 @@
 
 	<div class="template-grid">
 		{#each visibleTemplates as template}
-			<a class="template-card" href={`/templates/${template.slug}`}>
+			<a class="template-card" href={`${base}/templates/${template.slug}`}>
 				<div class="preview"><TemplateFrame slug={template.slug} title={template.name} theme={template.theme} compact /></div>
 				<div class="card-copy">
 					<div class="card-label"><span>{template.kind}</span><i></i><span>{template.tone}</span></div>
@@ -58,7 +59,7 @@
 			<p class="eyebrow inverse">Go beyond templates</p>
 			<h2 id="possibilities-title">A document system,<br />not an invoice kit.</h2>
 			<p>Use the primitives as a vocabulary. These are a few natural next documents—not locked templates.</p>
-			<a href="/components">Browse all components <span>→</span></a>
+			<a href={`${base}/components`}>Browse all components <span>→</span></a>
 		</div>
 		<div class="recipe-list">
 			{#each documentRecipes as recipe, index}

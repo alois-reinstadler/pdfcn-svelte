@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { registryInstallCommand } from '../site';
+
 	let { slug, renderer = 'takumi' }: { slug: string; renderer?: 'forme' | 'takumi' } = $props();
 	let copied = $state(false);
-	const command = $derived(`pnpm dlx shadcn-svelte@latest add http://localhost:5173/r/${renderer}/${slug}.json`);
+	const command = $derived(registryInstallCommand(renderer, slug));
 
 	async function copy() {
 		if (!globalThis.navigator?.clipboard) return;
