@@ -8,8 +8,8 @@
 
 	export type SignatureVariant = 'single' | 'double' | 'inline';
 	export interface SignatureSigner { label?: string; name?: string; title?: string; date?: string }
-	interface Props { /** @default 'single' */ variant?: SignatureVariant; label?: string; name?: string; title?: string; date?: string; signers?: [SignatureSigner, SignatureSigner]; style?: Style }
-	let { variant = 'single', label = 'Signature', name, title, date, signers, style }: Props = $props();
+	export interface PdfSignatureBlockProps { /** @default 'single' */ variant?: SignatureVariant; label?: string; name?: string; title?: string; date?: string; signers?: [SignatureSigner, SignatureSigner]; style?: Style }
+	let { variant = 'single', label = 'Signature', name, title, date, signers, style }: PdfSignatureBlockProps = $props();
 	const theme = usePdfcnTheme();
 	const createSignatureStyles = (t: PdfcnTheme) => {
 		const { spacing, fontWeights, typography } = t.primitives;

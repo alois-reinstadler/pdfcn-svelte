@@ -15,7 +15,7 @@
 	 * Horizontal rule with optional label, style variants, and spacing presets.
 	 * Props - `spacing` | `variant` | `color` | `thickness` | `label` | `width` | `style`
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface DividerProps extends Omit<PDFComponentProps, 'children'> {
 		/** @default 'md' */
 		spacing?: DividerSpacing;
 		/** @default 'solid' */
@@ -35,7 +35,7 @@
 		label,
 		width,
 		style
-	}: Props = $props();
+	}: DividerProps = $props();
 
 	const theme = usePdfcnTheme();
 

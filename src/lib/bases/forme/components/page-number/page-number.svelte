@@ -14,7 +14,7 @@
 	 * Auto page number rendered with a configurable format string at a or inline position.
 	 * Props - `format` | `align` | `size` | `fixed` | `muted` | `style`
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PageNumberProps extends Omit<PDFComponentProps, 'children'> {
 		/**
 		 * Format string — use `{page}` for current page and `{total}` for total page count.
 		 * @default 'Page {page} of {total}'
@@ -38,7 +38,7 @@
 		fixed = false,
 		muted = true,
 		style
-	}: Props = $props();
+	}: PageNumberProps = $props();
 
 	const theme = usePdfcnTheme();
 

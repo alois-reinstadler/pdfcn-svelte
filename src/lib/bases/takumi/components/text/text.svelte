@@ -14,7 +14,7 @@
 	 * Body text with typography scale, alignment, and decoration options.
 	 * Props - `variant` | `align` | `color` | `weight` | `italic` | `decoration` | `transform` | `noMargin` | `children` | `style`
 	 */
-	interface Props extends PDFComponentProps {
+	export interface TextProps extends PDFComponentProps {
 		/** @default 'base' */
 		variant?: TextVariant;
 		/** @default 'left' */
@@ -42,7 +42,7 @@
 		noMargin = false,
 		children,
 		style
-	}: Props = $props();
+	}: TextProps = $props();
 
 	const theme = usePdfcnTheme();
 

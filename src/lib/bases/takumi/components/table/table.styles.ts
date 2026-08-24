@@ -29,9 +29,9 @@ export const createTableStyles = (t: PdfcnTheme): TableStyles => {
 		},
 		cellBordered: { paddingHorizontal: cellPadH, paddingVertical: cellPadV },
 		cellBorderedBorder: {
-			borderRightColor: borderColor,
-			borderRightStyle: 'solid',
-			borderRightWidth: hairline
+			borderLeftColor: borderColor,
+			borderLeftStyle: 'solid',
+			borderLeftWidth: hairline
 		},
 		cellCompact: {
 			paddingHorizontal: cellPadHCompact,
@@ -45,9 +45,9 @@ export const createTableStyles = (t: PdfcnTheme): TableStyles => {
 			paddingVertical: cellPadV
 		},
 		cellGridBorder: {
-			borderRightColor: borderColor,
-			borderRightStyle: 'solid',
-			borderRightWidth: hairline
+			borderLeftColor: borderColor,
+			borderLeftStyle: 'solid',
+			borderLeftWidth: hairline
 		},
 		cellMinimal: {
 			paddingHorizontal: spacing[2] - 2,

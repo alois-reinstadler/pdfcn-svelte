@@ -29,6 +29,7 @@
 		stripe ||
 			(section?.kind === 'body' && Boolean(table?.zebraStripe) && bodyRowIndex % 2 === 1)
 	);
+	let cellIndex = 0;
 
 	provideTableRowContext({
 		get variant() {
@@ -39,7 +40,8 @@
 		},
 		get footer() {
 			return footer;
-		}
+		},
+		registerCell: () => cellIndex++
 	});
 
 	const rowStyle = $derived.by(() => {

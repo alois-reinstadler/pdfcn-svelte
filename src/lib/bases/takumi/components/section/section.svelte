@@ -14,7 +14,7 @@
 	 * Layout container with spacing, padding, and visual style variants.
 	 * Props - `spacing` | `padding` | `background` | `border` | `variant` | `accentColor` | `noWrap` | `children` | `style`
 	 */
-	interface Props extends PDFComponentProps {
+	export interface SectionProps extends PDFComponentProps {
 		/** @default 'md' */
 		spacing?: SectionSpacing;
 		padding?: SectionPadding;
@@ -38,7 +38,7 @@
 		noWrap = false,
 		children,
 		style
-	}: Props = $props();
+	}: SectionProps = $props();
 
 	const theme = usePdfcnTheme();
 

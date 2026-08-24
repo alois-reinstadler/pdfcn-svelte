@@ -28,7 +28,7 @@
 	 * Props - `items` | `direction` | `divided` | `size` | `labelFlex` | `labelColor` | `valueColor` | `boldValue` | `noWrap` | `dividerColor` | `dividerThickness` | `dividerMargin` | `style`
 	 * @see {@link KeyValueProps}
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface KeyValueProps extends Omit<PDFComponentProps, 'children'> {
 		items: KeyValueEntry[];
 		/** @default 'horizontal' */
 		direction?: KeyValueDirection;
@@ -63,7 +63,7 @@
 		dividerThickness,
 		dividerMargin,
 		style
-	}: Props = $props();
+	}: KeyValueProps = $props();
 
 	const theme = usePdfcnTheme();
 

@@ -1,6 +1,15 @@
 import type { Style } from '$lib/types/pdf-components';
 
+export type { Style } from '$lib/types/pdf-components';
+
 export type StyleInput = Style | false | null | undefined | readonly StyleInput[];
+
+/** Identity style factory matching the upstream Takumi primitive API. */
+export const StyleSheet = {
+	create<T extends Record<string, Style>>(styles: T): T {
+		return styles;
+	}
+};
 
 export const TAKUMI_DOCUMENT_PAGINATION_CONTEXT = Symbol('takumi-document-pagination');
 export const TAKUMI_PAGE_PAGINATION_CONTEXT = Symbol('takumi-page-pagination');
@@ -181,7 +190,18 @@ export const flattenTakumiStyle = (style?: StyleInput): Style | undefined => {
 	if (!style) return undefined;
 	const merged: Style = {};
 	flattenStyleInput(style, merged);
-	return merged;
+	return Object.keys(merged).length > 0 ? merged : undefined;
+};
+
+/**
+ * Upstream-compatible style flattener. Unlike `flattenTakumiStyle`, this
+ * returns browser-ready values with PDF point lengths converted to CSS pixels.
+ * Svelte primitives use `flattenTakumiStyle` internally so conversion still
+ * occurs exactly once at their CSS serialization boundary.
+ */
+export const flatten = (style?: StyleInput): Style | undefined => {
+	const merged = flattenTakumiStyle(style);
+	return merged ? normalizeTakumiStyle(merged) : undefined;
 };
 
 const kebabCase = (property: string): string =>

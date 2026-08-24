@@ -66,6 +66,16 @@ const componentNames = [
 	'Text',
 	'Watermark'
 ] as const;
+const upstreamComponentNames = [
+	'PdfAlert',
+	'PdfCard',
+	'PdfForm',
+	'PdfGraph',
+	'PdfList',
+	'PdfQRCode',
+	'PdfSignatureBlock',
+	'PdfWatermark'
+] as const;
 
 const tablePartNames = ['TableBody', 'TableCell', 'TableFooter', 'TableHeader', 'TableRow'] as const;
 const blockNames = [
@@ -91,11 +101,13 @@ const assertRuntimeSurface = <T extends Record<string, unknown>>(
 };
 
 assertRuntimeSurface(Forme, componentNames);
+assertRuntimeSurface(Forme, upstreamComponentNames);
 assertRuntimeSurface(Forme, tablePartNames);
 assertRuntimeSurface(Forme, blockNames);
 assertRuntimeSurface(Forme, rendererNames);
 assertRuntimeSurface(Forme, svgNames);
 assertRuntimeSurface(Takumi, componentNames);
+assertRuntimeSurface(Takumi, upstreamComponentNames);
 assertRuntimeSurface(Takumi, tablePartNames);
 assertRuntimeSurface(Takumi, blockNames);
 assertRuntimeSurface(Takumi, rendererNames);

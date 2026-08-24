@@ -18,7 +18,7 @@
 	export type PdfImageVariant = 'default' | 'full-width' | 'thumbnail' | 'avatar' | 'cover' | 'bordered' | 'rounded';
 
 	/** Image element with layout presets, caption, and aspect ratio support. */
-	interface Props {
+	export interface PdfImageProps {
 		src: PdfImageSrc;
 		/** @default 'default' */
 		variant?: PdfImageVariant;
@@ -36,7 +36,7 @@
 	}
 
 	let { src, variant = 'default', width, height, fit, position = '50% 50%', caption,
-		aspectRatio, borderRadius, noWrap = true, style }: Props = $props();
+		aspectRatio, borderRadius, noWrap = true, style }: PdfImageProps = $props();
 	const theme = usePdfcnTheme();
 
 	interface VariantDefaults { width?: number | string; height?: number | string; fit: PdfImageFit; borderRadius?: number }

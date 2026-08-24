@@ -15,7 +15,6 @@
 		align,
 		width,
 		variant,
-		_last = false,
 		text,
 		children,
 		style
@@ -23,6 +22,7 @@
 
 	const theme = usePdfcnTheme();
 	const row = useTableRowContext();
+	const cellIndex = row?.registerCell() ?? 0;
 	const styles = $derived(createTableStyles(theme));
 	const effectiveVariant = $derived(variant ?? row?.variant ?? 'line');
 	const effectiveHeader = $derived(row ? row.header : Boolean(header));
@@ -40,8 +40,10 @@
 			width === undefined ? styles.cell : styles.cellFixed,
 			width === undefined ? undefined : { width },
 			cellVariants[effectiveVariant],
-			effectiveVariant === 'grid' && !_last ? styles.cellGridBorder : undefined,
-			effectiveVariant === 'bordered' && !_last ? styles.cellBorderedBorder : undefined,
+			effectiveVariant === 'grid' && cellIndex > 0 ? styles.cellGridBorder : undefined,
+			effectiveVariant === 'bordered' && cellIndex > 0
+				? styles.cellBorderedBorder
+				: undefined,
 			align ? { textAlign: align } : undefined,
 			style
 		]);

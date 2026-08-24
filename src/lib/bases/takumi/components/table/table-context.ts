@@ -20,6 +20,8 @@ export interface TableRowContext {
 	readonly variant: TableVariant;
 	readonly header: boolean;
 	readonly footer: boolean;
+	/** Returns this cell's zero-based position within the row. */
+	registerCell(): number;
 }
 
 export const provideTableContext = (context: TableContext): void => {

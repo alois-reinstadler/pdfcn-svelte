@@ -11,7 +11,7 @@
 	export type PageFooterVariant = 'simple' | 'centered' | 'branded' | 'minimal' | 'three-column' | 'detailed';
 	type FooterContent = string | Snippet;
 	/** Footer row with layout variants, optional sticky or fixed positioning, and contact info support. */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PageFooterProps extends Omit<PDFComponentProps, 'children'> {
 		leftText?: FooterContent; rightText?: FooterContent; centerText?: FooterContent;
 		/** @default 'simple' */ variant?: PageFooterVariant;
 		background?: string; textColor?: string; marginTop?: number; address?: string; phone?: string; email?: string; website?: string;
@@ -20,7 +20,7 @@
 		/** @default 0 */ pagePadding?: number;
 		/** @default true */ noWrap?: boolean;
 	}
-	let { leftText, rightText, centerText, variant = 'simple', background, textColor, marginTop, address, phone, email, website, sticky = false, pagePadding = 0, noWrap = true, style }: Props = $props();
+	let { leftText, rightText, centerText, variant = 'simple', background, textColor, marginTop, address, phone, email, website, sticky = false, pagePadding = 0, noWrap = true, style }: PageFooterProps = $props();
 	const theme = usePdfcnTheme();
 	const createPageFooterStyles = (t: PdfcnTheme) => {
 		const { spacing, fontWeights } = t.primitives; const c = t.colors; const { body } = t.typography;

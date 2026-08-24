@@ -20,7 +20,7 @@
 		| 'two-column';
 
 	/** Header row with layout variants, logo support, and optional fixed positioning. */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PageHeaderProps extends Omit<PDFComponentProps, 'children'> {
 		title: string;
 		subtitle?: string;
 		rightText?: string;
@@ -56,7 +56,7 @@
 		fixed = false,
 		noWrap = true,
 		style
-	}: Props = $props();
+	}: PageHeaderProps = $props();
 
 	const theme = usePdfcnTheme();
 

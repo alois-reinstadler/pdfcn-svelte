@@ -34,8 +34,13 @@ export interface TableCellProps extends PDFComponentProps {
 	align?: 'left' | 'center' | 'right';
 	width?: string | number;
 	variant?: TableVariant;
-	/** Marks the final cell so grid variants do not draw a trailing divider. */
+	/**
+	 * @deprecated Internal dividers are inferred from the cell's row position.
+	 * Retained for source compatibility with upstream pdfcn call sites.
+	 */
 	_last?: boolean;
-	/** Convenience content for cells that only contain text. */
+	/**
+	 * Styled plain-text content. Use `children` for arbitrary component content.
+	 */
 	text?: string | number;
 }

@@ -16,7 +16,7 @@
 	 * Diagonal watermark overlaid across the full page using absolute positioning.
 	 * Props - `text` | `opacity` | `fontSize` | `color` | `angle` | `position` | `fixed` | `style`
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PdfWatermarkProps extends Omit<PDFComponentProps, 'children'> {
 		text: string;
 		opacity?: number;
 		fontSize?: number;
@@ -35,7 +35,7 @@
 		color = 'mutedForeground',
 		angle = -45,
 		style
-	}: Props = $props();
+	}: PdfWatermarkProps = $props();
 
 	const theme = usePdfcnTheme();
 

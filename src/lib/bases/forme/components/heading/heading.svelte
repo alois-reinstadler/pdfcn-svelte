@@ -14,7 +14,7 @@
 	 * Props - `level` | `align` | `color` | `transform` | `weight` | `tracking` | `noMargin` | `keepWithNext` | `children` | `style`
 	 * @see {@link HeadingProps}
 	 */
-	interface Props extends PDFComponentProps {
+	export interface HeadingProps extends PDFComponentProps {
 		/** @default 1 */
 		level?: 1 | 2 | 3 | 4 | 5 | 6;
 		/** @default 'left' */
@@ -41,7 +41,7 @@
 		keepWithNext: _keepWithNext,
 		children,
 		style
-	}: Props = $props();
+	}: HeadingProps = $props();
 
 	const theme = usePdfcnTheme();
 

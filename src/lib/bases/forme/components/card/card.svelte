@@ -9,10 +9,12 @@
 
 	/**
 	 * Bordered content card with optional title and padding presets.
-	 * Props - `title` | `children` | `variant` | `padding` | `wrap` | `style`
+	 * Props - `title` | `text` | `children` | `variant` | `padding` | `wrap` | `style`
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PdfCardProps extends Omit<PDFComponentProps, 'children'> {
 		title?: string;
+		/** Styled plain-text body. Use `children` for arbitrary component content. */
+		text?: string | number;
 		children?: PDFComponentProps['children'];
 		/** @default 'default' */
 		variant?: CardVariant;
@@ -27,12 +29,13 @@
 
 	let {
 		title,
+		text,
 		children,
 		variant = 'default',
 		padding = 'md',
 		wrap = false,
 		style
-	}: Props = $props();
+	}: PdfCardProps = $props();
 
 	const theme = usePdfcnTheme();
 
@@ -94,6 +97,9 @@
 <View wrap={wrap} style={cardStyle}>
 	{#if title}
 		<PDFText style={styles.title}>{title}</PDFText>
+	{/if}
+	{#if text !== undefined}
+		<PDFText style={styles.body}>{text}</PDFText>
 	{/if}
 	{@render children?.()}
 </View>

@@ -1,10 +1,10 @@
 // Components
-export { default as Alert } from './components/alert/alert.svelte';
-export type { AlertVariant } from './components/alert/alert.svelte';
+export { default as Alert, default as PdfAlert } from './components/alert/alert.svelte';
+export type { AlertVariant, PdfAlertProps } from './components/alert/alert.svelte';
 export { default as Badge } from './components/badge/badge.svelte';
-export type { BadgeSize, BadgeVariant } from './components/badge/badge.svelte';
-export { default as Card } from './components/card/card.svelte';
-export type { CardVariant } from './components/card/card.svelte';
+export type { BadgeProps, BadgeSize, BadgeVariant } from './components/badge/badge.svelte';
+export { default as Card, default as PdfCard } from './components/card/card.svelte';
+export type { CardVariant, PdfCardProps } from './components/card/card.svelte';
 export { default as DataTable } from './components/data-table/data-table.svelte';
 export type {
 	DataTableColumn,
@@ -15,7 +15,8 @@ export { default as Divider } from './components/divider/divider.svelte';
 export type {
 	DividerSpacing,
 	DividerThickness,
-	DividerVariant
+	DividerVariant,
+	DividerProps
 } from './components/divider/divider.svelte';
 export { default as Form, default as PdfForm } from './components/form/form.svelte';
 export type {
@@ -37,17 +38,22 @@ export type {
 	GraphWidthOptions
 } from './components/graph/graph.types.js';
 export { default as Heading } from './components/heading/heading.svelte';
-export type { HeadingTracking, HeadingWeight } from './components/heading/heading.svelte';
+export type {
+	HeadingProps,
+	HeadingTracking,
+	HeadingWeight
+} from './components/heading/heading.svelte';
 export { default as KeepTogether } from './components/keep-together/keep-together.svelte';
 export type { KeepTogetherProps } from './components/keep-together/keep-together.svelte';
 export { default as KeyValue } from './components/key-value/key-value.svelte';
 export type {
 	KeyValueDirection,
 	KeyValueEntry,
+	KeyValueProps,
 	KeyValueSize
 } from './components/key-value/key-value.svelte';
 export { default as Link } from './components/link/link.svelte';
-export type { LinkUnderline, LinkVariant } from './components/link/link.svelte';
+export type { LinkProps, LinkUnderline, LinkVariant } from './components/link/link.svelte';
 export { default as List, default as PdfList } from './components/list/list.svelte';
 export type {
 	ListGap,
@@ -61,15 +67,26 @@ export type PageBreakProps = Omit<
 	'children'
 > & { children?: never };
 export { default as PageFooter } from './components/page-footer/page-footer.svelte';
-export type { PageFooterVariant } from './components/page-footer/page-footer.svelte';
+export type {
+	PageFooterProps,
+	PageFooterVariant
+} from './components/page-footer/page-footer.svelte';
 export { default as PageHeader } from './components/page-header/page-header.svelte';
-export type { PageHeaderVariant } from './components/page-header/page-header.svelte';
+export type {
+	PageHeaderProps,
+	PageHeaderVariant
+} from './components/page-header/page-header.svelte';
 export { default as PageNumber } from './components/page-number/page-number.svelte';
-export type { PageNumberAlign, PageNumberSize } from './components/page-number/page-number.svelte';
+export type {
+	PageNumberAlign,
+	PageNumberProps,
+	PageNumberSize
+} from './components/page-number/page-number.svelte';
 export { default as PdfImage } from './components/pdf-image/pdf-image.svelte';
 export type {
 	PdfImageFit,
 	PdfImageHTTPMethod,
+	PdfImageProps,
 	PdfImageSrc,
 	PdfImageVariant
 } from './components/pdf-image/pdf-image.svelte';
@@ -78,6 +95,7 @@ export type { PdfQRCodeProps, QRCodeErrorLevel } from './components/qrcode/qrcod
 export { default as Section } from './components/section/section.svelte';
 export type {
 	SectionPadding,
+	SectionProps,
 	SectionSpacing,
 	SectionVariant
 } from './components/section/section.svelte';
@@ -85,13 +103,18 @@ export {
 	default as PdfSignatureBlock,
 	default as Signature
 } from './components/signature/signature.svelte';
-export type { SignatureSigner, SignatureVariant } from './components/signature/signature.svelte';
+export type {
+	PdfSignatureBlockProps,
+	SignatureSigner,
+	SignatureVariant
+} from './components/signature/signature.svelte';
 export { default as Stack } from './components/stack/stack.svelte';
 export type {
 	StackAlign,
 	StackDirection,
 	StackGap,
-	StackJustify
+	StackJustify,
+	StackProps
 } from './components/stack/stack.svelte';
 export { default as Table } from './components/table/table.svelte';
 export { default as TableBody } from './components/table/table-body.svelte';
@@ -107,9 +130,20 @@ export type {
 	TableVariant
 } from './components/table/table.types.js';
 export { default as Text } from './components/text/text.svelte';
-export type { TextDecoration, TextVariant, TextWeight } from './components/text/text.svelte';
-export { default as Watermark } from './components/watermark/watermark.svelte';
-export type { WatermarkPosition } from './components/watermark/watermark.svelte';
+export type {
+	TextDecoration,
+	TextProps,
+	TextVariant,
+	TextWeight
+} from './components/text/text.svelte';
+export {
+	default as PdfWatermark,
+	default as Watermark
+} from './components/watermark/watermark.svelte';
+export type {
+	PdfWatermarkProps,
+	WatermarkPosition
+} from './components/watermark/watermark.svelte';
 
 // Copy-ready document blocks
 export {
@@ -176,14 +210,17 @@ export { default as PDFText } from './lib/Text.svelte';
 export { default as View } from './lib/View.svelte';
 export {
 	PDF_POINT_TO_CSS_PIXEL,
+	StyleSheet,
 	TAKUMI_DOCUMENT_PAGINATION_CONTEXT,
 	TAKUMI_PAGE_PAGINATION_CONTEXT,
+	flatten,
 	flattenTakumiStyle,
 	normalizeTakumiStyle,
 	pointToCssPixel,
 	styleToCss
 } from './lib/pdf-primitives.js';
 export type {
+	Style,
 	StyleInput,
 	TakumiDocumentPagination,
 	TakumiPagePagination

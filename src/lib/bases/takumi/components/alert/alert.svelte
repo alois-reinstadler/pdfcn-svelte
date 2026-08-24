@@ -12,13 +12,17 @@
 
 	/**
 	 * Alert box with severity variants for info, success, warning, and error states.
-	 * Props - `variant` | `title` | `children` | `showIcon` | `showBorder` | `style`
+	 * Props - `variant` | `title` | `description` | `children` | `showIcon` | `showBorder` | `style`
 	 * @see {@link PdfAlertProps}
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface PdfAlertProps extends Omit<PDFComponentProps, 'children'> {
 		/** @default 'info' */
 		variant?: AlertVariant;
 		title?: string;
+		/**
+		 * Styled plain-text description. Use `children` for arbitrary component content.
+		 */
+		description?: string | number;
 		children?: Snippet;
 		/** @default true */
 		showIcon?: boolean;
@@ -29,11 +33,12 @@
 	let {
 		variant = 'info',
 		title,
+		description,
 		children,
 		showIcon = true,
 		showBorder = true,
 		style
-	}: Props = $props();
+	}: PdfAlertProps = $props();
 
 	const theme = usePdfcnTheme();
 
@@ -116,7 +121,7 @@
 	});
 </script>
 
-{#if title || children}
+{#if title || description !== undefined || children}
 	<View style={containerStyle}>
 		{#if showIcon}
 			<View style={styles.iconContainer}>
@@ -143,6 +148,9 @@
 		<View style={styles.contentContainer}>
 			{#if title}
 				<PDFText style={styles.title}>{title}</PDFText>
+			{/if}
+			{#if description !== undefined}
+				<PDFText style={styles.description}>{description}</PDFText>
 			{/if}
 			{#if children}
 				{@render children()}

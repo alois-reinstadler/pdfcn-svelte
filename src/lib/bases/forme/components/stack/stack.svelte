@@ -12,7 +12,7 @@
 	 * Flex layout container with gap and direction control.
 	 * Props - `gap` | `direction` | `align` | `justify` | `wrap` | `noWrap` | `children` | `style`
 	 */
-	interface Props extends PDFComponentProps {
+	export interface StackProps extends PDFComponentProps {
 		/** @default 'md' */
 		gap?: StackGap;
 		/** @default 'vertical' */
@@ -36,7 +36,7 @@
 		noWrap = false,
 		children,
 		style
-	}: Props = $props();
+	}: StackProps = $props();
 
 	const theme = usePdfcnTheme();
 

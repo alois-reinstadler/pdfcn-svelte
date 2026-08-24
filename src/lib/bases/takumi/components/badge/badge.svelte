@@ -27,7 +27,7 @@
 	 * Props - `label` | `children` | `variant` | `size` | `background` | `color` | `style`
 	 * @see {@link BadgeProps}
 	 */
-	interface Props extends Omit<PDFComponentProps, 'children'> {
+	export interface BadgeProps extends Omit<PDFComponentProps, 'children'> {
 		/** Text to display. Takes precedence over children when both are provided. */
 		label?: string;
 		/** Svelte children as an alternative to the label prop. */
@@ -48,7 +48,7 @@
 		background,
 		color,
 		style
-	}: Props = $props();
+	}: BadgeProps = $props();
 
 	const theme = usePdfcnTheme();
 

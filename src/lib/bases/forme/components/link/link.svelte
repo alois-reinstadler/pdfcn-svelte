@@ -15,7 +15,7 @@
 	 * Props - `href` | `children` | `align` | `color` | `variant` | `underline` | `style`
 	 * @see {@link LinkProps}
 	 */
-	interface Props extends PDFComponentProps {
+	export interface LinkProps extends PDFComponentProps {
 		href: string;
 		/** @default 'left' */
 		align?: 'left' | 'center' | 'right';
@@ -26,7 +26,7 @@
 		underline?: LinkUnderline;
 	}
 
-	let { href, align, color, variant = 'default', underline, children, style }: Props = $props();
+	let { href, align, color, variant = 'default', underline, children, style }: LinkProps = $props();
 
 	const theme = usePdfcnTheme();
 
