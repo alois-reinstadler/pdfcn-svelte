@@ -41,7 +41,10 @@
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"registry:build": "node scripts/build-registry.mjs"
+		"registry:build": "node scripts/build-registry.mjs",
+		"validate:api": "npm run package && node scripts/validate-package-exports.mjs && tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 tests/public-api.ts",
+		"validate:pack": "npm pack --dry-run",
+		"validate": "npm run check && npm run validate:api && npm run validate:pack"
 	},
 	"peerDependencies": {
 		"@formepdf/core": "^0.11.1",
