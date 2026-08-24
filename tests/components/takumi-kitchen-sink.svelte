@@ -15,7 +15,6 @@
 		Link,
 		List,
 		Page,
-		PageBreak,
 		PageFooter,
 		PageHeader,
 		PageNumber,
@@ -52,15 +51,13 @@
 <PdfcnThemeProvider theme={modernTheme}>
 	<Document title="Component contract: Takumi">
 		<Page size="A4" style={{ padding: 24 }}>
-			<Watermark text="CMP:watermark" fontSize={22} opacity={0.06} position="bottom-right" />
+			<Watermark text="CMP:watermark" fontSize={22} opacity={0.06} />
 			<PageHeader
 				title="CMP:page-header"
 				subtitle="Renderer contract"
 				rightText="TAKUMI"
 				variant="two-column"
 			/>
-			<PageBreak />
-			<Text noMargin variant="xs">CMP:page-break</Text>
 			<Heading level={2} transform="uppercase" tracking="wide">CMP:heading</Heading>
 			<Text variant="sm" weight="bold" italic decoration="underline">CMP:text</Text>
 			<Stack direction="horizontal" gap="sm" justify="between" noWrap>
@@ -91,6 +88,8 @@
 				items={[{ text: 'CMP:list', checked: true, children: [{ text: 'Nested item' }] }]}
 			/>
 			<Divider label="CMP:divider" variant="dashed" thickness="medium" spacing="sm" />
+		</Page>
+		<Page size="A4" style={{ padding: 24 }}>
 			<DataTable
 				{columns}
 				data={rows}
@@ -134,6 +133,8 @@
 				showValues
 				smooth
 			/>
+		</Page>
+		<Page size="A4" style={{ padding: 24 }}>
 			<PdfImage src={pixel} variant="rounded" width={16} height={16} caption="CMP:pdf-image" />
 			<QRCode value="https://example.com/CMP:qrcode" size={46} errorLevel="H" caption="CMP:qrcode" />
 			<Signature

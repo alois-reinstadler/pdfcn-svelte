@@ -25,6 +25,7 @@ export async function inspectPdf(pdf) {
 		return {
 			baseFonts: [...source.matchAll(/\/BaseFont\s*\/([^\s/]+)/g)].map((match) => match[1]),
 			pages: document.numPages,
+			pageTexts,
 			text: pageTexts.join(' ').replace(/\s+/g, ' ').trim()
 		};
 	} finally {

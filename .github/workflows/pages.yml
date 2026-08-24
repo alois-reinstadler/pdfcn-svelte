@@ -48,3 +48,26 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Smoke-test deployed docs and registry
+        env:
+          BASE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+
+          for path in \
+            "" \
+            "r/forme/alert.json" \
+            "r/takumi/alert.json" \
+            "r/forme/theme-modern.json"
+          do
+            curl \
+              --fail \
+              --silent \
+              --show-error \
+              --location \
+              --retry 12 \
+              --retry-delay 5 \
+              --retry-all-errors \
+              --output /dev/null \
+              "${BASE_URL%/}/${path}"
+          done

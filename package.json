@@ -92,6 +92,7 @@
 	"devDependencies": {
 		"@formepdf/core": "^0.11.1",
 		"@formepdf/svelte": "^0.11.1",
+		"@napi-rs/canvas": "^0.1.100",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/package": "^2.4.0",

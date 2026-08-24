@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
+import { createCanvas } from '@napi-rs/canvas';
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { createServer } from 'vite';
 
 import { blockCatalog, blockComponentPath } from '../tests/render/block-catalog.mjs';
@@ -19,7 +21,24 @@ assert.ok(!(formeOnly && takumiOnly), '--forme-only and --takumi-only are mutual
 const runForme = !takumiOnly;
 const runTakumi = !formeOnly;
 const previewDirectory = fileURLToPath(new URL('../public/previews/', import.meta.url));
+const galleryPreviewDirectory = `${previewDirectory}gallery/`;
 const decoder = new TextDecoder();
+
+async function writeGalleryPreview(pdf, slug) {
+	const document = await getDocument({ data: pdf.slice(), disableWorker: true }).promise;
+	try {
+		const page = await document.getPage(1);
+		const viewport = page.getViewport({ scale: 1.35 });
+		const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height));
+		const context = canvas.getContext('2d');
+		context.fillStyle = '#ffffff';
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		await page.render({ canvasContext: context, viewport }).promise;
+		await writeFile(`${galleryPreviewDirectory}${slug}.webp`, canvas.toBuffer('image/webp', 82));
+	} finally {
+		await document.destroy();
+	}
+}
 
 async function assertCompleteCatalog(renderer) {
 	const blocksDirectory = fileURLToPath(new URL(`../src/lib/bases/${renderer}/blocks/`, import.meta.url));
@@ -56,6 +75,7 @@ function assertSampleBrandMark(inspection, block, label) {
 
 const server = await createServer({
 	root,
+	optimizeDeps: { noDiscovery: true },
 	server: { middlewareMode: true },
 	appType: 'custom',
 	logLevel: 'error'
@@ -83,7 +103,10 @@ try {
 		(showcaseModule?.documentTemplates ?? []).map((template) => [template.slug, template.theme])
 	);
 
-	if (writePreviews) await mkdir(previewDirectory, { recursive: true });
+	if (writePreviews) {
+		await mkdir(previewDirectory, { recursive: true });
+		await mkdir(galleryPreviewDirectory, { recursive: true });
+	}
 
 	for (const block of blockCatalog) {
 		if (runForme) {
@@ -180,6 +203,7 @@ try {
 					if (defaultThemes.get(block.slug) === themeName) {
 						await mkdir(`${previewDirectory}takumi/`, { recursive: true });
 						await writeFile(`${previewDirectory}takumi/${block.slug}.pdf`, pdf);
+						await writeGalleryPreview(pdf, block.slug);
 					}
 				}
 

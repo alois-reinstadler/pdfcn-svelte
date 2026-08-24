@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import TemplateFrame from '../../docs/components/TemplateFrame.svelte';
 	import { documentRecipes, documentTemplates } from '../../docs/template-showcase';
 
 	type Filter = 'All' | 'Invoice' | 'Report';
@@ -23,7 +22,7 @@
 		</div>
 		<div class="intro-copy">
 			<p>Ten complete documents, built from the same composable primitives available in the registry. Open any template to inspect its ingredients, change its theme, or install the source.</p>
-			<div class="legend"><span><i class="live"></i> Browser-native PDF previews</span><span>Forme + Takumi source</span></div>
+			<div class="legend"><span><i class="live"></i> Instant gallery previews</span><span>Live PDFs inside</span><span>Forme + Takumi source</span></div>
 		</div>
 	</div>
 </section>
@@ -41,7 +40,16 @@
 	<div class="template-grid">
 		{#each visibleTemplates as template}
 			<a class="template-card" href={`${base}/templates/${template.slug}`}>
-				<div class="preview"><TemplateFrame slug={template.slug} title={template.name} theme={template.theme} compact /></div>
+				<div class="preview">
+					<img
+						src={`${base}/previews/gallery/${template.slug}.webp`}
+						alt={`${template.name} PDF preview`}
+						width="804"
+						height="1137"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
 				<div class="card-copy">
 					<div class="card-label"><span>{template.kind}</span><i></i><span>{template.tone}</span></div>
 					<h3>{template.name}<span aria-hidden="true">↗</span></h3>
@@ -94,6 +102,7 @@
 	.template-card:hover { border-color: #b7c8bd; box-shadow: 0 1.4rem 3rem rgb(20 38 30 / 0.11); transform: translateY(-4px); }
 	.template-card:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
 	.preview { overflow: hidden; max-height: 25rem; border-radius: 0.45rem; background: #e3e7e3; }
+	.preview img { display: block; width: 100%; height: auto; aspect-ratio: 210 / 297; object-fit: cover; object-position: top; }
 	.card-copy { padding: 1rem 0.55rem 0.55rem; }
 	.card-label { display: flex; align-items: center; gap: 0.5rem; color: var(--green-dark); font-family: var(--font-mono); font-size: 0.53rem; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
 	.card-label i { width: 2px; height: 2px; border-radius: 50%; background: var(--faint); }

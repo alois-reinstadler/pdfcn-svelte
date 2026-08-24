@@ -92,6 +92,12 @@ for (const slug of componentSlugs) await assertBuiltPath(`/components/${slug}`);
 for (const { slug } of blockCatalog) {
 	await assertBuiltPath(`/templates/${slug}`);
 	await assertBuiltPath(`/preview/takumi/${slug}`);
+	const galleryPreviewPath = `/previews/gallery/${slug}.webp`;
+	await assertBuiltPath(galleryPreviewPath);
+	const galleryPreview = await readFile(path.join(buildDirectory, galleryPreviewPath));
+	assert.ok(galleryPreview.byteLength > 2_000, `${slug}: gallery preview is unexpectedly small`);
+	assert.equal(galleryPreview.subarray(0, 4).toString(), 'RIFF', `${slug}: gallery preview is not WebP`);
+	assert.equal(galleryPreview.subarray(8, 12).toString(), 'WEBP', `${slug}: gallery preview is not WebP`);
 	for (const renderer of renderers) {
 		for (const theme of themes) {
 			const previewPath = `/previews/${renderer}/${theme}/${slug}.pdf`;
@@ -126,5 +132,5 @@ for (const file of htmlFiles) {
 }
 
 console.log(
-	`Docs contract: ${htmlFiles.length} prerendered pages, 24 components, 10 live templates, 180 renderer/theme PDF previews, and internal links passed.`
+	`Docs contract: ${htmlFiles.length} prerendered pages, 24 components, 10 gallery images, 180 renderer/theme PDF previews, and internal links passed.`
 );

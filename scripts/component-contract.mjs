@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 
 import { COMPONENT_FAMILIES, COMPONENT_MARKERS } from '../tests/components/component-catalog.mjs';
+import { inspectPdf } from '../tests/render/pdf-inspection.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const componentsRoot = fileURLToPath(new URL('../src/lib/bases/', import.meta.url));
@@ -28,12 +29,17 @@ for (const base of ['forme', 'takumi']) {
 }
 
 const assertMarkers = (source, base) => {
-	for (const family of COMPONENT_FAMILIES) {
-		assert.ok(
-			source.includes(COMPONENT_MARKERS[family]),
-			`${base} fixture did not serialize the ${family} marker (${COMPONENT_MARKERS[family]})`
-		);
-	}
+	const normalizedSource = source.toLowerCase().replace(/\s+/g, '');
+	const missing = COMPONENT_FAMILIES.filter(
+		(family) => !normalizedSource.includes(COMPONENT_MARKERS[family].toLowerCase())
+	);
+	assert.deepEqual(
+		missing,
+		[],
+		`${base} is missing component markers: ${missing
+			.map((family) => `${family} (${COMPONENT_MARKERS[family]})`)
+			.join(', ')}`
+	);
 };
 
 const assertPdf = (bytes, base) => {
@@ -53,6 +59,7 @@ const findNode = (node, predicate) => {
 
 const server = await createServer({
 	root,
+	optimizeDeps: { noDiscovery: true },
 	server: { middlewareMode: true },
 	appType: 'custom'
 });
@@ -63,6 +70,7 @@ try {
 		{ default: FormeParityRegressions },
 		{ default: FormeUnsupportedImageSource },
 		{ default: TakumiKitchenSink },
+		{ default: TakumiPageBreak },
 		forme,
 		{ render: renderSvelte },
 		{ renderTakumiDocument }
@@ -71,6 +79,7 @@ try {
 		server.ssrLoadModule('/tests/components/forme-parity-regressions.svelte'),
 		server.ssrLoadModule('/tests/components/forme-unsupported-image-source.svelte'),
 		server.ssrLoadModule('/tests/components/takumi-kitchen-sink.svelte'),
+		server.ssrLoadModule('/tests/components/takumi-page-break.svelte'),
 		server.ssrLoadModule('@formepdf/svelte'),
 		server.ssrLoadModule('svelte/server'),
 		server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts')
@@ -110,30 +119,55 @@ try {
 	);
 
 	const { body: takumiHtml } = renderSvelte(TakumiKitchenSink);
+	const { body: takumiPageBreakHtml } = renderSvelte(TakumiPageBreak);
 	assert.match(takumiHtml, /data-pdf-document="Component contract: Takumi"/);
 	assert.match(takumiHtml, /data-pdf-page/);
-	assertMarkers(takumiHtml, 'Takumi');
+	assertMarkers(`${takumiHtml} ${takumiPageBreakHtml}`, 'Takumi');
 
-	const [formePdf, takumiPdf] = await Promise.all([
+	const [formePdf, takumiPdf, takumiPageBreakPdf] = await Promise.all([
 		forme.renderDocument(FormeKitchenSink),
-		renderTakumiDocument(TakumiKitchenSink, { margin: 0, size: 'a4' })
+		renderTakumiDocument(TakumiKitchenSink, { margin: 0, size: 'a4' }),
+		renderTakumiDocument(TakumiPageBreak, { margin: 0, size: 'a4' })
 	]);
 	assertPdf(formePdf, 'Forme');
 	assertPdf(takumiPdf, 'Takumi');
+	assertPdf(takumiPageBreakPdf, 'Takumi PageBreak');
 
-	const formePages = (new TextDecoder('latin1').decode(formePdf).match(/\/Type\s*\/Page\b/g) ?? [])
-		.length;
-	const takumiPages = (new TextDecoder('latin1').decode(takumiPdf).match(/\/Type\s*\/Page\b/g) ?? [])
-		.length;
-	assert.ok(formePages >= 2, `Forme PageBreak contract expected at least 2 pages, received ${formePages}`);
-	assert.ok(takumiPages >= 2, `Takumi PageBreak contract expected at least 2 pages, received ${takumiPages}`);
+	const [formeInspection, takumiInspection, takumiPageBreakInspection] = await Promise.all([
+		inspectPdf(formePdf),
+		inspectPdf(takumiPdf),
+		inspectPdf(takumiPageBreakPdf)
+	]);
+	assertMarkers(formeInspection.text, 'Forme rendered PDF');
+	assertMarkers(
+		`${takumiInspection.text} ${takumiPageBreakInspection.text}`,
+		'Takumi rendered PDF'
+	);
+	assert.ok(
+		formeInspection.pages >= 2,
+		`Forme PageBreak contract expected at least 2 pages, received ${formeInspection.pages}`
+	);
+	assert.equal(
+		takumiInspection.pages,
+		3,
+		`Takumi kitchen-sink contract expected 3 explicit pages, received ${takumiInspection.pages}`
+	);
+	assert.ok(
+		takumiPageBreakInspection.pages >= 2,
+		`Takumi PageBreak contract expected at least 2 pages, received ${takumiPageBreakInspection.pages}`
+	);
+	assert.match(
+		takumiPageBreakInspection.pageTexts.slice(1).join(' '),
+		/CMP:page-break/,
+		'Takumi PageBreak marker must render after the first PDF page'
+	);
 
 	console.log(`Component contract: 24/24 families matched both renderer directories.`);
 	console.log(
-		`Forme: all 24 markers serialized; ${formePdf.byteLength} PDF bytes across ${formePages} pages.`
+		`Forme: all 24 markers found in rendered PDF content; ${formePdf.byteLength} PDF bytes across ${formeInspection.pages} pages.`
 	);
 	console.log(
-		`Takumi: all 24 markers SSR-rendered; ${takumiPdf.byteLength} PDF bytes across ${takumiPages} pages.`
+		`Takumi: all 24 markers found in rendered PDF content; ${takumiPdf.byteLength} kitchen-sink PDF bytes across ${takumiInspection.pages} pages.`
 	);
 } finally {
 	await server.close();

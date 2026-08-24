@@ -10,6 +10,5 @@
 		"ui": "$lib/components/ui",
 		"lib": "$lib"
 	},
-	"typescript": true,
-	"registry": "https://alois-reinstadler.github.io/pdfcn-svelte/r"
+	"typescript": true
 }

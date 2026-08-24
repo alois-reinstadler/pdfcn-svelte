@@ -8,6 +8,7 @@ import { inspectPdf } from '../tests/render/pdf-inspection.mjs';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const server = await createServer({
 	root,
+	optimizeDeps: { noDiscovery: true },
 	server: { middlewareMode: true },
 	appType: 'custom'
 });
