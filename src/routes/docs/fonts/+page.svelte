@@ -17,7 +17,7 @@ Font.register({
 });`;
 
 	const takumi = `import { googleFonts } from '@takumi-rs/helpers';
-import { renderDocument } from 'pdfcn-svelte/bases/takumi';
+import { renderDocument } from 'pdfcn-svelte/bases/takumi/server';
 import Invoice from './Invoice.svelte';
 
 const fonts = await googleFonts(['Inter']);

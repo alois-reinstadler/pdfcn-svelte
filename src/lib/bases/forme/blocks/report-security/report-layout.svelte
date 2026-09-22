@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PAGE_NUMBER, TOTAL_PAGES } from '$lib/bases/forme/lib/pdf-primitives';
 	import Badge from '$lib/bases/forme/components/badge/badge.svelte';
 	import DataTable from '$lib/bases/forme/components/data-table/data-table.svelte';
 	import PdfGraph from '$lib/bases/forme/components/graph/graph.svelte';
@@ -63,7 +64,7 @@
 
 <Document title={`${titlePrefix} ${data.period}`}>
 	<Page size="A4" margin={{ bottom: 48, left: 48, right: 48, top: 56 }}>
-		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText="Page 1 of 1" sticky pagePadding={theme.spacing.page.marginLeft} />
+		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={theme.spacing.page.marginLeft} />
 		<View style={styles.page}>
 			<PageHeader variant="two-column" title={data.title} subtitle={`${titlePrefix} · ${data.subtitle}`} rightText={data.period} rightSubText={`Generated ${data.generatedAt}`} marginBottom={14} />
 			<View style={styles.toolbar}>
@@ -90,7 +91,7 @@
 	</Page>
 
 	<Page size="A4" margin={{ bottom: 48, left: 48, right: 48, top: 56 }}>
-		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText="Page 1 of 1" sticky pagePadding={theme.spacing.page.marginLeft} />
+		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={theme.spacing.page.marginLeft} />
 		<View style={styles.page}>
 			<Section padding="md" noWrap style={{ position: 'relative', top: sectionOffset[graphVariant] }}>
 				<Text variant="sm" transform="uppercase" color="mutedForeground" style={{ position: 'relative', top: titleOffset[graphVariant] }}>Performance Trend</Text>
@@ -111,14 +112,14 @@
 	</Page>
 
 	<Page size="A4" margin={{ bottom: 48, left: 48, right: 48, top: 56 }}>
-		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText="Page 1 of 1" sticky pagePadding={theme.spacing.page.marginLeft} />
+		<PageFooter variant="three-column" leftText="Confidential — Internal Use" centerText="Generated with pdfcn" rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={theme.spacing.page.marginLeft} />
 		<View style={styles.page}>
 			<Section padding="md" variant="card" noWrap>
 				<Text variant="sm" transform="uppercase" color="mutedForeground">Highlights & Risks</Text>
 				<View style={styles.twoColumn}>
 					<View style={styles.col}><PdfList variant="checklist" items={data.highlights.map((item) => ({ checked: true, text: item }))} gap="sm" /></View>
 					<View style={styles.col}><KeyValue size="sm" divided items={[
-						{ key: 'Open Risks', value: `${data.rows.filter((row) => row.risk !== 'Low').length}` },
+						{ key: 'Open Risks', value: `${data.rows.filter((row) => row.risk && row.risk !== 'Low').length}` },
 						{ key: 'On-Track Streams', value: `${data.rows.filter((row) => row.status === 'On Track').length}/${data.rows.length}` },
 						{ key: 'Avg Progress', value: `${averageProgress}%` }
 					]} /></View>

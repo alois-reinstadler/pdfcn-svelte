@@ -191,7 +191,9 @@ try {
 				assertPdf(pdf, label);
 				const inspection = await inspectPdf(pdf);
 				const renderedPages = inspection.pages;
-				assert.equal(renderedPages, block.expectedPages, `${label}: unexpected rendered page count`);
+				// Proportional invoice columns keep the sample readable on one page in every theme.
+				const expectedPages = block.expectedPages;
+				assert.equal(renderedPages, expectedPages, `${label}: unexpected rendered page count`);
 				assert.match(inspection.text, new RegExp(block.identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `${label}: rendered PDF is missing identifying text`);
 				assert.ok(inspection.baseFonts.length > 0, `${label}: rendered PDF contains no font resources`);
 				assertSampleBrandMark(inspection, block, label);

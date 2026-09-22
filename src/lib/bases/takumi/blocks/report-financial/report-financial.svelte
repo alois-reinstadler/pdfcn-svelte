@@ -5,6 +5,7 @@
 	import type { BaseReportData, ReportTemplateProps } from './report.types';
 
 	const sampleFinancialData: BaseReportData = {
+		status: { label: 'Finance: Healthy', tone: 'success' },
 		author: 'Finance Ops',
 		generatedAt: 'February 23, 2026',
 		highlights: [
@@ -42,8 +43,8 @@
 	<ReportLayout
 		{data}
 		titlePrefix="Financial Report"
-		statusLabel="Finance: Healthy"
-		statusTone="success"
+		statusLabel={data.status?.label ?? 'Status not supplied'}
+		statusTone={data.status?.tone ?? 'info'}
 		graphVariant="line"
 		graphTitle="Revenue trajectory"
 		graphSubtitle="Quarterly weighted revenue index"

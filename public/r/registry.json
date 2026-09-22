@@ -1108,6 +1108,11 @@
           "target": "~/src/lib/types/pdf-themes.ts"
         },
         {
+          "path": "src/lib/utils/invoice-format.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/invoice-format.ts"
+        },
+        {
           "path": "src/lib/utils/resolve-color.ts",
           "type": "registry:lib",
           "target": "~/src/lib/utils/resolve-color.ts"
@@ -1313,6 +1318,7 @@
         "./key-value.json",
         "./page-footer.json",
         "./page-header.json",
+        "./page-number.json",
         "./pdf-image.json",
         "./section.json",
         "./table.json",
@@ -1346,6 +1352,7 @@
       "registryDependencies": [
         "./key-value.json",
         "./page-footer.json",
+        "./page-number.json",
         "./section.json",
         "./table.json",
         "./text.json",
@@ -1379,6 +1386,7 @@
         "./key-value.json",
         "./page-footer.json",
         "./page-header.json",
+        "./page-number.json",
         "./pdf-image.json",
         "./table.json",
         "./text.json",
@@ -1412,6 +1420,7 @@
         "./key-value.json",
         "./page-footer.json",
         "./page-header.json",
+        "./page-number.json",
         "./section.json",
         "./table.json",
         "./text.json",
@@ -1445,6 +1454,7 @@
         "./key-value.json",
         "./page-footer.json",
         "./page-header.json",
+        "./page-number.json",
         "./section.json",
         "./table.json",
         "./text.json",
@@ -1478,6 +1488,7 @@
         "./key-value.json",
         "./page-footer.json",
         "./page-header.json",
+        "./page-number.json",
         "./section.json",
         "./table.json",
         "./text.json",
@@ -2167,6 +2178,11 @@
           "target": "~/src/lib/bases/takumi/lib/Rect.svelte"
         },
         {
+          "path": "src/lib/bases/takumi/lib/render-context.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/lib/render-context.ts"
+        },
+        {
           "path": "src/lib/bases/takumi/lib/render-document.ts",
           "type": "registry:lib",
           "target": "~/src/lib/bases/takumi/lib/render-document.ts"
@@ -2197,6 +2213,11 @@
           "target": "~/src/lib/bases/takumi/lib/View.svelte"
         },
         {
+          "path": "src/lib/bases/takumi/server.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/takumi/server.ts"
+        },
+        {
           "path": "src/lib/PdfcnThemeProvider.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/PdfcnThemeProvider.svelte"
@@ -2225,6 +2246,11 @@
           "path": "src/lib/types/pdf-themes.ts",
           "type": "registry:lib",
           "target": "~/src/lib/types/pdf-themes.ts"
+        },
+        {
+          "path": "src/lib/utils/invoice-format.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/invoice-format.ts"
         },
         {
           "path": "src/lib/utils/resolve-color.ts",

@@ -2,7 +2,12 @@
 	import { page } from '$app/state';
 	import { browser } from '$app/environment';
 	import { base } from '$app/paths';
-	import TemplateFrame from '../../../docs/components/TemplateFrame.svelte';
+	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
+ import { packageSource } from '../../../docs/component-examples';
+ import { components } from '../../../docs/catalog';
+ const customSources = import.meta.glob('../../../docs/template-examples/*/*.svelte', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+ const componentHref = (name: string) => `${base}/components/${components.find(c => c.name.replaceAll(' ', '') === name)?.slug ?? name.toLowerCase()}`;
+ import TemplateFrame from '../../../docs/components/TemplateFrame.svelte';
 	import TemplateInstallCommand from '../../../docs/components/TemplateInstallCommand.svelte';
 	import type { PageData } from './$types';
 
@@ -11,7 +16,8 @@
 	const themes = ['professional', 'modern', 'corporate', 'minimal', 'elegant', 'executive', 'blueprint', 'forest', 'vivid'] as const;
 	const requestedTheme = $derived(browser ? page.url.searchParams.get('theme') : null);
 	const activeTheme = $derived(themes.includes(requestedTheme as (typeof themes)[number]) ? requestedTheme! : data.template.theme);
-	const pdfUrl = $derived(`${base}/previews/${renderer}/${activeTheme}/${data.template.slug}.pdf`);
+	const usage = $derived(packageSource(customSources[`../../../docs/template-examples/${renderer}/${data.template.slug}.svelte`]));
+ const pdfUrl = $derived(`${base}/previews/${renderer}/${activeTheme}/${data.template.slug}.pdf`);
 </script>
 
 <svelte:head>
@@ -32,7 +38,7 @@
 			<a class="primary" href={pdfUrl} target="_blank" rel="noreferrer">Open {renderer === 'forme' ? 'Forme' : 'Takumi'} PDF <span>↗</span></a>
 			<a class="secondary" href={pdfUrl} download>Download PDF <span>↓</span></a>
 		</div>
-		<p class="artifact-note">The preview is a generated PDF artifact rendered with the selected engine and theme.</p>
+		<p class="artifact-note">Generated with the selected engine and theme. Previews use built-in sans-serif fallback fonts; register your fonts for production typography.</p>
 		<div class="best-for">
 			<small>BEST FOR</small>
 			<ul>{#each data.template.bestFor as use}<li>{use}</li>{/each}</ul>
@@ -43,8 +49,8 @@
 		<div class="studio-bar">
 			<span class="window-dots"><i></i><i></i><i></i></span>
 			<div class="preview-renderers" aria-label="PDF preview renderer">
-				<button class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
-				<button class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
+				<button aria-pressed={renderer === 'takumi'} class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
+				<button aria-pressed={renderer === 'forme'} class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
 			</div>
 			<a href={pdfUrl} target="_blank" rel="noreferrer">Open PDF ↗</a>
 		</div>
@@ -70,12 +76,21 @@
 			<article><span class="renderer-mark alt">T</span><div><small>TAKUMI</small><h3>Inspectable + PDF-ready</h3><p>The Takumi preview above is a real PDF rendered from the same SSR-compatible component tree through <code>takumi-pdf</code>.</p><ul><li>HTML/CSS document source</li><li>SSR-compatible markup</li><li>Official PDF-byte renderer</li></ul></div></article>
 		</div>
 
-		<div class="section-label ingredients-label">Document anatomy</div>
+		<section class="custom-usage">
+   <div class="section-label ingredients-label">Use your own data</div>
+   <h2>Make this document yours.</h2>
+   <p class="section-lede">Save this complete component as <code>src/lib/Example.svelte</code>, then use the {renderer} endpoint from <a href={`${base}/docs/getting-started`}>Getting started</a>. The imported type describes every required field.</p>
+   <CodeBlock code={usage} label="src/lib/Example.svelte" />
+   <p class="section-lede">{data.template.kind === 'Invoice' ? 'Totals are caller-owned: provide consistent subtotal, tax, and total values. Line amounts use quantity × unit price (or hours × rate). currency and locale control formatting; taxLabel is caller-authored and defaults to neutral Tax. These options do not calculate tax.' : 'Supply summary metrics, rows, series, highlights, and your own status label/tone. Omit status for a neutral unassessed label. series provides the chart values, including the security report. Conclusions are never inferred from arbitrary labels.'}</p>
+   <p class="section-lede">The example uses a built-in font fallback. To use a named theme font, <a href={`${base}/docs/fonts`}>register its resources</a>. Theme context is created with the document: recreate it to switch themes. <a href={`${base}/previews/custom/${renderer}/${data.template.slug}.pdf`} target="_blank" rel="noreferrer">Open the custom-data example PDF</a>.</p>
+   <p class="section-lede">For copied source, first follow the <a href={`${base}/docs/registry`}>registry setup and import guide</a>. Import the component from <code>$lib/bases/{renderer}/blocks/{data.template.slug}/{data.template.slug}.svelte</code>.</p>
+  </section>
+  <div class="section-label ingredients-label">Document anatomy</div>
 		<h2>Composed from primitives.</h2>
 		<p class="section-lede">Each template is readable Svelte source. Replace its sample data, reorder sections, or pull out the smaller components for a completely different document.</p>
 		<div class="ingredients">
 			{#each data.template.components as component, index}
-				<a href={`${base}/components`}><span>{String(index + 1).padStart(2, '0')}</span><strong>{component}</strong><b>↗</b></a>
+				<a href={componentHref(component)}><span>{String(index + 1).padStart(2, '0')}</span><strong>{component}</strong><b>↗</b></a>
 			{/each}
 		</div>
 	</div>
@@ -84,8 +99,8 @@
 		<div class="aside-card install-card">
 			<small>ADD TO YOUR PROJECT</small><h3>Own the source</h3><p>Choose a renderer and install this template plus its dependencies from the hosted GitHub registry.</p>
 			<div class="renderer-toggle" aria-label="Registry renderer">
-				<button class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
-				<button class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
+				<button aria-pressed={renderer === 'takumi'} class:active={renderer === 'takumi'} type="button" onclick={() => (renderer = 'takumi')}>Takumi</button>
+				<button aria-pressed={renderer === 'forme'} class:active={renderer === 'forme'} type="button" onclick={() => (renderer = 'forme')}>Forme</button>
 			</div>
 			<TemplateInstallCommand slug={data.template.slug} {renderer} />
 			<p class="local-note"><a href={`${base}/r/${renderer}/${data.template.slug}.json`}>Inspect this registry item ↗</a></p>
@@ -99,6 +114,11 @@
 </section>
 
 <style>
+ :is(button, a):focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+ .custom-usage a { color: var(--green-dark); }
+	:global(.detail-grid > *), :global(.main-column), :global(.renderers > *), :global(.renderers article > div) { min-width: 0; }
+	:global(pre) { min-width: 0; max-width: 100%; overflow-x: auto; }
+	:global(code) { overflow-wrap: anywhere; }
 	.crumbs { display: flex; width: min(100% - 2rem, 76rem); margin: 0 auto; padding: 1.2rem 0; gap: 0.55rem; color: var(--faint); font-family: var(--font-mono); font-size: 0.58rem; }
 	.crumbs a { color: var(--green-dark); text-decoration: none; }
 	.template-hero { display: grid; width: min(100% - 2rem, 76rem); margin: 0 auto; padding: 3.5rem 0 6rem; grid-template-columns: 0.72fr 1.28fr; align-items: center; gap: 7vw; }
@@ -144,8 +164,8 @@
 	.ingredients { display: grid; margin-top: 1.5rem; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
 	.ingredients a { display: grid; padding: 0.85rem 0; grid-template-columns: 2rem 1fr auto; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }.ingredients a:nth-child(odd) { padding-right: 1rem; }.ingredients a:nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
 	.ingredients span { color: var(--green); font-family: var(--font-mono); font-size: 0.5rem; }.ingredients strong { font-size: 0.72rem; }.ingredients b { color: var(--faint); font-size: 0.65rem; }
-	aside { display: grid; align-content: start; gap: 0.8rem; }
-	.aside-card { padding: 1.2rem; border: 1px solid var(--line); border-radius: 0.65rem; background: var(--paper); }
+	aside { min-width: 0; display: grid; align-content: start; gap: 0.8rem; }
+	.aside-card { min-width: 0; padding: 1.2rem; border: 1px solid var(--line); border-radius: 0.65rem; background: var(--paper); }
 	.aside-card h3 { margin: 0.6rem 0; font-size: 1rem; }.aside-card > p { color: var(--muted); font-size: 0.66rem; line-height: 1.55; }
 	.renderer-toggle { display: flex; width: fit-content; margin: 1rem 0 0.55rem; padding: 0.2rem; border: 1px solid var(--line); border-radius: 0.4rem; }
 	.renderer-toggle button { padding: 0.38rem 0.55rem; border: 0; border-radius: 0.25rem; background: transparent; color: var(--muted); cursor: pointer; font-size: 0.58rem; font-weight: 700; }.renderer-toggle button.active { background: var(--ink); color: white; }

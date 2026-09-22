@@ -32,7 +32,7 @@
 		<div><p class="eyebrow">The collection</p><h2 id="gallery-title">10 production-ready foundations</h2></div>
 		<div class="filters" aria-label="Filter templates">
 			{#each ['All', 'Invoice', 'Report'] as option}
-				<button class:active={filter === option} type="button" onclick={() => (filter = option as Filter)}>{option}</button>
+				<button aria-pressed={filter === option} class:active={filter === option} type="button" onclick={() => (filter = option as Filter)}>{option}</button>
 			{/each}
 		</div>
 	</div>
@@ -81,6 +81,7 @@
 </section>
 
 <style>
+ :is(a, button):focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
 	.intro { border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 52px 52px; }
 	.intro-inner { display: grid; width: min(100% - 2rem, 76rem); min-height: 28rem; margin: 0 auto; padding: 5.5rem 0; grid-template-columns: 1.25fr 0.75fr; align-items: end; gap: 7vw; }
 	.eyebrow { margin: 0 0 1rem; color: var(--green-dark); font-family: var(--font-mono); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }

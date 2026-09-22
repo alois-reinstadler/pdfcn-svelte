@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { getContext, type Snippet } from 'svelte';
 	import PDFText from '$lib/bases/takumi/lib/Text.svelte';
 	import View from '$lib/bases/takumi/lib/View.svelte';
-	import { flattenTakumiStyle } from '$lib/bases/takumi/lib/pdf-primitives';
+	import { flattenTakumiStyle, TAKUMI_FLOW_PAGE_CONTEXT } from '$lib/bases/takumi/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
 	import type { PDFComponentProps, Style } from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
@@ -22,6 +22,7 @@
 	}
 	let { leftText, rightText, centerText, variant = 'simple', background, textColor, marginTop, address, phone, email, website, sticky = false, pagePadding = 0, noWrap = true, style }: PageFooterProps = $props();
 	const theme = usePdfcnTheme();
+	const flowPage = getContext<{ flow: boolean } | undefined>(TAKUMI_FLOW_PAGE_CONTEXT);
 	const createPageFooterStyles = (t: PdfcnTheme) => {
 		const { spacing, fontWeights } = t.primitives; const c = t.colors; const { body } = t.typography;
 		const textBase = { color: c.mutedForeground, fontFamily: body.fontFamily, fontSize: t.primitives.typography.xs, lineHeight: body.lineHeight };
@@ -39,12 +40,13 @@
 	const colorize = (base: Style) => flattenTakumiStyle([base, resolvedTextColor ? { color: resolvedTextColor } : undefined]);
 	const containerStyle = $derived.by(() => {
 		const variantMap = { branded: styles.brandedContainer, centered: styles.centeredContainer, detailed: styles.detailedContainer, minimal: styles.minimalContainer, simple: styles.simpleContainer, 'three-column': styles.threeColumnContainer };
-		const placement = sticky ? { bottom: pagePadding, left: pagePadding, position: 'absolute', right: pagePadding } : { paddingLeft: pagePadding, paddingRight: pagePadding };
+		const placement = flowPage?.flow ? { paddingLeft: pagePadding, paddingRight: pagePadding } : sticky ? { bottom: pagePadding, left: pagePadding, position: 'absolute', right: pagePadding } : { paddingLeft: pagePadding, paddingRight: pagePadding };
 		return flattenTakumiStyle([variantMap[variant], { marginTop: sticky ? 0 : (marginTop ?? theme.spacing.sectionGap) }, background ? { backgroundColor: resolveColor(background, theme.colors) } : undefined, style, placement]);
 	});
 </script>
 
 {#snippet value(content: FooterContent)}{#if typeof content === 'function'}{@render content()}{:else}{content}{/if}{/snippet}
+{#snippet footer()}
 <View wrap={!noWrap} style={containerStyle}>
 	{#if variant === 'branded'}
 		{#if leftText}<PDFText style={colorize(styles.textBranded)}>{@render value(leftText)}</PDFText>{/if}{#if rightText}<PDFText style={colorize(styles.textBrandedRight)}>{@render value(rightText)}</PDFText>{/if}
@@ -65,3 +67,9 @@
 		{#if rightText}<PDFText style={colorize(styles.textRight)}>{@render value(rightText)}</PDFText>{/if}
 	{/if}
 </View>
+{/snippet}
+{#if flowPage?.flow}
+	<template data-pdf-flow-footer>{@render footer()}</template>
+{:else}
+	{@render footer()}
+{/if}

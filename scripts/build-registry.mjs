@@ -20,6 +20,7 @@ const CORE_FILES = [
 	'src/lib/types/pdf-components.ts',
 	'src/lib/types/pdf-themes.ts',
 	'src/lib/utils/resolve-color.ts',
+	'src/lib/utils/invoice-format.ts',
 	'src/lib/themes/primitives.ts',
 	'src/lib/themes/professional.ts'
 ];
@@ -187,6 +188,7 @@ function outputDependency(base, name) {
 
 async function buildUtilsItem(base) {
 	const baseLib = await sourceFiles(path.join(BASES_DIR, base, 'lib'));
+	if (base === 'takumi') baseLib.push(path.join(BASES_DIR, base, 'server.ts'));
 	const coreFiles = [];
 	for (const relativePath of CORE_FILES) {
 		const absolutePath = path.join(ROOT, relativePath);

@@ -4,21 +4,28 @@
 		flattenTakumiStyle,
 		styleToCss,
 		TAKUMI_DOCUMENT_PAGINATION_CONTEXT,
+		TAKUMI_FLOW_PAGE_CONTEXT,
 		TAKUMI_PAGE_PAGINATION_CONTEXT,
 		type StyleInput,
 		type TakumiDocumentPagination,
-		type TakumiPagePagination
+		type TakumiPagePagination,
+		pointToCssPixel
 	} from './pdf-primitives';
 	import type { Style } from '$lib/types/pdf-components';
 
 	interface Props {
+		/** Let content continue onto physical pages; the server adapter reserves margins and repeats the footer. */
+		flow?: boolean;
+		/** Physical-page margins in points, used only with flow. Bottom reserves the repeated footer. */
+		margin?: number | { top?: number; right?: number; bottom?: number; left?: number };
 		size?: string | { width: number; height: number };
 		style?: StyleInput;
 		children?: Snippet;
 	}
 
-	let { size, style, children }: Props = $props();
+	let { size, style, children, flow = false, margin = 48 }: Props = $props();
 
+	setContext(TAKUMI_FLOW_PAGE_CONTEXT, { get flow() { return flow; } });
 	const documentPagination = getContext<TakumiDocumentPagination | undefined>(
 		TAKUMI_DOCUMENT_PAGINATION_CONTEXT
 	);
@@ -63,15 +70,37 @@
 		};
 	});
 
+	const flowGeometry = $derived.by(() => {
+		if (!flow) return undefined;
+		const dimensions = typeof size === 'string' ? pageSizes[size] : size;
+		if (size && !dimensions) throw new Error(`Unsupported flowing page size: ${size}`);
+		const sides = typeof margin === 'number'
+			? { top: margin, right: margin, bottom: margin, left: margin }
+			: { top: 0, right: 0, bottom: 0, left: 0, ...margin };
+		for (const value of Object.values(sides)) {
+			if (!Number.isFinite(value) || value < 0) throw new Error('Flow margins must be finite non-negative numbers in points.');
+		}
+		if (dimensions && (!Number.isFinite(dimensions.width) || !Number.isFinite(dimensions.height)
+			|| Number(dimensions.width) <= 0 || Number(dimensions.height) <= 0)) {
+			throw new Error('Flow page dimensions must be finite positive numbers in points.');
+		}
+		return JSON.stringify({
+			size: typeof size === 'string' ? size.toLowerCase() : dimensions
+				? { width: pointToCssPixel(Number(dimensions.width)), height: pointToCssPixel(Number(dimensions.height)) } : 'a4',
+			margin: Object.fromEntries(Object.entries(sides).map(([side, value]) => [side, pointToCssPixel(value)]))
+		});
+	});
+
 	const css = $derived(
 		styleToCss({
 			display: 'flex',
 			flexDirection: 'column',
 			position: 'relative',
 			...sizeStyle,
-			...flattenTakumiStyle(style)
+			...flattenTakumiStyle(style),
+			...(flow ? { height: undefined, minHeight: undefined, width: undefined, padding: 0, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 } : {})
 		})
 	);
 </script>
 
-<div data-pdf-page style={css}>{@render children?.()}</div>
+<div data-pdf-page data-pdf-flow={flowGeometry} style={css}>{@render children?.()}</div>

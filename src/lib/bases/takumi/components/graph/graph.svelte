@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
+	import { TAKUMI_PDF_RENDER_CONTEXT } from '$lib/bases/takumi/lib/render-context';
 	import { Circle, G, Line, Path, Rect, Svg, SvgText } from '$lib/bases/takumi/lib/pdf-svg';
 	import PDFText from '$lib/bases/takumi/lib/Text.svelte';
 	import View from '$lib/bases/takumi/lib/View.svelte';
@@ -43,6 +45,9 @@
 		style
 	}: GraphProps = $props();
 
+	// Browsers render SVG text natively; Takumi PDF needs the positioned text layer.
+	// Keep this per-render context local so PDF SSR cannot affect browser requests.
+	const pdfRender = getContext<boolean | undefined>(TAKUMI_PDF_RENDER_CONTEXT) === true;
 	const theme = usePdfcnTheme();
 	const styles = $derived(createGraphStyles(theme));
 	const palette = $derived(colors ?? getDefaultPalette(theme));
@@ -228,10 +233,10 @@
 		{#if title}<PDFText style={styles.title}>{title}</PDFText>{/if}
 		{#if subtitle}<PDFText style={styles.subtitle}>{subtitle}</PDFText>{/if}
 		<View style={legend === 'right' ? styles.chartWithRightLegend : undefined}>
-			<View style={{ height, position: 'relative', width }}>{@render chartSvg()}{@render textFallback()}</View>
+			<View style={{ height, position: 'relative', width }}>{@render chartSvg()}{#if pdfRender}{@render textFallback()}{/if}</View>
 			{#if showLegend && legend === 'right'}{@render legendContent('right')}{/if}
 		</View>
-		{#if variant === 'bar'}<View style={{ display: 'flex', flexDirection: 'row', marginLeft: layout.chartX, width: layout.chartW }}>{#each series[0]?.data ?? [] as point, index (`${point.label}-${index}`)}<View style={{ alignItems: 'center', flex: 1 }}><PDFText style={{ fontSize: 7 }}>{truncate(point.label, 10)}</PDFText></View>{/each}</View>{/if}
+		{#if pdfRender && variant === 'bar'}<View style={{ display: 'flex', flexDirection: 'row', marginLeft: layout.chartX, width: layout.chartW }}>{#each series[0]?.data ?? [] as point, index (`${point.label}-${index}`)}<View style={{ alignItems: 'center', flex: 1 }}><PDFText style={{ fontSize: 7 }}>{truncate(point.label, 10)}</PDFText></View>{/each}</View>{/if}
 		{#if showLegend && legend === 'bottom'}{@render legendContent('bottom')}{/if}
 	</View>
 {/snippet}

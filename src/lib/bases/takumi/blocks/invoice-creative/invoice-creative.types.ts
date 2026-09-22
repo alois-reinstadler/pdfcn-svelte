@@ -1,4 +1,6 @@
-export interface InvoiceCreativeData {
+import type { InvoiceFormatOptions } from '$lib/utils/invoice-format';
+
+export interface InvoiceCreativeData extends InvoiceFormatOptions {
 	invoiceNumber: string;
 	invoiceDate: string;
 	dueDate: string;

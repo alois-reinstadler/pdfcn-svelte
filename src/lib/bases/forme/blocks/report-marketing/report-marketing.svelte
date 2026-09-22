@@ -6,6 +6,7 @@
 	import type { BaseReportData } from './report.types';
 
 	const sampleMarketingData: BaseReportData = {
+		status: { label: 'Growth: Strong', tone: 'success' },
 		author: 'Growth Team',
 		generatedAt: 'February 23, 2026',
 		highlights: [
@@ -43,8 +44,8 @@
 	<ReportLayout
 		{data}
 		titlePrefix="Growth Report"
-		statusLabel="Growth: Strong"
-		statusTone="success"
+		statusLabel={data.status?.label ?? 'Status not supplied'}
+		statusTone={data.status?.tone ?? 'info'}
 		graphVariant="bar"
 		graphTitle="Pipeline build by week"
 		graphSubtitle="Demand creation output trend"

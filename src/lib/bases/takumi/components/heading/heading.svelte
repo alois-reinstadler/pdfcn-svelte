@@ -27,6 +27,7 @@
 		tracking?: HeadingTracking;
 		/** @default false */
 		noMargin?: boolean;
+		/** Accepted for API parity; Takumi does not support keep-with-next. Use KeepTogether around a short heading/content group. */
 		keepWithNext?: boolean;
 	}
 
@@ -38,7 +39,6 @@
 		weight,
 		tracking,
 		noMargin,
-		keepWithNext = false,
 		children,
 		style
 	}: HeadingProps = $props();
@@ -153,9 +153,6 @@
 		}
 		if (noMargin) {
 			styleArray.push(styles.noMargin);
-		}
-		if (keepWithNext) {
-			styleArray.push({ breakAfter: 'avoid' });
 		}
 		if (align || color) {
 			const semantic: Record<string, unknown> = {};

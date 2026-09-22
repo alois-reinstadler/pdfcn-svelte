@@ -20,7 +20,7 @@
 			<div class="group">
 				<p>{group.label}</p>
 				{#each group.items as item}
-					<a class:active={active(item.href)} href={`${base}${item.href}`} onclick={() => (open = false)}>{item.label}</a>
+					<a aria-current={active(item.href) ? "page" : undefined} class:active={active(item.href)} href={`${base}${item.href}`} onclick={() => (open = false)}>{item.label}</a>
 				{/each}
 			</div>
 		{/each}
@@ -32,6 +32,7 @@
 </aside>
 
 <style>
+ :is(a, button):focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
 	aside { position: sticky; top: 6rem; align-self: start; }
 	nav { display: grid; gap: 2rem; }
 	.group { display: grid; gap: 0.2rem; }

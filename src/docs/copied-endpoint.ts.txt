@@ -1,0 +1,9 @@
+import { renderDocument } from '$lib/bases/takumi/server';
+import Example from '$lib/Example.svelte';
+
+export async function GET() {
+  const pdf = await renderDocument(Example);
+  return new Response(new Uint8Array(pdf), {
+    headers: { 'content-type': 'application/pdf' }
+  });
+}

@@ -2,161 +2,263 @@
 	import { base } from '$app/paths';
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
 	import { registryInstallCommand } from '../../../docs/site';
+	import { components } from '../../../docs/catalog';
+	import api from '../../../docs/component-api.json';
+	import {
+		exampleSources,
+		exampleComponents,
+		packageSource,
+		componentNotes,
+		pdfOnly
+	} from '../../../docs/component-examples';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-
-	const exportNames: Record<string, string> = {
-		'pdf-image': 'PdfImage',
-		qrcode: 'QRCode'
-	};
-
-	const categoryGuidance = {
-		Content: 'Use it wherever the document needs a clear piece of readable or visual content.',
-		Layout: 'Compose it with other layout components to establish spacing, grouping, and hierarchy.',
-		Data: 'Feed it structured application data and let the active theme handle its presentation.',
-		Document: 'Place it near the page or document boundary where pagination behavior is explicit.'
-	} as const;
-
-	const exportName = $derived(
-		exportNames[data.component.slug] ?? data.component.name.replaceAll(' ', '')
+	let renderer = $state<'takumi' | 'forme'>('takumi');
+	const slug = $derived(data.component.slug);
+	const source = $derived(
+		packageSource(exampleSources[`./examples/${renderer}/${slug}.svelte`])
 	);
-	const packageImport = $derived(
-		`import { ${exportName} } from 'pdfcn-svelte/bases/forme';\nimport { ${exportName} as Takumi${exportName} } from 'pdfcn-svelte/bases/takumi';`
+	const Preview = $derived(
+		exampleComponents[`./examples/takumi/${slug}.svelte`]
 	);
-	const formeRegistry = $derived(registryInstallCommand('forme', data.component.slug));
-	const takumiRegistry = $derived(registryInstallCommand('takumi', data.component.slug));
+	const reference = $derived(
+		(
+			api[renderer] as Record<
+				string,
+				{ declarations: string; defaults: string }
+			>
+		)[slug]
+	);
+	const related = $derived(
+		components
+			.filter((c) => c.category === data.component.category && c.slug !== slug)
+			.slice(0, 4)
+	);
 </script>
 
-<svelte:head>
-	<title>{data.component.name} — pdfcn / svelte</title>
-	<meta name="description" content={`${data.component.description} Available for the Forme and Takumi PDF renderer bases.`} />
-</svelte:head>
+<svelte:head
+	><title>{data.component.name} — pdfcn / svelte</title><meta
+		name="description"
+		content={data.component.description}
+	/></svelte:head
+>
 
-<div class="page-shell">
+<main class="component-doc">
 	<nav aria-label="Breadcrumb">
-		<a href={`${base}/components`}>Components</a><span>/</span><span>{data.component.name}</span>
+		<a href={`${base}/components`}>Components</a> /
+		<span aria-current="page">{data.component.name}</span>
 	</nav>
-
 	<header>
-		<div class="title-wrap">
-			<p>{data.component.category} component</p>
-			<h1>{data.component.name}</h1>
-			<div class="lede">{data.component.description}</div>
-		</div>
-		<div class="availability" aria-label="Renderer availability">
-			<small>Available for</small>
-			{#each data.component.renderers as renderer}
-				<span><i></i>{renderer}</span>
-			{/each}
-		</div>
+		<p class="eyebrow">{data.component.category}</p>
+		<h1>{data.component.name}</h1>
+		<p class="lede">{data.component.description}</p>
 	</header>
-
-	<section class="summary-grid" aria-label="Component overview">
-		<div><small>01 / ROLE</small><h2>{data.component.category}</h2><p>{categoryGuidance[data.component.category]}</p></div>
-		<div><small>02 / THEMING</small><h2>Token-aware</h2><p>It resolves the same pdfcn theme tokens in both renderer implementations.</p></div>
-		<div><small>03 / DELIVERY</small><h2>Package or source</h2><p>Import the library API, or copy its readable Svelte source through the registry.</p></div>
+	<div class="renderer-switch" aria-label="Example renderer">
+		<button
+			type="button"
+			aria-pressed={renderer === 'takumi'}
+			onclick={() => (renderer = 'takumi')}>Takumi</button
+		>
+		<button
+			type="button"
+			aria-pressed={renderer === 'forme'}
+			onclick={() => (renderer = 'forme')}>Forme</button
+		>
+	</div>
+	<section aria-labelledby="usage">
+		<h2 id="usage">Usage</h2>
+		<p>
+			Save this complete file as <code>src/lib/Example.svelte</code>. Follow
+			<a href={`${base}/docs/getting-started`}>Getting started</a> to install this
+			renderer and return its PDF from a server endpoint.
+		</p>
+		<CodeBlock code={source} label="src/lib/Example.svelte" />
 	</section>
-
-	<main>
-		<section class="section-copy">
-			<p class="kicker">Package API</p>
-			<h2>One name, two renderer bases.</h2>
-			<p>Choose one renderer for a document tree and import this component from that base. Forme creates Forme-native document instructions; Takumi creates inspectable HTML/CSS markup that the server adapter passes to <code>takumi-pdf</code>.</p>
-			<CodeBlock code={packageImport} label="imports.ts" />
-			<div class="note"><strong>Keep renderer trees separate.</strong><span>Components share an API vocabulary, but a Forme component should not be nested inside a Takumi document, or vice versa.</span></div>
-		</section>
-
-		<section class="install-section">
-			<div class="section-copy">
-				<p class="kicker">Source registry</p>
-				<h2>Bring the component into your project.</h2>
-				<p>The hosted shadcn-svelte registry resolves this item and its source dependencies directly from the project’s GitHub Pages deployment.</p>
+	<section aria-labelledby="output">
+		<h2 id="output">Output</h2>
+		<p>
+			<a
+				href={`${base}/previews/components/${renderer}/${slug}.pdf`}
+				target="_blank"
+				rel="noreferrer"
+				>Open the generated {renderer === 'forme' ? 'Forme' : 'Takumi'} example PDF</a
+			>. Generated from the exact example above.
+		</p>
+		{#if renderer === 'takumi' && !pdfOnly.has(slug)}
+			<p class="preview-label">
+				Live Takumi HTML preview — PDF pagination and font metrics may differ.
+			</p>
+			<div class="preview-scroll">
+				<div class="preview-canvas"><Preview /></div>
 			</div>
-			<div class="commands">
-				<div><span><b>F</b> Forme</span><CodeBlock code={formeRegistry} label="terminal" /></div>
-				<div><span><b>T</b> Takumi</span><CodeBlock code={takumiRegistry} label="terminal" /></div>
-			</div>
-		</section>
-
-		<section class="renderer-section">
-			<p class="kicker">Renderer notes</p>
-			<h2>Same document vocabulary. Different output trees.</h2>
-			<div class="renderer-grid">
-				<article><span class="renderer-mark">F</span><div><h3>Forme</h3><p>Use <code>@formepdf/svelte</code> and <code>@formepdf/core</code> to serialize the Svelte document tree and produce PDF bytes with native pagination semantics.</p><a href={`${base}/docs/renderers#forme`}>Forme details <span>→</span></a></div></article>
-				<article><span class="renderer-mark takumi">T</span><div><h3>Takumi</h3><p>Use <code>renderTakumiDocument</code> on the server to SSR the component tree and render real PDF bytes through <code>takumi-pdf</code>.</p><a href={`${base}/docs/renderers#takumi`}>Takumi details <span>→</span></a></div></article>
-			</div>
-		</section>
-	</main>
-
+		{:else}
+			<p class="note">
+				Use the generated PDF to inspect physical pages and renderer-specific
+				placement. This component is shown in its full document context.
+			</p>
+		{/if}
+	</section>
+	<section aria-labelledby="notes">
+		<h2 id="notes">Behavior and renderer notes</h2>
+		<p>
+			{componentNotes[slug] ??
+				'The example uses the Professional theme with a built-in renderer font fallback. Named colors resolve against theme tokens. style accepts renderer-native overrides; use the same base for every component in a document tree.'}
+		</p>
+		<p>
+			Theme context is set when the document is created. Recreate the document
+			to switch its theme. Numeric dimensions and spacing use points; browser
+			CSS is converted to pixels by the Takumi wrappers.
+		</p>
+		<a href={`${base}/docs/renderers`}>Renderer tradeoffs and pagination</a>
+	</section>
+	<section aria-labelledby="api">
+		<h2 id="api">Props and variants</h2>
+		<p>
+			These definitions come directly from the selected renderer source. A <code
+				>?</code
+			>
+			marks an optional prop. <code>Snippet</code> is Svelte content;
+			<code>Style</code>
+			is a renderer-native style object. Internal props prefixed with
+			<code>_</code> should usually be left to the component.
+		</p>
+		<CodeBlock
+			label="Shared base types"
+			code={'type Style = Record<string, unknown>;\ninterface PDFComponentProps { style?: Style; children?: Snippet; }'}
+		/>
+		<CodeBlock
+			label={`${renderer} public types`}
+			code={reference.declarations}
+		/>
+		<details>
+			<summary>Runtime defaults</summary>
+			<p>
+				Defaults below are extracted from the actual props declaration. Props
+				without an initializer defer to theme or variant styles, or remain
+				unset. Renderer notes above identify accepted props that have no effect.
+			</p>
+			<CodeBlock label="Defaults from source" code={reference.defaults} />
+		</details>
+	</section>
+	<section aria-labelledby="install">
+		<h2 id="install">Copy the source</h2>
+		<p>
+			First <a href={`${base}/docs/registry`}>initialize components.json</a> in your
+			SvelteKit project, then install this item. Copied source uses local imports
+			rather than package names.
+		</p>
+		<CodeBlock label="terminal" code={registryInstallCommand(renderer, slug)} />
+		<CodeBlock
+			label="Local component import"
+			code={`import Component from '$lib/bases/${renderer}/components/${slug}/${slug}.svelte';`}
+		/>
+	</section>
 	<footer>
-		<div><small>KEEP EXPLORING</small><h2>Build the rest of the document.</h2></div>
-		<div class="footer-links"><a href={`${base}/components`}>All components <span>→</span></a><a href={`${base}/templates`}>Document templates <span>→</span></a></div>
+		<h2>Related components</h2>
+		<nav aria-label="Related components">
+			{#each related as item (item.slug)}<a
+					href={`${base}/components/${item.slug}`}>{item.name}</a
+				>{/each}<a href={`${base}/templates`}>Document templates</a>
+		</nav>
 	</footer>
-</div>
+</main>
 
 <style>
-	.page-shell { width: min(100% - 2rem, 76rem); margin: 0 auto; padding: 1.6rem 0 6rem; }
-	nav { display: flex; align-items: center; gap: 0.55rem; color: var(--faint); font-family: var(--font-mono); font-size: 0.59rem; letter-spacing: 0.04em; }
-	nav a { color: var(--green-dark); font-weight: 700; text-decoration: none; }
-	header { display: grid; padding: clamp(4rem, 9vw, 7.5rem) 0 3.5rem; align-items: end; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; }
-	.title-wrap > p, .kicker { margin: 0 0 0.9rem; color: var(--green-dark); font-family: var(--font-mono); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
-	h1 { margin: 0; font-family: var(--font-display); font-size: clamp(4rem, 10vw, 7.6rem); font-weight: 780; letter-spacing: -0.085em; line-height: 0.85; }
-	.lede { max-width: 42rem; margin-top: 1.75rem; color: var(--copy); font-family: Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.35rem); font-style: italic; line-height: 1.55; }
-	.availability { display: grid; min-width: 10rem; padding: 1rem; gap: 0.65rem; border: 1px solid var(--line); border-radius: 0.55rem; background: var(--paper); }
-	.availability small { color: var(--faint); font-family: var(--font-mono); font-size: 0.52rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-	.availability span { display: flex; align-items: center; gap: 0.45rem; font-size: 0.68rem; font-weight: 700; text-transform: capitalize; }
-	.availability i { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-wash); }
-	.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 0.65rem; background: var(--paper); }
-	.summary-grid > div { min-height: 10.5rem; padding: 1.2rem; border-right: 1px solid var(--line); }
-	.summary-grid > div:last-child { border: 0; }
-	.summary-grid small { color: var(--green-dark); font-family: var(--font-mono); font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; }
-	.summary-grid h2 { margin: 2rem 0 0.4rem; font-size: 0.83rem; }
-	.summary-grid p { max-width: 19rem; margin: 0; color: var(--muted); font-size: 0.68rem; line-height: 1.55; }
-	main { display: grid; padding: clamp(4rem, 8vw, 7rem) 0; gap: clamp(4.5rem, 9vw, 8rem); }
-	.section-copy { max-width: 48rem; }
-	.section-copy h2, .renderer-section > h2, footer h2 { margin: 0; font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.06em; line-height: 1; }
-	.section-copy > p:not(.kicker) { max-width: 43rem; margin: 1.25rem 0 0; color: var(--copy); font-size: 0.87rem; line-height: 1.75; }
-	.section-copy :global(.code-block) { margin-top: 1.8rem; }
-	.note { display: grid; margin-top: -0.6rem; padding: 1rem 1.1rem; grid-template-columns: 10rem minmax(0, 1fr); gap: 1rem; border-left: 3px solid var(--acid); background: var(--paper-deep); }
-	.note strong, .note span { font-size: 0.68rem; line-height: 1.5; }
-	.note span { color: var(--muted); }
-	.install-section { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(28rem, 1.2fr); gap: clamp(2rem, 6vw, 6rem); }
-	.commands { display: grid; gap: 0.85rem; }
-	.commands > div { min-width: 0; }
-	.commands > div > span { display: flex; margin-bottom: 0.45rem; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.65rem; font-weight: 700; }
-	.commands b { display: grid; width: 1.4rem; height: 1.4rem; place-items: center; border-radius: 0.3rem; background: var(--green-wash); color: var(--green-dark); font-family: Georgia, serif; font-style: italic; }
-	.commands :global(.code-block) { margin: 0; }
-	.renderer-section > h2 { max-width: 42rem; }
-	.renderer-grid { display: grid; margin-top: 2rem; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-	.renderer-grid article { display: flex; min-height: 14rem; padding: 1.4rem; gap: 1rem; border: 1px solid var(--line); border-radius: 0.65rem; background: var(--paper); }
-	.renderer-mark { display: grid; width: 2.65rem; height: 2.65rem; flex: 0 0 auto; place-items: center; border-radius: 0.48rem; background: var(--green); color: white; font-family: Georgia, serif; font-size: 1.1rem; font-style: italic; }
-	.renderer-mark.takumi { background: var(--acid); color: var(--ink); }
-	.renderer-grid article > div { display: flex; flex-direction: column; align-items: flex-start; }
-	.renderer-grid h3 { margin: 0.15rem 0 0.5rem; font-size: 0.92rem; }
-	.renderer-grid p { margin: 0; color: var(--muted); font-size: 0.72rem; line-height: 1.65; }
-	.renderer-grid a { margin-top: auto; padding-top: 1.2rem; color: var(--green-dark); font-size: 0.65rem; font-weight: 700; text-decoration: none; }
-	.renderer-grid a span, .footer-links span { margin-left: 0.5rem; }
-	footer { display: flex; padding: 3rem; align-items: center; justify-content: space-between; gap: 2rem; border-radius: 0.8rem; background: var(--ink); color: white; }
-	footer small { color: var(--acid); font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.12em; }
-	footer h2 { margin-top: 0.6rem; font-size: clamp(1.6rem, 4vw, 2.5rem); }
-	.footer-links { display: flex; flex-direction: column; align-items: flex-end; gap: 0.8rem; }
-	.footer-links a { padding-bottom: 0.25rem; border-bottom: 1px solid #486057; color: white; font-size: 0.68rem; font-weight: 700; text-decoration: none; }
-	@media (max-width: 800px) {
-		header { align-items: start; grid-template-columns: 1fr; }
-		.availability { width: 100%; grid-template-columns: auto 1fr 1fr; align-items: center; }
-		.install-section { grid-template-columns: 1fr; }
-		.summary-grid { grid-template-columns: 1fr; }
-		.summary-grid > div { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
-		.summary-grid h2 { margin-top: 1.2rem; }
+	.component-doc {
+		width: min(100% - 2rem, 64rem);
+		margin: auto;
+		padding: 2rem 0 6rem;
+		min-width: 0;
 	}
-	@media (max-width: 600px) {
-		.page-shell { width: min(100% - 1.25rem, 76rem); }
-		header { padding-top: 3.5rem; }
-		.availability { grid-template-columns: 1fr; }
-		.renderer-grid { grid-template-columns: 1fr; }
-		.note { grid-template-columns: 1fr; }
-		footer { padding: 2rem 1.4rem; align-items: flex-start; flex-direction: column; }
-		.footer-links { align-items: flex-start; }
+	header {
+		padding: 3rem 0 2rem;
+	}
+	h1 {
+		font-family: var(--font-display);
+		font-size: clamp(3rem, 8vw, 6rem);
+		letter-spacing: -0.065em;
+		line-height: 1;
+		margin: 0.5rem 0 1rem;
+	}
+	.eyebrow,
+	.preview-label {
+		color: var(--green-dark);
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+	}
+	.lede {
+		font-size: 1.1rem;
+	}
+	p {
+		color: var(--copy);
+		line-height: 1.7;
+		max-width: 54rem;
+	}
+	a {
+		color: var(--green-dark);
+		text-underline-offset: 0.2em;
+	}
+	section {
+		margin: 3rem 0;
+		min-width: 0;
+	}
+	h2 {
+		font-family: var(--font-display);
+		font-size: 1.8rem;
+		letter-spacing: -0.03em;
+	}
+	code {
+		overflow-wrap: anywhere;
+	}
+	.renderer-switch {
+		display: flex;
+		gap: 0.5rem;
+	}
+	button {
+		padding: 0.7rem 1rem;
+		border: 1px solid var(--line);
+		border-radius: 0.4rem;
+		color: var(--ink);
+		background: var(--paper);
+		cursor: pointer;
+	}
+	button[aria-pressed='true'] {
+		background: var(--green);
+		color: white;
+	}
+	:is(a, button, summary):focus-visible {
+		outline: 3px solid var(--green);
+		outline-offset: 4px;
+	}
+	.preview-scroll {
+		overflow: auto;
+		max-width: 100%;
+		border: 1px solid var(--line);
+		border-radius: 0.5rem;
+		background: white;
+	}
+	.preview-canvas {
+		padding: 24px;
+		min-width: 640px;
+		color: #111;
+	}
+	.note {
+		padding: 1rem;
+		background: var(--paper-deep);
+		border-left: 3px solid var(--green);
+	}
+	summary {
+		cursor: pointer;
+		font-weight: 600;
+	}
+	footer {
+		border-top: 1px solid var(--line);
+		padding-top: 2rem;
+	}
+	footer nav {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
 	}
 </style>

@@ -23,6 +23,8 @@ export interface ReportSeriesPoint {
 }
 
 export interface BaseReportData {
+	/** Caller-authored conclusion. Omit for a neutral, unassessed status. */
+	status?: { label: string; tone?: ReportTone };
 	title: string;
 	subtitle: string;
 	generatedAt: string;

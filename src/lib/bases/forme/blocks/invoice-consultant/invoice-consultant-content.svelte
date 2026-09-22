@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PAGE_NUMBER, TOTAL_PAGES } from '$lib/bases/forme/lib/pdf-primitives';
+	import { invoiceFormatter } from '$lib/utils/invoice-format';
 	import Document from '$lib/bases/forme/lib/Document.svelte';
 	import Page from '$lib/bases/forme/lib/Page.svelte';
 	import View from '$lib/bases/forme/lib/View.svelte';
@@ -17,6 +19,7 @@
 
 	let { data }: { data: InvoiceConsultantData } = $props();
 	const theme = usePdfcnTheme();
+	const money = $derived(invoiceFormatter(data));
 	const styles = {
 		calloutNote: { backgroundColor: theme.colors.muted, borderLeftColor: theme.colors.info, borderLeftStyle: 'solid', borderLeftWidth: 3, marginTop: 16, paddingLeft: 12, paddingVertical: 8 },
 		companyInfo: { flex: 1 },
@@ -35,7 +38,7 @@
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
 	<Page size="A4" margin={{ bottom: 25, left: 56, right: 56, top: 56 }}>
-		<PageFooter leftText="Professional services invoice – Please retain for records" rightText="Page 1 of 1" sticky pagePadding={25} />
+		<PageFooter leftText="Professional services invoice – Please retain for records" rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={25} />
 		<View style={styles.page}>
 			<View style={styles.headerRow}>
 				<View style={styles.companyInfo}>
@@ -73,14 +76,14 @@
 			</View>
 			<Table variant="line">
 				<TableHeader><TableRow header>
-					<TableCell text="Service Description" /><TableCell align="center" text="Hours" />
-					<TableCell align="right" text="Rate ($/hr)" /><TableCell align="right" text="Amount" />
+					<TableCell style={{ flex: 48 }} text="Service Description" /><TableCell style={{ flex: 12 }} align="center" text="Hours" />
+					<TableCell style={{ flex: 20 }} align="right" text="Rate / hour" /><TableCell style={{ flex: 20 }} align="right" text="Amount" />
 				</TableRow></TableHeader>
 				<TableBody>{#each data.services as service}
 					<TableRow>
-						<TableCell text={service.description} /><TableCell align="center" text={`${service.hours}`} />
-						<TableCell align="right" text={`$${service.rate}`} />
-						<TableCell align="right" text={`$${(service.hours * service.rate).toLocaleString()}`} />
+						<TableCell style={{ flex: 48 }} text={service.description} /><TableCell style={{ flex: 12 }} align="center" text={`${service.hours}`} />
+						<TableCell style={{ flex: 20 }} align="right" text={money(service.rate)} />
+						<TableCell style={{ flex: 20 }} align="right" text={money((service.hours * service.rate))} />
 					</TableRow>
 				{/each}</TableBody>
 			</Table>
@@ -91,9 +94,9 @@
 				</View>
 				<View style={styles.totalsBox}>
 					<KeyValue size="sm" dividerThickness={1} divided items={[
-						{ key: 'Subtotal', value: `$${data.summary.subtotal.toLocaleString()}` },
-						{ key: 'Tax (5%)', value: `$${data.summary.tax.toFixed(2)}` },
-						{ key: 'Amount Due', keyStyle: { fontSize: 13, fontWeight: 'bold' }, value: `$${data.summary.total.toFixed(2)}`, valueStyle: { color: theme.colors.primary, fontSize: 14, fontWeight: 'bold' } }
+						{ key: 'Subtotal', value: money(data.summary.subtotal) },
+						{ key: data.taxLabel ?? 'Tax', value: money(data.summary.tax) },
+						{ key: 'Amount Due', keyStyle: { fontSize: 13, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { color: theme.colors.primary, fontSize: 14, fontWeight: 'bold' } }
 					]} />
 				</View>
 			</Section>

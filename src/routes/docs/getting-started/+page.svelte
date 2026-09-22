@@ -1,57 +1,27 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-	import Callout from '../../../docs/components/Callout.svelte';
-	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
-	import DocPage from '../../../docs/components/DocPage.svelte';
-
-	const imports = `import { PdfcnThemeProvider } from 'pdfcn-svelte';
-import { modernTheme } from 'pdfcn-svelte/themes';
-import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/forme';`;
-	const document = [
-		'<PdfcnThemeProvider theme={modernTheme}>',
-		'  <Document title=\"Account summary\" author=\"Acme, Inc.\">',
-		'    <Page size=\"A4\" margin={48}>',
-		'      <Heading level={1}>Account summary</Heading>',
-		'      <Text color=\"mutedForeground\">Prepared for Ada Lovelace</Text>',
-		'    </Page>',
-		'  </Document>',
-		'</PdfcnThemeProvider>'
-	].join('\n');
-	const componentImport = ['im', "port AccountSummary from '$lib/AccountSummary.svelte';"].join('');
-	const endpoint = `import { renderDocument } from '@formepdf/svelte';
-${componentImport}
-
-export async function GET() {
-  const pdf = await renderDocument(AccountSummary);
-  return new Response(pdf, { headers: { 'content-type': 'application/pdf' } });
-}`;
+ import { base } from '$app/paths';
+ import CodeBlock from '../../../docs/components/CodeBlock.svelte';
+ import DocPage from '../../../docs/components/DocPage.svelte';
+ import { exampleSources, packageSource } from '../../../docs/component-examples';
+ import formeEndpoint from '../../../docs/examples/forme-endpoint.ts.txt?raw';
+ import takumiEndpoint from '../../../docs/examples/takumi-endpoint.ts.txt?raw';
+ let renderer = $state<'forme' | 'takumi'>('forme');
+ const source = $derived(packageSource(exampleSources[`./examples/${renderer}/text.svelte`]));
 </script>
-
 <svelte:head><title>Getting started — pdfcn / svelte</title></svelte:head>
-
-<DocPage title="Your first document" description="A document is an ordinary Svelte component built from one renderer namespace. Both bases can render PDF bytes; this first example uses Forme.">
-	<h2>1. Choose a renderer base</h2>
-	<p>Use <code>pdfcn-svelte/bases/forme</code> for Forme-native document instructions. Use <code>pdfcn-svelte/bases/takumi</code> when you also want an inspectable HTML/CSS preview; its server adapter passes that markup to <code>takumi-pdf</code> for real PDF bytes.</p>
-	<Callout title="Keep one base per tree"><p>Forme and Takumi components share names and themes, but their underlying output semantics differ. Do not mix their primitives inside the same document.</p></Callout>
-
-	<h2>2. Import a theme and components</h2>
-	<CodeBlock code={imports} label="AccountSummary.svelte" />
-	<p>The theme provider uses Svelte context. Components without a provider fall back to the Professional preset.</p>
-
-	<h2>3. Compose the document</h2>
-	<CodeBlock code={document} label="AccountSummary.svelte" />
-	<p>Build up from <code>Document</code> and <code>Page</code>. Higher-level components such as Stack, Section, Table, and PageFooter handle the recurring patterns while still accepting renderer-native style overrides.</p>
-
-	<h2>4. Render PDF bytes</h2>
-	<CodeBlock code={endpoint} label="src/routes/account.pdf/+server.ts" />
-	<p>The official <code>@formepdf/svelte</code> adapter serializes the component and the Forme core produces the PDF. This is typically done in a SvelteKit server route.</p>
-	<Callout title="Rendering with Takumi"><p>Import <code>renderDocument</code> from <code>pdfcn-svelte/bases/takumi</code> and pass it a Takumi document component. The adapter SSRs the Svelte tree and renders the resulting HTML with <code>takumi-pdf</code>.</p></Callout>
-
-	<div class="next"><small>NEXT</small><a href={`${base}/docs/renderers`}>Understand the renderer tradeoffs <span>→</span></a></div>
+<DocPage title="Your first PDF" description="Create a complete Svelte document and serve it from a SvelteKit endpoint. Choose one renderer and follow its copyable path.">
+ <h2>1. Prerequisites and installation</h2>
+ <p>Start with a TypeScript SvelteKit app using Svelte 5.30 or newer and a server-capable adapter. A static-only deployment cannot execute this endpoint. The package is currently a preview release: first build and install its local tarball using <a href={`${base}/docs/install`}>Installation</a>. Copied source has a separate <a href={`${base}/docs/registry`}>registry guide</a>.</p>
+ <div class="renderer-switch" aria-label="Renderer choice"><button type="button" aria-pressed={renderer === 'forme'} onclick={() => renderer = 'forme'}>Forme</button><button type="button" aria-pressed={renderer === 'takumi'} onclick={() => renderer = 'takumi'}>Takumi</button></div>
+ <CodeBlock label="In your consuming application" code={renderer === 'forme' ? 'pnpm add @formepdf/svelte @formepdf/core' : 'pnpm add takumi-pdf @takumi-rs/helpers'} />
+ <p>Forme produces native PDF document instructions. Takumi also supports an HTML preview, with PDF rendering isolated in its server entry. Install only the dependencies for your chosen renderer.</p>
+ <h2>2. Save the entire document file</h2>
+ <CodeBlock label="src/lib/Example.svelte" code={source} />
+ <p>This example explicitly uses {renderer === 'forme' ? 'Forme’s built-in Helvetica' : 'Takumi’s bundled sans-serif fallback'} and requires no font downloads. Named theme fonts need matching resources; see <a href={`${base}/docs/fonts`}>Font registration</a>. Components outside a provider use the Professional theme. Create a fresh document to change theme context.</p>
+ <h2>3. Add the server endpoint</h2>
+ <CodeBlock label="src/routes/example.pdf/+server.ts" code={renderer === 'forme' ? formeEndpoint : takumiEndpoint} />
+ <p>Run your application with <code>pnpm dev</code> and open <code>/example.pdf</code> on its own origin. The response is a PDF named <code>example.pdf</code>. Keep renderer imports inside server routes or build scripts; browser component imports use <code>pdfcn-svelte/bases/takumi</code>.</p>
+ <h2>4. Replace the example</h2>
+ <p><a href={`${base}/components/data-table`}>Build a typed data table</a>, <a href={`${base}/templates/invoice-modern`}>customize an invoice</a>, or <a href={`${base}/docs/renderers`}>learn page and footer behavior</a>. Each component page includes a complete file and a PDF produced from that file.</p>
 </DocPage>
-
-<style>
-	.next { display: grid; margin-top: 3rem; padding: 1rem 0; gap: 0.35rem; border-top: 1px solid var(--line); }
-	.next small { color: var(--faint); font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.12em; }
-	.next a { display: flex; justify-content: space-between; color: var(--ink); font-size: 0.84rem; text-decoration: none; }
-</style>
+<style>.renderer-switch { display: flex; gap: .5rem; } button { padding: .6rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: .4rem; cursor: pointer; } button[aria-pressed='true'] { background: var(--green); color: white; } button:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }</style>

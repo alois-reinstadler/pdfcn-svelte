@@ -1,4 +1,6 @@
 <script lang="ts">
+	import PageNumber from '$lib/bases/takumi/components/page-number/page-number.svelte';
+	import { invoiceFormatter } from '$lib/utils/invoice-format';
 	import KeyValue from '$lib/bases/takumi/components/key-value/key-value.svelte';
 	import PageFooter from '$lib/bases/takumi/components/page-footer/page-footer.svelte';
 	import PageHeader from '$lib/bases/takumi/components/page-header/page-header.svelte';
@@ -19,6 +21,7 @@
 
 	let { data }: { data: InvoiceClassicData } = $props();
 	const theme = usePdfcnTheme();
+	const money = $derived(invoiceFormatter(data));
 	const pageStyle = {
 		backgroundColor: theme.colors.background,
 		boxSizing: 'border-box', minHeight: 841, padding: theme.spacing.page.marginTop,
@@ -36,8 +39,10 @@
 	{/if}
 {/snippet}
 
+{#snippet pageNumber()}<PageNumber align="right" size="xs" />{/snippet}
+
 <Document title={`Invoice ${data.invoiceNumber}`}>
-	<Page size="A4" style={pageStyle}>
+	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 48), left: theme.spacing.page.marginLeft }} style={pageStyle}>
 		<PageHeader variant="logo-left" {logo} title={data.companyName} subtitle={data.subtitle}
 			rightText={data.invoiceNumber} rightSubText={`Due: ${data.dueDate}`} style={{ marginBottom: 0 }} />
 		<Section noWrap style={{ flexDirection: 'row' }}>
@@ -55,16 +60,16 @@
 			</View>
 		</Section>
 		<Table variant="grid" zebraStripe>
-			<TableHeader><TableRow header><TableCell text="Description" /><TableCell align="center" text="QTY" /><TableCell align="center" text="Rate" /><TableCell _last align="right" text="Total" /></TableRow></TableHeader>
-			<TableBody>{#each data.items as item}<TableRow><TableCell text={item.description} /><TableCell align="center" text={`${item.quantity}`} /><TableCell align="center" text={`$${item.unitPrice}`} /><TableCell _last align="right" text={`$${(item.quantity * item.unitPrice).toFixed(2)}`} /></TableRow>{/each}</TableBody>
+			<TableHeader><TableRow header><TableCell width="48%" text="Description" /><TableCell width="12%" align="center" text="QTY" /><TableCell width="20%" align="right" text="Rate" /><TableCell width="20%" _last align="right" text="Total" /></TableRow></TableHeader>
+			<TableBody>{#each data.items as item}<TableRow><TableCell width="48%" text={item.description} /><TableCell width="12%" align="center" text={`${item.quantity}`} /><TableCell width="20%" align="right" text={money(item.unitPrice)} /><TableCell width="20%" _last align="right" text={money((item.quantity * item.unitPrice))} /></TableRow>{/each}</TableBody>
 		</Table>
 		<Section noWrap style={{ flexDirection: 'row', marginTop: 16 }}>
 			<View style={{ marginLeft: 'auto', width: 220 }}><KeyValue size="sm" dividerThickness={1} divided items={[
-				{ key: 'Subtotal', value: `$${data.summary.subtotal.toFixed(2)}` },
-				{ key: 'Tax', value: `$${data.summary.tax.toFixed(2)}` },
-				{ key: 'Total', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: `$${data.summary.total.toFixed(2)}`, valueStyle: { fontSize: 12, fontWeight: 'bold' } }
+				{ key: 'Subtotal', value: money(data.summary.subtotal) },
+				{ key: data.taxLabel ?? 'Tax', value: money(data.summary.tax) },
+				{ key: 'Total', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { fontSize: 12, fontWeight: 'bold' } }
 			]} /></View>
 		</Section>
-		<PageFooter leftText={data.notes} rightText="Page 1 of 1" sticky pagePadding={25} />
+		<PageFooter leftText={data.notes} rightText={pageNumber} sticky pagePadding={25} />
 	</Page>
 </Document>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PAGE_NUMBER, TOTAL_PAGES } from '$lib/bases/forme/lib/pdf-primitives';
+	import { invoiceFormatter } from '$lib/utils/invoice-format';
 	import Document from '$lib/bases/forme/lib/Document.svelte';
 	import Page from '$lib/bases/forme/lib/Page.svelte';
 	import View from '$lib/bases/forme/lib/View.svelte';
@@ -19,6 +21,7 @@
 
 	let { data }: { data: InvoiceClassicData } = $props();
 	const theme = usePdfcnTheme();
+	const money = $derived(invoiceFormatter(data));
 	const pageStyle = { backgroundColor: theme.colors.background };
 </script>
 
@@ -34,7 +37,7 @@
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
 	<Page size="A4" margin={{ bottom: 25, left: 56, right: 56, top: 56 }}>
-		<PageFooter leftText={data.notes} rightText="Page 1 of 1" sticky pagePadding={25} />
+		<PageFooter leftText={data.notes} rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={25} />
 		<View style={pageStyle}>
 			<PageHeader variant="logo-left" {logo} title={data.companyName} subtitle={data.subtitle}
 				rightText={data.invoiceNumber} rightSubText={`Due: ${data.dueDate}`} style={{ marginBottom: 0 }} />
@@ -60,15 +63,15 @@
 			</Section>
 			<Table variant="grid" zebraStripe>
 				<TableHeader><TableRow header>
-					<TableCell text="Description" /><TableCell align="center" text="QTY" />
-					<TableCell align="center" text="Rate" /><TableCell align="right" text="Total" _last />
+					<TableCell style={{ flex: 48 }} text="Description" /><TableCell style={{ flex: 12 }} align="center" text="QTY" />
+					<TableCell style={{ flex: 20 }} align="right" text="Rate" /><TableCell style={{ flex: 20 }} align="right" text="Total" _last />
 				</TableRow></TableHeader>
 				<TableBody>
 					{#each data.items as item}
 						<TableRow>
-							<TableCell text={item.description} /><TableCell align="center" text={`${item.quantity}`} />
-							<TableCell align="center" text={`$${item.unitPrice}`} />
-							<TableCell align="right" text={`$${(item.quantity * item.unitPrice).toFixed(2)}`} _last />
+							<TableCell style={{ flex: 48 }} text={item.description} /><TableCell style={{ flex: 12 }} align="center" text={`${item.quantity}`} />
+							<TableCell style={{ flex: 20 }} align="right" text={money(item.unitPrice)} />
+							<TableCell style={{ flex: 20 }} align="right" text={money((item.quantity * item.unitPrice))} _last />
 						</TableRow>
 					{/each}
 				</TableBody>
@@ -76,9 +79,9 @@
 			<Section noWrap style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 16 }}>
 				<View style={{ width: 220 }}>
 					<KeyValue size="sm" dividerThickness={1} divided items={[
-						{ key: 'Subtotal', value: `$${data.summary.subtotal.toFixed(2)}` },
-						{ key: 'Tax', value: `$${data.summary.tax.toFixed(2)}` },
-						{ key: 'Total', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: `$${data.summary.total.toFixed(2)}`, valueStyle: { fontSize: 12, fontWeight: 'bold' } }
+						{ key: 'Subtotal', value: money(data.summary.subtotal) },
+						{ key: data.taxLabel ?? 'Tax', value: money(data.summary.tax) },
+						{ key: 'Total', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { fontSize: 12, fontWeight: 'bold' } }
 					]} />
 				</View>
 			</Section>

@@ -6,6 +6,7 @@
 	import type { BaseReportData } from './report.types';
 
 	const sampleOperationsData: BaseReportData = {
+		status: { label: 'Ops: Watch', tone: 'warning' },
 		author: 'Delivery Office',
 		generatedAt: 'February 23, 2026',
 		highlights: [
@@ -43,8 +44,8 @@
 	<ReportLayout
 		{data}
 		titlePrefix="Operations Report"
-		statusLabel="Ops: Watch"
-		statusTone="warning"
+		statusLabel={data.status?.label ?? 'Status not supplied'}
+		statusTone={data.status?.tone ?? 'info'}
 		graphVariant="horizontal-bar"
 		graphTitle="Throughput by week"
 		graphSubtitle="Resolved workload distribution"

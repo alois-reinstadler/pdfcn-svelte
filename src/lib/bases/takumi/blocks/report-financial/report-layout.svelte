@@ -274,7 +274,7 @@
 						items={[
 							{
 								key: 'Open Risks',
-								value: `${data.rows.filter((row) => row.risk !== 'Low').length}`
+								value: `${data.rows.filter((row) => row.risk && row.risk !== 'Low').length}`
 							},
 							{
 								key: 'On-Track Streams',

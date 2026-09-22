@@ -1,6 +1,6 @@
 import type { Style } from '$lib/types/pdf-components';
 
-/** Visual style variant for the fillable form. */
+/** Visual style variant for the printable form. */
 export type PdfFormVariant = 'underline' | 'box' | 'outlined' | 'ghost';
 
 /** Column layout for a form section. */
@@ -9,7 +9,7 @@ export type FormLayout = 'single' | 'two-column' | 'three-column';
 /** Label position relative to the field. */
 export type FormLabelPosition = 'above' | 'left';
 
-/** A single fillable field definition. */
+/** A single printable blank field definition. */
 export interface PdfFormField {
 	label: string;
 	hint?: string;
@@ -26,7 +26,7 @@ export interface PdfFormGroup {
 	layout?: FormLayout;
 }
 
-/** Fillable PDF form with grouped fields, layout variants, and label positioning options. */
+/** Printable visual form (not interactive PDF AcroForm fields) with grouped fields, layout variants, and label positioning options. */
 export interface PdfFormProps {
 	title?: string;
 	subtitle?: string;

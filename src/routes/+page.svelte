@@ -12,38 +12,26 @@
 <section class="hero">
 	<div class="hero-grid">
 		<div class="hero-copy">
-			<div class="status"><span></span> Svelte 5 · renderer-ready</div>
+			<div class="status"><span></span> Svelte 5 · preview release</div>
 			<h1>Documents,<br /><em>composed.</em></h1>
 			<p>Build polished invoices, reports, and data-rich PDFs from a small vocabulary of Svelte components you can actually own.</p>
 			<div class="hero-actions">
 				<a class="primary" href={`${base}/docs/getting-started`}>Start building <span>→</span></a>
 				<a class="secondary" href={`${base}/templates`}>Explore templates</a>
 			</div>
-			<div class="install"><code>pnpm add pdfcn-svelte</code><span aria-hidden="true">⌘</span></div>
+			<p class="package-note">Preview release · use a packed or workspace-linked build. <a href={`${base}/docs/install`}>Installation instructions →</a></p>
 		</div>
 
-		<div class="studio" aria-label="Illustration of an invoice document in the studio">
-			<div class="studio-top"><span><i></i><i></i><i></i></span><small>invoice-modern.svelte</small><b>92%</b></div>
-			<div class="studio-body">
-				<div class="rail"><span class="active">A</span><span>□</span><span>≡</span><span>⌁</span></div>
-				<div class="desk">
-					<div class="invoice-page">
-						<div class="invoice-head"><div class="mini-mark">P</div><div><small>INVOICE</small><strong>#2026-084</strong></div></div>
-						<div class="meta"><div><small>BILLED TO</small><b>Northstar Labs</b><span>47 Market Street<br />Portland, OR</span></div><div><small>ISSUED</small><b>Aug 24, 2026</b><small>DUE</small><b>Sep 07, 2026</b></div></div>
-						<div class="invoice-table"><div class="tr head"><span>DESCRIPTION</span><span>QTY</span><span>AMOUNT</span></div><div class="tr"><b>Product strategy</b><span>1</span><span>$4,800</span></div><div class="tr"><b>Design system</b><span>1</span><span>$3,200</span></div><div class="tr"><b>Implementation</b><span>2</span><span>$6,400</span></div></div>
-						<div class="total"><small>TOTAL DUE</small><strong>$14,400</strong></div>
-						<div class="invoice-foot"><span>Thank you for your business.</span><span>northstar.dev</span></div>
-					</div>
-					<div class="float-card"><small>THEME</small><strong><i></i> Modern</strong><span>9 presets included</span></div>
-				</div>
-			</div>
-		</div>
+		<a class="studio" href={`${base}/templates/invoice-modern`} aria-label="Explore the generated Modern Invoice PDF">
+			<div class="studio-top"><span><i></i><i></i><i></i></span><small>Modern Invoice · generated PDF</small><b>Takumi</b></div>
+			<div class="desk"><img src={`${base}/previews/gallery/invoice-modern.webp`} alt="First page of the generated Modern Invoice, showing sample line items and totals" width="804" height="1137" /></div>
+		</a>
 	</div>
 </section>
 
 <section class="signal">
 	<div><strong>{components.length}</strong><span>Document components</span></div>
-	<div><strong>{templates.length}</strong><span>Ready-made templates</span></div>
+	<div><strong>{templates.length}</strong><span>Document templates</span></div>
 	<div><strong>09</strong><span>Curated themes</span></div>
 	<div><strong>02</strong><span>Renderer bases</span></div>
 </section>
@@ -66,18 +54,13 @@
 
 <section class="templates section-wrap">
 	<div class="templates-head">
-		<div><div class="section-label">Made to ship</div><h2>Start with a complete document.</h2></div>
+		<div><div class="section-label">Rendered examples</div><h2>Start with a complete document.</h2></div>
 		<a href={`${base}/templates`}>View all ten templates <span>→</span></a>
 	</div>
 	<div class="template-grid">
-		{#each featured as item, index}
+		{#each featured as item (item.slug)}
 			<a class="template-card" href={`${base}/templates/${item.slug}`}>
-				<div class="paper-preview variant-{index}">
-					<div class="paper-title"><i></i><span></span></div>
-					<div class="paper-lines"><b></b><b></b><b></b></div>
-					<div class="paper-chart"><span></span><span></span><span></span><span></span><span></span></div>
-					<div class="paper-blocks"><i></i><i></i><i></i></div>
-				</div>
+				<div class="paper-preview"><img src={`${base}/previews/gallery/${item.slug}.webp`} alt={`First page of the generated ${item.name}`} loading="lazy" width="804" height="1137" /></div>
 				<div class="card-meta"><div><small>{item.kind}</small><strong>{item.name}</strong></div><span>↗</span></div>
 			</a>
 		{/each}
@@ -99,9 +82,9 @@
 </footer>
 
 <style>
-	.hero { overflow: hidden; border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 48px 48px; }
-	.hero-grid { display: grid; width: min(100% - 2rem, 82rem); min-height: 41rem; margin: 0 auto; grid-template-columns: 0.88fr 1.12fr; align-items: center; gap: 5vw; }
-	.hero-copy { position: relative; z-index: 2; padding: 6rem 0; }
+	.hero { border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 48px 48px; }
+	.hero-grid { display: grid; width: min(100% - 2rem, 82rem); min-height: 41rem; margin: 0 auto; grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); align-items: center; gap: 5vw; }
+	.hero-copy { min-width: 0; position: relative; z-index: 2; padding: 6rem 0; }
 	.status { display: inline-flex; padding: 0.38rem 0.58rem; align-items: center; gap: 0.45rem; border: 1px solid var(--line); border-radius: 99px; background: color-mix(in srgb, var(--canvas) 80%, transparent); color: var(--muted); font-family: var(--font-mono); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
 	.status span { width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px var(--green-wash); }
 	h1 { margin: 1.4rem 0; font-family: var(--font-display); font-size: clamp(4rem, 7.4vw, 7rem); font-weight: 780; letter-spacing: -0.085em; line-height: 0.78; }
@@ -112,45 +95,16 @@
 	.primary { background: var(--green); color: white; box-shadow: 0 7px 18px rgb(35 127 85 / 0.18); }
 	.primary span { margin-left: 0.6rem; color: var(--acid); }
 	.secondary { border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
-	.install { display: inline-flex; margin-top: 1.15rem; padding: 0.55rem 0.7rem; gap: 2rem; border: 1px solid var(--line); border-radius: 0.4rem; background: var(--paper); color: var(--muted); }
-	.install code { font-family: var(--font-mono); font-size: 0.67rem; }
-	.install span { color: var(--faint); }
-	.studio { position: relative; min-width: 45rem; border: 1px solid #2d4038; border-radius: 0.75rem; background: #172920; box-shadow: 0 35px 70px rgb(20 38 30 / 0.25); transform: rotate(1.2deg) translateX(1rem); }
+	.studio { display: block; min-width: 0; width: 100%; max-width: 37rem; justify-self: center; border: 1px solid #2d4038; border-radius: 0.75rem; background: #172920; overflow: hidden; box-shadow: 0 35px 70px rgb(20 38 30 / 0.2); }
 	.studio-top { display: flex; height: 2.4rem; padding: 0 0.8rem; align-items: center; border-bottom: 1px solid #34463f; color: #8fa098; font-family: var(--font-mono); font-size: 0.56rem; }
 	.studio-top > span { display: flex; gap: 0.3rem; }
 	.studio-top i { width: 0.48rem; height: 0.48rem; border-radius: 50%; background: #41544b; }
 	.studio-top small { margin: auto; }
 	.studio-top b { font-weight: 500; }
-	.studio-body { display: grid; height: 35rem; grid-template-columns: 2.8rem 1fr; }
-	.rail { display: flex; padding: 1rem 0; flex-direction: column; align-items: center; gap: 0.75rem; border-right: 1px solid #34463f; color: #81928a; font-family: var(--font-mono); font-size: 0.7rem; }
-	.rail span { display: grid; width: 1.7rem; height: 1.7rem; place-items: center; border-radius: 0.35rem; }
-	.rail .active { background: #2d493c; color: var(--acid); }
-	.desk { position: relative; display: grid; overflow: hidden; place-items: center; background-image: radial-gradient(#53655d 0.7px, transparent 0.7px); background-size: 18px 18px; }
-	.invoice-page { width: 23.2rem; min-height: 29.5rem; padding: 2.2rem; background: #fffefa; color: #14261e; box-shadow: 0 18px 45px rgb(0 0 0 / 0.3); transform: rotate(-1.2deg); }
-	.invoice-head { display: flex; align-items: center; justify-content: space-between; }
-	.mini-mark { display: grid; width: 2rem; height: 2rem; place-items: center; border-radius: 0.35rem; background: var(--green); color: white; font-size: 0.8rem; font-weight: 900; }
-	.invoice-head > div:last-child { display: grid; text-align: right; }
-	.invoice-head small, .meta small, .total small { color: #89958f; font-family: var(--font-mono); font-size: 0.43rem; letter-spacing: 0.1em; }
-	.invoice-head strong { margin-top: 0.15rem; font-size: 0.9rem; }
-	.meta { display: grid; margin: 2rem 0 1.5rem; grid-template-columns: 1fr 0.65fr; }
-	.meta div { display: grid; align-content: start; gap: 0.25rem; }
-	.meta b { font-size: 0.54rem; }
-	.meta span { color: #65776e; font-size: 0.45rem; line-height: 1.5; }
-	.meta div:last-child { grid-template-columns: 1fr; gap: 0.15rem; }
-	.meta div:last-child small:nth-of-type(2) { margin-top: 0.35rem; }
-	.invoice-table { border-top: 1px solid #ccd4ce; }
-	.tr { display: grid; padding: 0.62rem 0; grid-template-columns: 1fr 2rem 4rem; border-bottom: 1px solid #e5e8e5; color: #5c6e64; font-size: 0.47rem; text-align: right; }
-	.tr > :first-child { text-align: left; }
-	.tr.head { padding: 0.45rem 0; color: #89958f; font-family: var(--font-mono); font-size: 0.39rem; letter-spacing: 0.08em; }
-	.tr b { color: #24382f; font-weight: 650; }
-	.total { display: flex; margin-top: 1rem; padding: 0.8rem 1rem; align-items: center; justify-content: flex-end; gap: 2rem; background: #eaf3ed; }
-	.total strong { font-family: Georgia, serif; font-size: 1.1rem; }
-	.invoice-foot { display: flex; margin-top: 2.5rem; justify-content: space-between; color: #89958f; font-size: 0.4rem; }
-	.float-card { position: absolute; right: 1.5rem; bottom: 2.2rem; display: grid; width: 8rem; padding: 0.8rem; border: 1px solid #d7ded8; border-radius: 0.45rem; background: #fff; box-shadow: 0 12px 24px rgb(0 0 0 / 0.16); }
-	.float-card small { color: #89958f; font-family: var(--font-mono); font-size: 0.4rem; letter-spacing: 0.1em; }
-	.float-card strong { display: flex; margin: 0.35rem 0 0.12rem; align-items: center; gap: 0.4rem; color: #14261e; font-size: 0.6rem; }
-	.float-card i { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--green); }
-	.float-card span { color: #89958f; font-size: 0.42rem; }
+	.desk { padding: 1.4rem; background: #dfe8e1; }
+	.desk img { display: block; width: 100%; height: auto; box-shadow: 0 8px 24px rgb(0 0 0 / 0.15); }
+	.package-note { max-width: 28rem; font-size: 0.8rem; color: var(--muted); }
+	.package-note a { color: var(--green-dark); text-underline-offset: .2em; }
 	.signal { display: grid; width: min(100% - 2rem, 82rem); margin: 0 auto; grid-template-columns: repeat(4, 1fr); border-right: 1px solid var(--line); border-left: 1px solid var(--line); }
 	.signal div { display: grid; padding: 1.8rem 2rem; gap: 0.25rem; border-right: 1px solid var(--line); }
 	.signal div:last-child { border: 0; }
@@ -176,22 +130,9 @@
 	.template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
 	.template-card { padding: 0.7rem; border: 1px solid var(--line); border-radius: 0.7rem; background: var(--paper); color: var(--ink); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
 	.template-card:hover { box-shadow: 0 18px 35px rgb(26 50 39 / 0.1); transform: translateY(-4px); }
-	.paper-preview { display: grid; height: 22rem; padding: 3rem 3.2rem; align-content: start; border-radius: 0.42rem; background: #e8eee9; }
+	.paper-preview { height: 22rem; overflow: hidden; padding: 1rem; border-radius: 0.42rem; background: #e8eee9; }
+	.paper-preview img { display: block; width: 100%; height: auto; }
 	.paper-preview::before { content: ''; position: absolute; }
-	.paper-title { display: flex; margin-bottom: 2.5rem; align-items: center; justify-content: space-between; }
-	.paper-title i { width: 2rem; height: 2rem; border-radius: 50%; background: var(--green); }
-	.paper-title span { width: 4rem; height: 0.45rem; background: #8ea096; }
-	.paper-lines { display: grid; gap: 0.55rem; }
-	.paper-lines b { height: 0.27rem; background: #aebbb4; }
-	.paper-lines b:nth-child(2) { width: 72%; }
-	.paper-lines b:nth-child(3) { width: 88%; }
-	.paper-chart { display: flex; height: 5rem; margin-top: 2.2rem; align-items: end; gap: 0.45rem; border-bottom: 1px solid #8fa299; }
-	.paper-chart span { flex: 1; background: #4d8e6e; }
-	.paper-chart span:nth-child(1) { height: 35%; }.paper-chart span:nth-child(2) { height: 60%; }.paper-chart span:nth-child(3) { height: 50%; }.paper-chart span:nth-child(4) { height: 85%; }.paper-chart span:nth-child(5) { height: 70%; }
-	.paper-blocks { display: flex; margin-top: 1.5rem; gap: 0.5rem; }
-	.paper-blocks i { flex: 1; height: 2rem; background: #d3dcd7; }
-	.variant-1 { background: #f1ece4; }.variant-1 .paper-title i, .variant-1 .paper-chart span { background: #9b5e43; }
-	.variant-2 { background: #e6e9ec; }.variant-2 .paper-title i, .variant-2 .paper-chart span { background: #344b5d; }
 	.card-meta { display: flex; padding: 1rem 0.4rem 0.4rem; align-items: center; justify-content: space-between; }
 	.card-meta div { display: grid; gap: 0.2rem; }
 	.card-meta small { color: var(--faint); font-family: var(--font-mono); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -218,10 +159,10 @@
 	.footer-inner nav { display: flex; margin-left: auto; gap: 1.5rem; }
 	.footer-inner a { color: #9eb0a8; font-size: 0.68rem; text-decoration: none; }
 	@media (max-width: 960px) {
-		.hero-grid { min-height: auto; grid-template-columns: 1fr; }
+		.hero-grid { min-height: auto; grid-template-columns: minmax(0, 1fr); }
 		.hero-copy { padding: 5rem 0 2rem; }
 		h1 { font-size: clamp(4.5rem, 14vw, 7rem); }
-		.studio { width: 46rem; margin: 0 auto -8rem; transform: scale(0.85); transform-origin: top center; }
+		.studio { width: 100%; margin: 0 auto; }
 		.signal { margin-top: 8rem; }
 		.manifesto-grid, .renderer-inner { grid-template-columns: 1fr; gap: 3rem; }
 	}
@@ -230,8 +171,9 @@
 		.hero-copy { padding-top: 3.5rem; }
 		h1 { font-size: clamp(3.7rem, 19vw, 5.5rem); }
 		.hero-copy > p { font-size: 0.9rem; }
-		.studio { min-width: 43rem; margin-left: 50%; transform: translateX(-50%) scale(0.66); transform-origin: top center; }
-		.signal { margin-top: -2rem; grid-template-columns: 1fr 1fr; }
+		h1 { font-size: clamp(2.8rem, 10vw, 4.8rem); }
+		.studio { width: 100%; margin: 0 auto; }
+		.signal { margin-top: 2rem; grid-template-columns: 1fr 1fr; }
 		.signal div:nth-child(2) { border-right: 0; }.signal div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
 		.signal div { padding: 1.25rem; }
 		.manifesto { padding-top: 5rem; padding-bottom: 6rem; }

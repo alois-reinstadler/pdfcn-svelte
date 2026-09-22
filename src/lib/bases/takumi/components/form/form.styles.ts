@@ -5,7 +5,7 @@ import type { PdfFormVariant } from './form.types.js';
 
 export type FormStyles = Record<string, Style>;
 
-/** Creates fillable-form styles from the active pdfcn theme. */
+/** Creates printable-form styles from the active pdfcn theme. */
 export const createFormStyles = (
 	t: PdfcnTheme,
 	variant: PdfFormVariant = 'underline'

@@ -14,6 +14,10 @@ The project supports two bases with the same themed component vocabulary:
 The Takumi base includes a server/build-time adapter that SSRs the Svelte tree
 to HTML and passes it to the official `takumi-pdf` renderer.
 
+[Documentation](https://alois-reinstadler.github.io/pdfcn-svelte/docs/getting-started)
+· [Component reference](https://alois-reinstadler.github.io/pdfcn-svelte/components)
+· [Changelog](./CHANGELOG.md)
+
 ## Requirements
 
 - Svelte `^5.30.0`
@@ -44,16 +48,76 @@ pnpm add @formepdf/svelte @formepdf/core
 pnpm add takumi-pdf @takumi-rs/helpers
 ```
 
-Imports are split deliberately:
+Install the tarball in your consuming application (replace this absolute path):
+
+```sh
+pnpm add /absolute/path/to/pdfcn-svelte-0.1.0.tgz
+```
+
+For a pnpm workspace, use `"pdfcn-svelte": "workspace:*"` in the consuming
+app and run `pnpm install` at the workspace root. Build the library first.
+Only install the renderer dependencies for the base you choose.
+
+### First PDF: Forme
+
+In a TypeScript SvelteKit application with a server-capable adapter, save this
+complete file as `src/lib/Example.svelte`. It uses built-in Helvetica, so no
+font download is required.
+
+```svelte
+<script lang="ts">
+	import { PdfcnThemeProvider } from 'pdfcn-svelte';
+	import { professionalTheme } from 'pdfcn-svelte/themes';
+	import { Document, Page, Text } from 'pdfcn-svelte/bases/forme';
+	// Built-in Helvetica avoids a network font dependency in this example.
+	const theme = {
+		...professionalTheme,
+		typography: {
+			...professionalTheme.typography,
+			body: { ...professionalTheme.typography.body, fontFamily: 'Helvetica' },
+			heading: {
+				...professionalTheme.typography.heading,
+				fontFamily: 'Helvetica'
+			}
+		}
+	};
+</script>
+
+<PdfcnThemeProvider {theme}>
+	<Document title="Text example">
+		<Page size="A4" margin={48}>
+			<Text variant="lg" weight="semibold">Payment received</Text><Text
+				color="mutedForeground"
+				italic>Your receipt is attached.</Text
+			>
+		</Page>
+	</Document>
+</PdfcnThemeProvider>
+```
+
+Save `src/routes/example.pdf/+server.ts`:
 
 ```ts
-import { PdfcnThemeProvider } from 'pdfcn-svelte';
-import { modernTheme } from 'pdfcn-svelte/themes';
+import { renderDocument } from '@formepdf/svelte';
+import Example from '$lib/Example.svelte';
 
-// Choose one renderer base for a document tree.
-import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/forme';
-// import { Document, Page, Heading, Text } from 'pdfcn-svelte/bases/takumi';
+export async function GET() {
+  const pdf = await renderDocument(Example);
+  return new Response(new Uint8Array(pdf), {
+    headers: {
+      'content-type': 'application/pdf',
+      'content-disposition': 'inline; filename="example.pdf"'
+    }
+  });
+}
 ```
+
+Run your application's `pnpm dev` and open `/example.pdf` on its own origin.
+A static-only deployment cannot execute this endpoint. For Takumi, use the
+complete [Takumi example](./examples/takumi-document.svelte) and import the
+renderer from `pdfcn-svelte/bases/takumi/server`; its component-only entry
+is `pdfcn-svelte/bases/takumi`. The [Getting started guide](https://alois-reinstadler.github.io/pdfcn-svelte/docs/getting-started)
+contains separate complete files for both choices.
 
 ## Fonts
 
@@ -82,7 +146,7 @@ export async function GET() {
 		props: { customer: 'Ada Lovelace' }
 	});
 
-	return new Response(pdf, {
+	return new Response(new Uint8Array(pdf), {
 		headers: { 'content-type': 'application/pdf' }
 	});
 }
@@ -98,7 +162,7 @@ with Svelte's server APIs for a live HTML preview. To create PDF bytes, use the
 base-local server adapter:
 
 ```ts
-import { renderDocument } from 'pdfcn-svelte/bases/takumi';
+import { renderDocument } from 'pdfcn-svelte/bases/takumi/server';
 import TakumiDocument from '$lib/TakumiDocument.svelte';
 
 const pdf = await renderDocument(TakumiDocument, {
@@ -118,7 +182,17 @@ including the chosen base's primitives, theme context, types, and component
 dependencies. It is separate from installing the package and is the best fit
 when you want to own and edit the generated files.
 
-Install directly from the GitHub Pages registry:
+In a TypeScript SvelteKit application with the standard `$lib` → `src/lib`
+alias, follow the [shadcn-svelte prerequisites](https://www.shadcn-svelte.com/docs/installation/sveltekit)
+and initialize `components.json` once:
+
+```sh
+pnpm dlx shadcn-svelte@latest init
+```
+
+The CLI setup uses Tailwind configuration; PDF layouts themselves do not
+require Tailwind. Existing shadcn projects can keep their configuration.
+Then install directly from the GitHub Pages registry:
 
 ```sh
 pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/alert.json
@@ -137,7 +211,7 @@ To inspect registry changes locally before pushing:
 ```sh
 pnpm install
 pnpm run registry:build
-pnpm run dev -- --host 127.0.0.1
+pnpm run docs:build
 ```
 
 Registry-installed files are local source, so import them through the paths
@@ -145,6 +219,8 @@ created in your project instead of through the `pdfcn-svelte` package:
 
 ```ts
 import Alert from '$lib/bases/forme/components/alert/alert.svelte';
+// Takumi copied-source server renderer:
+// import { renderDocument } from '$lib/bases/takumi/server';
 import { modernTheme } from '$lib/themes/modern';
 ```
 
@@ -214,7 +290,10 @@ pnpm run test:primitives # focused primitive and theme contracts
 pnpm run test:components # render all 24 component families in both bases
 pnpm run test:render     # real Forme and Takumi PDF smoke tests
 pnpm run test:documents  # render all 20 renderer/template combinations
+pnpm run test:release    # long invoices, page labels, formatting and report data
 pnpm run test:consumer   # pack/install into a fresh Svelte 5 consumer
+pnpm run docs:api        # regenerate the source-derived component reference
+pnpm run test:docs-examples # check reference drift and render all 68 shown examples
 pnpm run docs:build      # generate preview PDFs and prerender the docs site
 pnpm run docs:check      # crawl the built docs and verify every showcase route
 pnpm run validate:api    # package and type-check the public export surface
@@ -229,9 +308,47 @@ all ten document templates across both renderers and all nine themes. It also
 includes renderer, theme, and font guides plus recipes for statements, proposals,
 audit packs, certificates, product briefs, and inspection reports.
 
+Component and template usage examples share their source with the generated
+PDFs. Validation renders all 68 example files, typechecks their displayed package
+imports in a fresh consumer, and executes the documented first-PDF endpoints
+and representative copied-source invoices after production builds. Browser
+consumer checks ensure Takumi components do not pull in server renderer assets.
+
 When changing a shared component, keep the Forme and Takumi variants aligned
 where their renderer semantics allow it, then run `pnpm run validate`.
 Regenerate the registry after changing any source copied by registry items.
+
+## 0.1 migration and renderer limits
+
+Import Takumi's `renderDocument` / `renderTakumiDocument` from
+`pdfcn-svelte/bases/takumi/server`; these functions are no longer exported by
+`pdfcn-svelte/bases/takumi`. The component entry point is safe for browser builds.
+Forme rendering remains server-only.
+
+Invoice data accepts `currency` (default `USD`), `locale` (default `en-US`, matching
+samples), and `taxLabel` (default `Tax`). These format supplied amounts; callers
+remain responsible for calculations. Report data accepts `status: { label, tone? }`.
+Omitting it displays a neutral status; charts use the supplied `series`.
+
+Takumi invoice templates use a flowing `Page` and repeat their footer across
+physical pages, including when descriptions wrap. A flowing page must be the
+only `Page` in a document and cannot use a fixed clipping `viewport`; its paper
+size and margins come from the template, overriding renderer geometry options.
+Only one repeated footer is supported. Browser flow output is unpaginated, so
+inspect the generated PDF when checking page breaks and page numbers.
+
+Takumi `PageHeader fixed`, `Heading keepWithNext`, and
+`KeepTogether minPresenceAhead` are accepted but do not implement those Forme
+behaviors. Use `KeepTogether` for short heading/content groups that fit on a
+page. Put a repeating Takumi page number inside the flowing page's footer.
+
+Forme percentage-based table cell widths can inflate row heights in the current
+engine. Use numeric point widths or proportional flex styles; the supplied
+examples and invoice templates follow these patterns.
+
+`Form` draws printable blank fields and `Signature` draws signature lines.
+Neither creates interactive PDF fields or cryptographic signatures. See each
+component's renderer notes for supported behavior and asset restrictions.
 
 ## License
 

@@ -11,6 +11,8 @@ export const StyleSheet = {
 	}
 };
 
+export const TAKUMI_FLOW_PAGE_CONTEXT = Symbol('takumi-flow-page');
+
 export const TAKUMI_DOCUMENT_PAGINATION_CONTEXT = Symbol('takumi-document-pagination');
 export const TAKUMI_PAGE_PAGINATION_CONTEXT = Symbol('takumi-page-pagination');
 

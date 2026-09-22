@@ -11,7 +11,7 @@
 		<div id="takumi"><span class="icon alt">T</span><small>HTML → PDF PIPELINE</small><h2>Takumi</h2><p>Components produce HTML/CSS-compatible Svelte markup. The included server adapter SSRs that tree and passes it to the official <code>takumi-pdf</code> engine.</p><ul><li>Real PDF-byte output</li><li>Browser-visible preview tree</li><li>Overflow-aware pagination</li></ul></div>
 	</div>
 
-	<Callout title="Server-side adapter"><p><code>renderTakumiDocument</code> lazily imports <code>svelte/server</code> and <code>takumi-pdf</code>, keeping normal browser imports safe while PDF rendering remains a server or build-time operation.</p></Callout>
+	<Callout title="Server-side adapter"><p><code>pdfcn-svelte/bases/takumi/server</code> isolates <code>svelte/server</code> and <code>takumi-pdf</code> from the browser component entry point while PDF rendering remains a server or build-time operation.</p></Callout>
 
 	<h2>Feature comparison</h2>
 	<div class="table-wrap"><table><thead><tr><th>Capability</th><th>Forme</th><th>Takumi</th></tr></thead><tbody>
@@ -23,7 +23,10 @@
 		<tr><td>SVG primitives</td><td>Yes</td><td>Yes</td></tr>
 	</tbody></table></div>
 
-	<h2>How to choose</h2>
+	<h2>Pagination boundaries</h2>
+ <p>Forme paginates native Page content and supports fixed header/footer regions. For variable-length Takumi documents use one <code>Page flow size="A4" margin=&#123;48&#125;</code>. Its server adapter owns physical pages, uses the Page size/margins, and repeats one PageFooter. Browser flow output is unpaginated and omits that footer. Multiple flowing pages, multiple flow footers, and viewport rendering with flow are rejected.</p>
+ <p>Takumi PageHeader fixed is currently ignored. PageNumber fixed alone also does not repeat: put it in the flow footer. Explicit fixed-size Takumi pages remain available for layouts you know fit; overflowing them can clip content. Check the produced PDF with realistic long data.</p>
+ <h2>How to choose</h2>
 	<p>Choose Forme when you want its native Svelte document model and renderer semantics. Choose Takumi when browser-visible HTML/CSS previews and an HTML-to-paged-PDF pipeline fit your application. Both now return PDF bytes inside this repository.</p>
 	<p>The component source is duplicated by base on purpose. That makes output behavior explicit and lets copied registry items bring only the primitives their renderer needs.</p>
 </DocPage>

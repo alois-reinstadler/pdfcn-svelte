@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 
 	let {
@@ -15,20 +16,27 @@
 		compact?: boolean;
 	} = $props();
 
+	let mounted = $state(false);
+	onMount(() => { mounted = true; });
 	const previewUrl = $derived(`${base}/previews/${renderer}/${theme}/${slug}.pdf`);
 </script>
 
 <div class:compact class="frame">
+	{#if mounted}
 	<iframe
 		src={`${previewUrl}#view=FitH&toolbar=${compact ? 0 : 1}&navpanes=0`}
 		title={`${title} ${renderer === 'forme' ? 'Forme' : 'Takumi'} PDF preview`}
 		loading="lazy"
 		aria-hidden={compact}
 	></iframe>
+	{:else}
+		<a class="loading" href={previewUrl}>Open the {title} PDF</a>
+	{/if}
 	<noscript><a href={previewUrl}>Open the {title} PDF</a></noscript>
 </div>
 
 <style>
+	.loading { display: block; padding: 1rem; }
 	.frame { position: relative; overflow: hidden; width: 100%; aspect-ratio: 210 / 297; border: 1px solid var(--line); border-radius: 0.6rem; background: #dfe3df; box-shadow: 0 1.2rem 3rem rgb(20 38 30 / 0.12); }
 	iframe { width: 100%; height: 100%; border: 0; background: #e9ebe8; }
 	.compact { border: 0; border-radius: 0.42rem; box-shadow: none; }

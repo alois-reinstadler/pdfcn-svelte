@@ -85,6 +85,24 @@ try {
 		server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts')
 	]);
 
+	const { default: GraphLabels } = await server.ssrLoadModule('/tests/components/takumi-graph-labels.svelte');
+	for (const variant of ['bar', 'horizontal-bar', 'line', 'area', 'pie', 'donut']) {
+		const browserBefore = renderSvelte(GraphLabels, { props: { variant } }).body;
+		// Native SVG labels must occur once: HTML fallbacks used to duplicate them.
+		for (const label of ['Alpha', 'Beta']) {
+			assert.equal((browserBefore.match(new RegExp(`>${label}<`, 'g')) ?? []).length, 1,
+				`${variant}: browser labels must appear exactly once`);
+		}
+		const rendered = await inspectPdf(await renderTakumiDocument(GraphLabels, { props: { variant } }));
+		for (const label of ['Alpha', 'Beta']) {
+			assert.equal((rendered.text.match(new RegExp(`\\b${label}\\b`, 'g')) ?? []).length, 1,
+				`${variant}: PDF fallback labels must survive exactly once`);
+		}
+		// A PDF render must not change the subsequent normal SSR/browser tree.
+		assert.equal(renderSvelte(GraphLabels, { props: { variant } }).body, browserBefore,
+			`${variant}: PDF render context leaked into normal SSR`);
+	}
+
 	const formeDocument = await forme.serialize(FormeKitchenSink);
 	const formeSource = JSON.stringify(formeDocument);
 	assert.equal(formeDocument.metadata.title, 'Component contract: Forme');

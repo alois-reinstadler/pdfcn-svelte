@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PAGE_NUMBER, TOTAL_PAGES } from '$lib/bases/forme/lib/pdf-primitives';
+	import { invoiceFormatter } from '$lib/utils/invoice-format';
 	import Document from '$lib/bases/forme/lib/Document.svelte';
 	import Page from '$lib/bases/forme/lib/Page.svelte';
 	import View from '$lib/bases/forme/lib/View.svelte';
@@ -18,6 +20,7 @@
 
 	let { data }: { data: InvoiceCorporateData } = $props();
 	const theme = usePdfcnTheme();
+	const money = $derived(invoiceFormatter(data));
 	const styles = {
 		infoColumn: { flex: 1 },
 		infoGrid: { flexDirection: 'row', gap: 24, marginBottom: theme.spacing.sectionGap },
@@ -40,7 +43,7 @@
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
 	<Page size="A4" margin={{ bottom: 25, left: 56, right: 56, top: 56 }}>
-		<PageFooter leftText={data.notes} rightText="Page 1 of 1" sticky pagePadding={25} />
+		<PageFooter leftText={data.notes} rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`} sticky pagePadding={25} />
 		<View style={styles.page}>
 			<PageHeader variant="logo-right" {logo} title={data.companyName}
 				subtitle={`${data.subtitle}  ·  ${data.companyAddress}`} style={{ marginBottom: theme.spacing.sectionGap }} />
@@ -62,23 +65,23 @@
 			</View>
 			<Table variant="bordered">
 				<TableHeader><TableRow header>
-					<TableCell text="Description" /><TableCell align="center" text="Qty" />
-					<TableCell align="right" text="Unit Price" /><TableCell align="right" text="Amount" _last />
+					<TableCell style={{ flex: 48 }} text="Description" /><TableCell style={{ flex: 12 }} align="center" text="Qty" />
+					<TableCell style={{ flex: 20 }} align="right" text="Unit Price" /><TableCell style={{ flex: 20 }} align="right" text="Amount" _last />
 				</TableRow></TableHeader>
 				<TableBody>{#each data.items as item}
 					<TableRow>
-						<TableCell text={item.description} /><TableCell align="center" text={`${item.quantity}`} />
-						<TableCell align="right" text={`$${item.unitPrice.toLocaleString()}`} />
-						<TableCell align="right" text={`$${(item.quantity * item.unitPrice).toLocaleString()}`} _last />
+						<TableCell style={{ flex: 48 }} text={item.description} /><TableCell style={{ flex: 12 }} align="center" text={`${item.quantity}`} />
+						<TableCell style={{ flex: 20 }} align="right" text={money(item.unitPrice)} />
+						<TableCell style={{ flex: 20 }} align="right" text={money((item.quantity * item.unitPrice))} _last />
 					</TableRow>
 				{/each}</TableBody>
 			</Table>
 			<View style={styles.summaryCard}>
 				<View style={styles.summaryRow}><View style={{ width: 260 }}>
 					<KeyValue size="md" dividerThickness={1} dividerColor="border" divided items={[
-						{ key: 'Subtotal', value: `$${data.summary.subtotal.toLocaleString()}` },
-						{ key: 'Tax (8%)', value: `$${data.summary.tax.toFixed(2)}` },
-						{ key: 'Total Due', keyStyle: { fontSize: 13, fontWeight: 'bold' }, value: `$${data.summary.total.toFixed(2)}`, valueStyle: { color: theme.colors.primary, fontSize: 14, fontWeight: 'bold' } }
+						{ key: 'Subtotal', value: money(data.summary.subtotal) },
+						{ key: data.taxLabel ?? 'Tax', value: money(data.summary.tax) },
+						{ key: 'Total Due', keyStyle: { fontSize: 13, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { color: theme.colors.primary, fontSize: 14, fontWeight: 'bold' } }
 					]} />
 				</View></View>
 			</View>

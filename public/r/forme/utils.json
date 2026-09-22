@@ -130,6 +130,11 @@
       "target": "~/src/lib/types/pdf-themes.ts"
     },
     {
+      "content": "/** Amounts are supplied by the caller; this helper only formats them. */\nexport interface InvoiceFormatOptions {\n\t/** ISO 4217 currency code. @default 'USD' */\n\tcurrency?: string;\n\t/** Intl locale. @default 'en-US' (matches the shipped invoice samples) */\n\tlocale?: string;\n\t/** Label for the supplied tax amount. @default 'Tax' */\n\ttaxLabel?: string;\n}\n\nexport function invoiceFormatter(options: InvoiceFormatOptions): (amount: number) => string {\n\tconst formatter = new Intl.NumberFormat(options.locale ?? 'en-US', {\n\t\tstyle: 'currency', currency: options.currency ?? 'USD'\n\t});\n\treturn (amount) => formatter.format(amount);\n}\n",
+      "type": "registry:lib",
+      "target": "~/src/lib/utils/invoice-format.ts"
+    },
+    {
       "content": "import type { ColorTokens } from '$lib/types/pdf-themes';\n\n/** Theme color token keys that can be used for the color prop */\nexport const THEME_COLOR_KEYS = [\n\t'foreground',\n\t'background',\n\t'muted',\n\t'mutedForeground',\n\t'primary',\n\t'primaryForeground',\n\t'border',\n\t'accent',\n\t'destructive',\n\t'success',\n\t'warning',\n\t'info'\n] as const satisfies (keyof ColorTokens)[];\n\n/** Resolves a color value: theme token key → hex, or raw CSS color as-is. */\nexport const resolveColor = (value: string, colors: ColorTokens): string => {\n\tconst key = value as (typeof THEME_COLOR_KEYS)[number];\n\treturn THEME_COLOR_KEYS.includes(key) ? colors[key] : value;\n};\n",
       "type": "registry:lib",
       "target": "~/src/lib/utils/resolve-color.ts"

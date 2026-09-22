@@ -35,6 +35,10 @@
 			"types": "./dist/bases/takumi/index.d.ts",
 			"svelte": "./dist/bases/takumi/index.js",
 			"default": "./dist/bases/takumi/index.js"
+		},
+		"./bases/takumi/server": {
+			"types": "./dist/bases/takumi/server.d.ts",
+			"default": "./dist/bases/takumi/server.js"
 		}
 	},
 	"files": [
@@ -56,12 +60,15 @@
 		"test:render": "node scripts/render-smoke.mjs",
 		"test:documents": "node scripts/render-all-blocks.mjs",
 		"docs:previews": "node scripts/render-all-blocks.mjs --write-previews",
-		"docs:build": "pnpm run docs:previews && vite build",
+		"docs:build": "pnpm run docs:previews && pnpm run test:docs-examples && vite build",
 		"docs:check": "node scripts/docs-contract.mjs",
 		"registry:build": "node scripts/build-registry.mjs",
 		"validate:api": "pnpm run package && node scripts/validate-package-exports.mjs && tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 tests/public-api.ts",
 		"validate:pack": "pnpm pack --dry-run",
-		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run validate:pack"
+		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run test:release && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run validate:pack",
+		"test:release": "node scripts/release-regressions.mjs",
+		"docs:api": "node scripts/docs-api.mjs",
+		"test:docs-examples": "node scripts/docs-api.mjs --check && node scripts/docs-examples.mjs"
 	},
 	"peerDependencies": {
 		"@formepdf/core": "^0.11.1",

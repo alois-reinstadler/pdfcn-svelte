@@ -1,0 +1,10 @@
+<script lang="ts">
+  import InvoiceModern from '$lib/bases/takumi/blocks/invoice-modern/invoice-modern.svelte';
+  import { professionalTheme } from '$lib/themes/professional';
+  const theme = { ...professionalTheme, typography: { ...professionalTheme.typography,
+    body: { ...professionalTheme.typography.body, fontFamily: 'sans-serif' },
+    heading: { ...professionalTheme.typography.heading, fontFamily: 'sans-serif' }
+  } };
+</script>
+
+<InvoiceModern {theme} />

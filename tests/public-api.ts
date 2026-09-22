@@ -1,3 +1,4 @@
+import * as TakumiServer from '../dist/bases/takumi/server.js';
 import {
 	PdfcnThemeProvider,
 	blueprintTheme,
@@ -124,8 +125,8 @@ void Takumi.flatten;
 void Takumi.flattenTakumiStyle;
 void Takumi.normalizeTakumiStyle;
 void Takumi.pointToCssPixel;
-void Takumi.renderDocument;
-void Takumi.renderTakumiDocument;
+void TakumiServer.renderDocument;
+void TakumiServer.renderTakumiDocument;
 void Takumi.styleToCss;
 void Themes.THEMES;
 void Themes.THEME_NAMES;

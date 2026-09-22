@@ -1,4 +1,6 @@
-export interface InvoiceMinimalData {
+import type { InvoiceFormatOptions } from '$lib/utils/invoice-format';
+
+export interface InvoiceMinimalData extends InvoiceFormatOptions {
 	invoiceNumber: string;
 	invoiceDate: string;
 	dueDate: string;

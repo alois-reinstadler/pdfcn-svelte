@@ -225,7 +225,7 @@ export type {
 	TakumiDocumentPagination,
 	TakumiPagePagination
 } from './lib/pdf-primitives.js';
-export { renderDocument, renderTakumiDocument } from './lib/render-document.js';
+
 export type {
 	RenderTakumiDocumentOptions,
 	TakumiPdfRenderOptions

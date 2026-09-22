@@ -39,7 +39,7 @@
 	};
 	$effect.pre(() => {
 		const format = detectFormat(src);
-		if (format && UNSUPPORTED_FORMATS.has(format)) console.warn(`[PdfImage] Unsupported format "${format}" detected. react-pdf supports: JPEG, PNG, GIF (first frame), BMP, SVG. Convert to PNG or JPEG before use.`);
+		if (format && UNSUPPORTED_FORMATS.has(format)) console.warn(`[PdfImage] Unsupported format "${format}" detected. Use PNG or JPEG for portable output; support for other formats depends on the selected PDF renderer.`);
 	});
 	const createImageStyles = (t: PdfcnTheme) => ({
 		caption: { color: t.colors.mutedForeground, fontFamily: t.typography.body.fontFamily, fontSize: t.primitives.typography.xs, marginTop: t.primitives.spacing[1], textAlign: 'center' },

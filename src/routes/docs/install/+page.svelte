@@ -1,43 +1,24 @@
 <script lang="ts">
-	import Callout from '../../../docs/components/Callout.svelte';
-	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
-	import DocPage from '../../../docs/components/DocPage.svelte';
-	import { registryInstallCommand } from '../../../docs/site';
-
-	const packageInstall = 'pnpm add pdfcn-svelte\npnpm add @formepdf/svelte @formepdf/core  # Forme\npnpm add takumi-pdf @takumi-rs/helpers   # Takumi';
-	const localBuild = 'pnpm install\npnpm run package\npnpm pack';
-	const registry = [
-		registryInstallCommand('forme', 'alert'),
-		registryInstallCommand('takumi', 'invoice-modern')
-	].join('\n');
+ import { base } from '$app/paths';
+ import CodeBlock from '../../../docs/components/CodeBlock.svelte';
+ import DocPage from '../../../docs/components/DocPage.svelte';
 </script>
-
 <svelte:head><title>Installation — pdfcn / svelte</title></svelte:head>
-
-<DocPage title="Installation" description="Use pdfcn-svelte as a package when you want stable imports, or use the shadcn-style registry when you want the readable component source inside your application.">
-	<Callout title="Package status" tone="warning"><p>The package examples apply to a packed or workspace-linked build until a package release is published. The source registry is hosted from this repository through GitHub Pages.</p></Callout>
-
-	<h2>Package or workspace</h2>
-	<p>For a published or linked package, install the library and your renderer dependencies. Forme dependencies are optional at the package level because Takumi consumers do not use them.</p>
-	<CodeBlock code={packageInstall} label="terminal" />
-	<p>To consume this checkout directly, build and pack it first:</p>
-	<CodeBlock code={localBuild} label="terminal" />
-
-	<h2>Copy source through the registry</h2>
-	<p>The registry workflow follows shadcn-svelte conventions: it resolves the selected item and its source dependencies into your own project. Your target project needs a valid <code>components.json</code>.</p>
-	<CodeBlock code={registry} label="terminal" />
-	<p>Replace <code>forme</code> with <code>takumi</code> to choose that base. Templates and theme presets are registry items too.</p>
-
-	<h2>Requirements</h2>
-	<ul>
-		<li>Svelte 5.30 or newer</li>
-		<li>A TypeScript-capable Svelte project</li>
-		<li><code>@formepdf/svelte</code> and <code>@formepdf/core</code> 0.11.x for Forme rendering</li>
-		<li><code>takumi-pdf</code> 0.11.x and <code>@takumi-rs/helpers</code> 2.12.x for Takumi PDF rendering</li>
-		<li><code>components.json</code> only when using the source registry</li>
-	</ul>
-
-	<h2>Import boundaries</h2>
-	<p>The theme provider and theme presets are renderer-neutral. Components and primitives come from a renderer namespace:</p>
-	<CodeBlock label="imports.ts" code={`import { PdfcnThemeProvider } from 'pdfcn-svelte';\nimport { forestTheme } from 'pdfcn-svelte/themes';\nimport { Document, Page, Text } from 'pdfcn-svelte/bases/forme';`} />
+<DocPage title="Installation" description="Choose a package for stable imports, or copied source when you want to edit the implementation.">
+ <h2>Local tarball: the current release path</h2>
+ <p>Until a package release is published, build this checkout. These commands run in the pdfcn-svelte repository:</p>
+ <CodeBlock label="pdfcn-svelte checkout" code={'pnpm install\npnpm run package\npnpm pack'} />
+ <p>Then run this in your consuming Svelte 5.30+ application. Replace the path with the tarball produced above:</p>
+ <CodeBlock label="Consuming application" code={'pnpm add /absolute/path/to/pdfcn-svelte-0.1.0.tgz'} />
+ <h2>Install one renderer</h2>
+ <CodeBlock label="Forme only" code="pnpm add @formepdf/svelte @formepdf/core" />
+ <CodeBlock label="Or Takumi only" code="pnpm add takumi-pdf @takumi-rs/helpers" />
+ <p>Forme uses version 0.11.x of its adapters. Takumi uses takumi-pdf 0.11.x and helpers 2.12.x. The unused renderer is optional. A server-capable SvelteKit deployment is needed for on-demand PDF endpoints; a static site can serve PDFs generated at build time.</p>
+ <h2>Workspace alternative</h2>
+ <p>Place the built library in your pnpm workspace and add <code>"pdfcn-svelte": "workspace:*"</code> to the consuming application's dependencies, then run <code>pnpm install</code> at the workspace root. Build the library with <code>pnpm run package</code> before using its exports. Workspace imports are identical to tarball imports.</p>
+ <h2>Package imports</h2>
+ <CodeBlock label="imports.ts" code={"import { PdfcnThemeProvider } from 'pdfcn-svelte';\nimport { professionalTheme } from 'pdfcn-svelte/themes';\nimport { Document, Page, Text } from 'pdfcn-svelte/bases/forme';\n// Takumi components: pdfcn-svelte/bases/takumi\n// Takumi renderer (server only): pdfcn-svelte/bases/takumi/server"} />
+ <p>Continue with <a href={`${base}/docs/getting-started`}>your first complete PDF</a>. A package installation does not require components.json, Tailwind, or the shadcn-svelte CLI.</p>
+ <h2>Copied source alternative</h2>
+ <p>Follow the <a href={`${base}/docs/registry`}>source registry guide</a> to initialize components.json, install an item, and import its actual local files. Do not substitute package imports into copied-source instructions.</p>
 </DocPage>

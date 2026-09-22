@@ -33,12 +33,12 @@
 		<label><span class="sr-only">Search components</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><input bind:value={query} type="search" placeholder="Search components…" /></label>
 		<div class="filters" aria-label="Filter by category">
 			{#each filters as category}
-				<button class:active={filter === category} onclick={() => (filter = category)}>{category}</button>
+				<button type="button" aria-pressed={filter === category} class:active={filter === category} onclick={() => (filter = category)}>{category}</button>
 			{/each}
 		</div>
 	</div>
 
-	<div class="result-line"><span>{visible.length.toString().padStart(2, '0')} components</span><i></i><span>Forme + Takumi</span></div>
+	<div class="result-line" aria-live="polite"><span>{visible.length.toString().padStart(2, '0')} components</span><i></i><span>Forme + Takumi</span></div>
 
 	{#if visible.length}
 		<div class="component-grid">
@@ -67,6 +67,8 @@
 <footer><div><strong>Need a complete document?</strong><p>Start from one of ten invoice and report templates.</p></div><a href={`${base}/templates`}>Explore templates <span>→</span></a></footer>
 
 <style>
+ .toolbar label:focus-within { outline: 2px solid var(--green); outline-offset: 3px; }
+ :is(button, a):focus-visible { outline: 3px solid var(--green); outline-offset: 4px; }
 	.catalog-head { padding: 6rem 0 4.5rem; border-bottom: 1px solid var(--line); background-image: radial-gradient(var(--line) 0.7px, transparent 0.7px); background-size: 18px 18px; }
 	.head-inner, .catalog-wrap { width: min(100% - 2rem, 76rem); margin: 0 auto; }
 	.head-inner > p { margin: 0 0 1rem; color: var(--green-dark); font-family: var(--font-mono); font-size: 0.63rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }

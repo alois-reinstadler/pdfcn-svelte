@@ -1,4 +1,6 @@
-export interface InvoiceCorporateData {
+import type { InvoiceFormatOptions } from '$lib/utils/invoice-format';
+
+export interface InvoiceCorporateData extends InvoiceFormatOptions {
 	invoiceNumber: string;
 	invoiceDate: string;
 	dueDate: string;

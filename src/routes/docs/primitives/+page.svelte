@@ -5,7 +5,9 @@
 
 	const basePrimitives = ['Document', 'Page', 'View', 'PDFText', 'PDFLink', 'Image'];
 	const svgPrimitives = ['Svg', 'G', 'Path', 'Rect', 'Circle', 'Line', 'SvgText'];
-	const use = `import { Document, Page, View, PDFText } from 'pdfcn-svelte/bases/forme';
+	const use = `<script lang="ts">
+import { Document, Page, View, PDFText } from 'pdfcn-svelte/bases/forme';
+</scr` + `ipt>
 
 <Document title=\"Raw primitives\">
   <Page size=\"A4\" margin={36}>

@@ -1,34 +1,29 @@
 <script lang="ts">
 	import { PdfcnThemeProvider } from 'pdfcn-svelte';
-	import { modernTheme } from 'pdfcn-svelte/themes';
-	import {
-		Badge,
-		Divider,
-		Document,
-		Heading,
-		Page,
-		Stack,
-		Text
-	} from 'pdfcn-svelte/bases/forme';
-
+	import { professionalTheme } from 'pdfcn-svelte/themes';
+	import { Document, Page, Text } from 'pdfcn-svelte/bases/forme';
+	// Built-in Helvetica avoids a network font dependency in this example.
+	const theme = {
+		...professionalTheme,
+		typography: {
+			...professionalTheme.typography,
+			body: { ...professionalTheme.typography.body, fontFamily: 'Helvetica' },
+			heading: {
+				...professionalTheme.typography.heading,
+				fontFamily: 'Helvetica'
+			}
+		}
+	};
 	let { customer = 'Ada Lovelace' }: { customer?: string } = $props();
 </script>
 
-<PdfcnThemeProvider theme={modernTheme}>
-	<Document title="Account summary" author="Acme, Inc." lang="en-US">
+<PdfcnThemeProvider {theme}>
+	<Document title="Text example">
 		<Page size="A4" margin={48}>
-			<Stack gap="lg">
-				<Stack direction="horizontal" align="center" justify="between">
-					<Heading level={1} noMargin>Account summary</Heading>
-					<Badge variant="success" label="Paid" />
-				</Stack>
-
-				<Divider />
-				<Text variant="lg">Prepared for {customer}</Text>
-				<Text color="mutedForeground">
-					This template can be passed to renderDocument from @formepdf/svelte.
-				</Text>
-			</Stack>
+			<Text variant="lg" weight="semibold">Payment received</Text><Text
+				color="mutedForeground"
+				italic>Prepared for {customer}.</Text
+			>
 		</Page>
 	</Document>
 </PdfcnThemeProvider>

@@ -6,6 +6,7 @@
 	import type { BaseReportData } from './report.types';
 
 	const sampleSecurityData: BaseReportData = {
+		status: { label: 'Security: Action Needed', tone: 'destructive' },
 		author: 'Security Engineering',
 		generatedAt: 'February 23, 2026',
 		highlights: [
@@ -21,10 +22,8 @@
 			{ label: 'WAF Policy', owner: 'S. Reed', progress: 76, risk: 'Low', status: 'On Track' }
 		],
 		series: [
-			{ label: 'W1', value: 61 }, { label: 'W2', value: 63 }, { label: 'W3', value: 64 },
-			{ label: 'W4', value: 66 }, { label: 'W5', value: 67 }, { label: 'W6', value: 68 },
-			{ label: 'W7', value: 69 }, { label: 'W8', value: 71 }, { label: 'W9', value: 72 },
-			{ label: 'W10', value: 74 }, { label: 'W11', value: 76 }, { label: 'W12', value: 78 }
+			{ label: 'High Risk', value: 14 }, { label: 'Medium Risk', value: 17 },
+			{ label: 'Low Risk', value: 8 }, { label: 'Info', value: 4 }
 		],
 		subtitle: 'Vulnerability trends, control maturity, and remediation health',
 		summary: [
@@ -43,17 +42,13 @@
 	<ReportLayout
 		{data}
 		titlePrefix="Security Report"
-		statusLabel="Security: Action Needed"
-		statusTone="destructive"
+		statusLabel={data.status?.label ?? 'Status not supplied'}
+		statusTone={data.status?.tone ?? 'info'}
 		graphVariant="donut"
 		graphTitle="Open risk distribution"
 		graphSubtitle="High/Medium/Low workload share"
 		graphLegend="right"
 		graphShowValues
 		graphColors={['#DC2626', '#F59E0B', '#16A34A', '#0EA5E9']}
-		graphData={[
-			{ label: 'High Risk', value: 14 }, { label: 'Medium Risk', value: 17 },
-			{ label: 'Low Risk', value: 8 }, { label: 'Info', value: 4 }
-		]}
 	/>
 </PdfcnThemeProvider>

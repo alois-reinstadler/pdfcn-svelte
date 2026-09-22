@@ -1,3 +1,4 @@
+import * as TakumiServer from 'pdfcn-svelte/bases/takumi/server';
 import assert from 'node:assert/strict';
 
 import * as Root from 'pdfcn-svelte';
@@ -23,11 +24,11 @@ export async function verifyPackageRuntime() {
 	});
 	assert.ok(Takumi.Stack);
 	assert.equal(Takumi.pointToCssPixel(72), 96);
-	assert.equal(typeof Takumi.renderDocument, 'function');
+	assert.equal(typeof TakumiServer.renderDocument, 'function');
 
 	const [formePdf, takumiPdf] = await Promise.all([
 		renderFormeDocument(FormeDocument),
-		Takumi.renderDocument(TakumiDocument, { margin: 0, size: 'a4' })
+		TakumiServer.renderDocument(TakumiDocument, { margin: 0, size: 'a4' })
 	]);
 	assert.equal(pdfHeader(formePdf), '%PDF-');
 	assert.equal(pdfHeader(takumiPdf), '%PDF-');
