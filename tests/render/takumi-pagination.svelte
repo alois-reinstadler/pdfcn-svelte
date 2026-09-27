@@ -1,11 +1,21 @@
 <script lang="ts">
  import { Document, Page, View, Text, Heading, KeepTogether, PageHeader, PageFooter, PageNumber, PageBreak, Image, Watermark } from '$lib/bases/takumi';
- let { scenario = 'flow', count = 32, pageStyle = {} }: { scenario?: string; count?: number; pageStyle?: Record<string, unknown> } = $props();
+ let { scenario = 'flow', count = 32, pageStyle = {}, bandExtra = 0 }: { scenario?: string; count?: number; pageStyle?: Record<string, unknown>; bandExtra?: number } = $props();
  const margin = { top: 55, right: 24, bottom: 40, left: 33 };
 </script>
 {#snippet counter()}<PageNumber format={"PHYSICAL {page}/{total}"} size="xs" />{/snippet}
 <Document>
- {#if scenario === 'flow-style'}
+ {#if scenario === 'native-band'}
+  <Text>NATIVE BODY</Text>
+ {:else if scenario === 'narrow-band'}
+  <Page flow size={{ width: 320, height: 420 }} margin={{ top: 30, bottom: 20, left: 80, right: 80 }}><Text>BODY</Text><PageFooter fixed leftText="This footer must wrap inside the printable margins." variant="minimal" marginTop={0} style={{ paddingTop: 0, paddingBottom: 0 }} /></Page>
+ {:else if scenario === 'band-centering'}
+  <Page flow size={{ width: 320, height: 420 }} margin={{ top: 60 + bandExtra, right: 37, bottom: 50 + bandExtra, left: 29 }}>
+   <PageHeader fixed title="LEFT HEADER" rightText="RIGHT HEADER" variant="minimal" marginBottom={0} style={{ paddingBottom: 0, borderBottomWidth: 0 }} />
+   {#each Array.from({ length: 30 }, (_, i) => i) as i}<Text noMargin style={{ height: 20, flexShrink: 0 }}>BAND ROW {i}</Text>{/each}
+   <PageFooter fixed variant="minimal" leftText="LEFT FOOTER" rightText="RIGHT FOOTER" marginTop={0} style={{ paddingTop: 0, paddingBottom: 0 }} />
+  </Page>
+ {:else if scenario === 'flow-style'}
   <Page flow style={pageStyle}><Text>STYLE</Text></Page>
  {:else if scenario === 'gap' || scenario === 'gap-plain'}
   <Page flow size={{ width: 280, height: 300 }} margin={30}><View style={{ gap: 20 }}><Heading keepWithNext={scenario === 'gap'} noMargin level={6}>GAP HEADING</Heading><Text noMargin>NEXT GAP CONTENT</Text></View></Page>

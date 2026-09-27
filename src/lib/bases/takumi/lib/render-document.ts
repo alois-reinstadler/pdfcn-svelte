@@ -111,14 +111,36 @@ export async function renderTakumiDocument<Props extends Record<string, any>>(
 	for (const side of ['top', 'right', 'bottom', 'left'] as const) {
 		const value = typeof margins === 'object' ? margins[side] ?? 'auto' : margins;
 		sides[side] = value === 'auto' ? 37.8 : value;
-		const band = side === 'top' ? finalOptions.header : side === 'bottom' ? finalOptions.footer : undefined;
-		if (band) {
-			const measured = await measure(band, { ...resources, viewport: { width: paperWidth } });
-			if (value === 'auto') sides[side] = Math.max(sides[side], measured.height);
-			else if (measured.height > sides[side] + 0.5) throw new Error(`Repeated ${side === 'top' ? 'header' : 'footer'} needs ${(measured.height * 0.75).toFixed(1)}pt but Page margin.${side} reserves ${(sides[side] * 0.75).toFixed(1)}pt. Increase that margin or reduce the band content.`);
-		}
 	}
 	const contentWidth = paperWidth - sides.left - sides.right;
+	if (!(contentWidth > 0)) throw new Error('Page margins leave no printable content area. Reduce margins or use a larger Page size.');
+	for (const side of ['top', 'bottom'] as const) {
+		const kind = side === 'top' ? 'header' : 'footer';
+		const band = finalOptions[kind];
+		if (!band) continue;
+		const componentBand = bands[kind].length > 0;
+		const content = componentBand ? column(bands[kind], { width: contentWidth, flexShrink: 0 }) : band;
+		const measured = await measure(content, { ...resources, viewport: { width: componentBand ? contentWidth : paperWidth } });
+		const value = typeof margins === 'object' ? margins[side] ?? 'auto' : margins;
+		if (value === 'auto') sides[side] = Math.max(sides[side], measured.height);
+		else if (measured.height > sides[side] + 0.5) throw new Error(`Repeated ${kind} needs ${(measured.height * 0.75).toFixed(1)}pt but Page margin.${side} reserves ${(sides[side] * 0.75).toFixed(1)}pt. Increase that margin or reduce the band content.`);
+		if (componentBand) {
+			// takumi-pdf 0.11 anchors native bands 20 CSS pixels from each
+			// paper edge, independently of the requested margins. Cancel that
+			// offset for component bands and center their full, non-shrinking
+			// content inside a box exactly as tall as the reserved margin.
+			finalOptions = { ...finalOptions, [kind]: column([content as Node], {
+				width: paperWidth,
+				height: sides[side],
+				position: 'relative',
+				top: side === 'top' ? -20 : 20,
+				boxSizing: 'border-box',
+				paddingLeft: sides.left,
+				paddingRight: sides.right,
+				justifyContent: 'center'
+			}) };
+		}
+	}
 	const contentHeight = paperHeight - sides.top - sides.bottom;
 	if (!(contentWidth > 0 && contentHeight > 0)) throw new Error('Page margins leave no printable content area. Reduce margins or use a larger Page size.');
 	for (const page of pages.filter(page => !has(page, 'data-pdf-flow'))) {
