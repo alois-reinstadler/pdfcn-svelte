@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { markFormeBody } from './flow-context';
+	markFormeBody();
 	import { validateImageSource } from '$lib/utils/image-source';
 	import { Image as FormeImage } from '@formepdf/svelte';
 	import {

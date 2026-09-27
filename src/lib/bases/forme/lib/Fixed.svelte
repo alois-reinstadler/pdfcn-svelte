@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enterFormeFixed } from './flow-context';
+	enterFormeFixed();
 	import { Fixed as FormeFixed } from '@formepdf/svelte';
 	import type { Snippet } from 'svelte';
 

@@ -40,6 +40,7 @@ try {
    ['graph',{yTicks:1},/yTicks/],
    ['graph',{width:20},/width/],
    ['graph',{width:200,fullWidth:true},/Choose width/],
+   ['graph',{variant:'line',showDots:false,data:[{label:'Color',value:1,color:'#ff0000'}]},/Per-point colors/],
    ['graph',{data:[{label:'START'+'X'.repeat(240)+'END',value:1}]},/Shorten identifiers/]
   ]) await assert.rejects(serialize(kind,options),error,`${base}:${kind} must reject ${JSON.stringify(options)}`);
   if(base==='forme') for(const [kind,options,error] of [['heading',{keepWithNext:true},/Wrap the heading/],['keep',{minPresenceAhead:20},/following content/],['watermark',{position:'bottom-right'},/centered/],['watermark',{fixed:false},/repeated/],['image',{fit:'contain'},/fit="fill"/],['image',{position:'top'},/positioning/]]) await assert.rejects(serialize(kind,options),error);
@@ -55,11 +56,25 @@ try {
   ]) {const pdf=await renderPdf(Component,{props:{kind,options}});const inspected=await inspectPdf(pdf);for(const marker of markers)assert.ok(inspected.text.includes(marker),`${base} ${kind} missing ${marker}`);
    if(process.env.PDFCN_REGRESSION_ARTIFACTS && kind === 'graph') {const dir=process.env.PDFCN_REGRESSION_ARTIFACTS;await mkdir(dir,{recursive:true});const doc=await getDocument({data:pdf.slice(),disableWorker:true,standardFontDataUrl:`${process.cwd()}/node_modules/pdfjs-dist/standard_fonts/`}).promise;const page=await doc.getPage(1);const viewport=page.getViewport({scale:1.5});const canvas=createCanvas(Math.ceil(viewport.width),Math.ceil(viewport.height));await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;await writeFile(`${dir}/${base}-${options.variant}.png`,canvas.toBuffer('image/png'));await writeFile(`${dir}/${base}-${options.variant}.pdf`,pdf);await doc.destroy();}
   }
+  const colored=await serialize('graph',{variant:'line',data:[{label:'Colored',value:7,color:'#ef1234'}]});
+  const coloredSource=base==='forme'?JSON.stringify(colored):colored.body;
+  assert.match(coloredSource,/<circle[^>]*fill=(?:\\"|&quot;|")#ef1234/,'line point color must reach actual circle geometry');
   const serialized=await serialize('form',{});
   if(base==='forme')assert.match(JSON.stringify(serialized),/"width":\{"Pt":120\}/,'field width must serialize as 120pt');
   else assert.match(serialized.body,/width:160px/,'120pt field width must convert to 160 CSS pixels');
   console.log(`${base}: image requests, field width, signature text, nested lists, chart inputs and labels verified`);
  }
+ const {default:FixedOrder}=await server.ssrLoadModule('/tests/components/forme-fixed-order.svelte');
+ for(const kind of ['header','footer','number','fixed']) {
+  await assert.rejects(forme.renderDocument(FixedOrder,{props:{kind,late:true}}),/before all body content/);
+  await assert.rejects(forme.renderDocument(FixedOrder,{props:{kind,rawBreakFirst:true}}),/before all body content/);
+  for(const flow of [false,true]) {
+   const inspected=await inspectPdf(await forme.renderDocument(FixedOrder,{props:{kind,flow}}));
+   assert.ok(inspected.pages>=2,`${kind}: explicit and automatic pagination must create continuation pages`);
+   for(const [index,text] of inspected.pageTexts.entries()) assert.ok(text.includes(kind==='number'?`Page ${index+1} of ${inspected.pages}`:kind==='header'?'REPEATED HEADER':kind==='footer'?'REPEATED FOOTER':'REPEATED RAW FIXED'),`${kind}: missing repeated content on physical page ${index+1}`);
+  }
+ }
+ console.log('Forme fixed ordering: late declarations fail; early header/footer/page numbers repeat on every physical page');
  const {default:FormeApi}=await server.ssrLoadModule('/tests/components/forme-api-validation.svelte');
 await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'image',options:{src:'/tmp/pdfcn-missing-image-assertion.png'}}}),/loadImage/);
  await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'image',options:{src:'data:image/png;base64,AAAA'}}}),/PNG or JPEG/);

@@ -12,6 +12,7 @@ export type GraphLegendPosition = 'bottom' | 'right' | 'none';
 export interface GraphDataPoint {
 	label: string;
 	value: number;
+	/** Bar/slice fill; for line/area this colors the point dot (requires showDots). */
 	color?: string;
 }
 

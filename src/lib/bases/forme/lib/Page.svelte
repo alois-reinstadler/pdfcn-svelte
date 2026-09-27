@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { provideFormePageFlow } from './flow-context';
+	provideFormePageFlow();
 	import { Page as FormePage } from '@formepdf/svelte';
 	import type { Edges } from '@formepdf/svelte';
 	import type { Snippet } from 'svelte';

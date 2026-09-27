@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { markFormeBody } from './flow-context';
+	markFormeBody();
 	import { View as FormeView } from '@formepdf/svelte';
 	import type { Snippet } from 'svelte';
 

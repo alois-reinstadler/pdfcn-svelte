@@ -67,6 +67,7 @@
 		if (centerLabel && variant !== 'donut') throw new Error('[Graph] centerLabel requires variant="donut".');
 		if (isPieOrDonut && (xLabel || yLabel)) throw new Error('[Graph] Pie/donut charts have no axes. Use title/subtitle instead.');
 		if (smooth && !['line', 'area'].includes(variant)) throw new Error('[Graph] smooth applies only to line and area charts.');
+		if (['line', 'area'].includes(variant) && !showDots && series.some(item => item.data.some(point => point.color !== undefined))) throw new Error('[Graph] Per-point colors require showDots=true for line/area charts. Set series.color for a continuous line color.');
 		const result = buildLayout(series, width, height, isPieOrDonut, yTickCount);
 		const count = result.xLabels.length;
 		if (count > 100 || (!isPieOrDonut && count > 0 && (variant === 'horizontal-bar' ? result.chartH : result.chartW) / count < (variant === 'horizontal-bar' ? 18 : 32))) throw new Error('[Graph] Too many categories for readable labels. Increase the chart dimensions or split the data into separate charts.');
@@ -193,7 +194,7 @@
 				<G>
 					{#if areaPath}<Path d={areaPath} fill={color} fillOpacity={0.2} stroke="none" />{/if}
 					{#if linePath}<Path d={linePath} stroke={color} strokeWidth={2} fill="none" />{/if}
-					{#if showDots}{#each points as point, pointIndex (pointIndex)}<Circle cx={point.x} cy={point.y} r={3} fill={color} />{/each}{/if}
+					{#if showDots}{#each points as point, pointIndex (pointIndex)}<Circle cx={point.x} cy={point.y} r={3} fill={item.data[pointIndex].color ?? color} />{/each}{/if}
 					{#if showValues}{#each points as point, pointIndex (pointIndex)}<SvgText x={point.x} y={point.y - 5} fill={color} textAnchor="middle" style={{ fontSize: 6 }}>{fmtNum(item.data[pointIndex].value)}</SvgText>{/each}{/if}
 				</G>
 			{/each}

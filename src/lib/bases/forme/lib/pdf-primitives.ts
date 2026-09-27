@@ -5,12 +5,13 @@ export type { Style } from '@formepdf/svelte';
 export {
 	Document,
 	Page,
-	PageBreak,
 	Watermark,
 	StyleSheet,
 	PAGE_NUMBER,
 	TOTAL_PAGES
 } from '@formepdf/svelte';
+
+export { default as PageBreak } from './PageBreak.svelte';
 
 type CompatibleStyle = Style | Record<string, unknown>;
 

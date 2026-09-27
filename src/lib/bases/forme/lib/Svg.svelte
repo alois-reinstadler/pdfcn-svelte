@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { markFormeBody } from './flow-context';
+	markFormeBody();
 	import { Svg as FormeSvg } from '@formepdf/svelte';
 	import type { Style } from '$lib/types/pdf-components';
 	import { render } from 'svelte/server';
