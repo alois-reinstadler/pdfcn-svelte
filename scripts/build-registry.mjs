@@ -12,6 +12,16 @@ const REGISTRY_PATH = path.join(ROOT, 'registry.json');
 const REGISTRY_SCHEMA = 'https://shadcn-svelte.com/schema/registry.json';
 const ITEM_SCHEMA = 'https://shadcn-svelte.com/schema/registry-item.json';
 const REGISTRY_HOMEPAGE = 'https://alois-reinstadler.github.io/pdfcn-svelte';
+const packageJson = JSON.parse(await readFile(path.join(ROOT, 'package.json'), 'utf8'));
+const supportedDependencies = { ...packageJson.devDependencies, ...packageJson.dependencies, ...packageJson.peerDependencies };
+function versionedDependencies(dependencies) {
+	return [...new Set(dependencies)].sort().map((name) => {
+		const version = supportedDependencies[name];
+		if (!version) throw new Error(`Registry dependency ${name} has no declared supported version`);
+		return `${name}@${version}`;
+	});
+}
+
 const SOURCE_EXTENSIONS = new Set(['.svelte', '.ts', '.js', '.css']);
 
 const CORE_FILES = [
@@ -206,7 +216,7 @@ async function buildUtilsItem(base) {
 		name: `${base}/utils`,
 		title: `${humanize(base)} PDF Utilities`,
 		description: `Shared theme context, types, color helpers, and PDF primitives for the ${base} base.`,
-		dependencies: [...new Set([...(baseDependencies.get(base) ?? []), ...(await dependenciesFor(files))])].sort(),
+		dependencies: versionedDependencies([...(baseDependencies.get(base) ?? []), ...(await dependenciesFor(files))]),
 		registryDependencies: [],
 		files: materialized.map(({ file }) => file),
 		type: 'registry:lib'
@@ -234,7 +244,7 @@ async function buildDirectoryItem(base, kind, name) {
 			kind === 'blocks'
 				? `${humanize(name)} PDF document block for the ${base} base.`
 				: `${humanize(name)} PDF component for the ${base} base.`,
-		dependencies: [...new Set(dependencies)].sort(),
+		dependencies: versionedDependencies(dependencies),
 		registryDependencies: [...new Set(registryDependencies)].sort(),
 		files: materialized.map(({ file }) => file),
 		type: kind === 'blocks' ? 'registry:block' : 'registry:ui'

@@ -28,7 +28,7 @@ export async function verifyPackageRuntime() {
 
 	const [formePdf, takumiPdf] = await Promise.all([
 		renderFormeDocument(FormeDocument),
-		TakumiServer.renderDocument(TakumiDocument, { margin: 0, size: 'a4' })
+		TakumiServer.renderDocument(TakumiDocument)
 	]);
 	assert.equal(pdfHeader(formePdf), '%PDF-');
 	assert.equal(pdfHeader(takumiPdf), '%PDF-');

@@ -35,7 +35,7 @@
 		{ color: selectedTheme.colors.foreground }
 	);
 	const takumiStyle: TakumiStyle = { padding: pointToCssPixel(6) };
-	const takumiOptions: TakumiPdfRenderOptions = { margin: 0, size: 'a4' };
+	const takumiOptions: TakumiPdfRenderOptions = {};
 	const representativeSurface = [
 		FormeInvoice,
 		MaybeFixed,

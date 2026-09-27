@@ -100,13 +100,19 @@ try {
 		cp(fixtureRoot, consumerRoot, { recursive: true })
 	]);
 
+	let displayedSourceCount = 0;
 	// Typecheck the exact public-import source shown in documentation, not lookalike fixtures.
-	for (const folder of ['examples', 'template-examples'])
+	for (const folder of ['examples', 'template-examples', 'pagination-examples'])
 		for (const base of ['forme', 'takumi']) {
 			const sourceRoot = join(repositoryRoot, 'src/docs', folder, base);
 			const destination = join(consumerRoot, 'src/docs', folder, base);
 			await mkdir(destination, { recursive: true });
-			for (const name of await readdir(sourceRoot)) {
+			const names = await readdir(sourceRoot).catch(error => {
+				if (error.code === 'ENOENT' && folder === 'pagination-examples') return [];
+				throw error;
+			});
+			for (const name of names) {
+				displayedSourceCount++;
 				await writeFile(
 					join(destination, name),
 					packageSource(await readFile(join(sourceRoot, name), 'utf8'))
@@ -264,7 +270,7 @@ export async function verifyDocs() {
 		{ cwd: consumerRoot }
 	);
 	console.log(
-		'Shown docs source: 68 files typechecked; three endpoints and both copied-source invoice graphs rendered after production build:',
+		`Shown docs source: ${displayedSourceCount} files typechecked; three endpoints and both copied-source invoice graphs rendered after production build:`,
 		docsRuntime.stdout.trim()
 	);
 

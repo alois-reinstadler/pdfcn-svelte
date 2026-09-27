@@ -65,10 +65,11 @@
 		"registry:build": "node scripts/build-registry.mjs",
 		"validate:api": "pnpm run package && node scripts/validate-package-exports.mjs && tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 tests/public-api.ts",
 		"validate:pack": "pnpm pack --dry-run",
-		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run test:release && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run validate:pack",
+		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run test:release && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run test:consumer-release && pnpm run validate:pack",
 		"test:release": "node scripts/release-regressions.mjs",
 		"docs:api": "node scripts/docs-api.mjs",
-		"test:docs-examples": "node scripts/docs-api.mjs --check && node scripts/docs-examples.mjs"
+		"test:docs-examples": "node scripts/docs-api.mjs --check && node scripts/docs-examples.mjs",
+		"test:consumer-release": "node scripts/consumer-release-contract.mjs"
 	},
 	"peerDependencies": {
 		"@formepdf/core": "^0.11.1",
