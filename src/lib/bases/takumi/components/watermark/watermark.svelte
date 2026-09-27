@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import PDFText from '$lib/bases/takumi/lib/Text.svelte';
 	import View from '$lib/bases/takumi/lib/View.svelte';
-	import { flattenTakumiStyle } from '$lib/bases/takumi/lib/pdf-primitives';
+	import { flattenTakumiStyle, TAKUMI_FLOW_PAGE_CONTEXT } from '$lib/bases/takumi/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
 	import { resolveColor } from '$lib/utils/resolve-color';
 	import type { PDFComponentProps } from '$lib/types/pdf-components';
@@ -15,7 +16,7 @@
 		| 'bottom-right';
 
 	/**
-	 * Diagonal watermark overlaid across the full page, repeated on every page.
+	 * Watermark positioned on one authored fixed-size Page. Use one per Page; flowing Pages are unsupported.
 	 * Props - `text` | `opacity` | `fontSize` | `color` | `angle` | `position` | `style`
 	 */
 	export interface PdfWatermarkProps extends Omit<PDFComponentProps, 'children'> {
@@ -39,6 +40,8 @@
 	}: PdfWatermarkProps = $props();
 
 	const theme = usePdfcnTheme();
+	const flowPage = getContext<{ flow: boolean } | undefined>(TAKUMI_FLOW_PAGE_CONTEXT);
+	if (flowPage?.flow) throw new Error('Takumi Watermark requires an authored fixed-size Page. Repeated flowing-page watermarks are unsupported; put a DRAFT label in PageHeader fixed instead.');
 
 	const createWatermarkStyles = (t: PdfcnTheme) => {
 		const { fontWeights } = t.primitives;
@@ -50,7 +53,7 @@
 				justifyContent: 'center',
 				left: 0,
 				pointerEvents: 'none',
-				position: 'fixed',
+				position: 'absolute',
 				right: 0,
 				top: 0,
 				zIndex: -1

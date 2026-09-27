@@ -20,7 +20,7 @@
 		wrap,
 		fixed,
 		break: pageBreak,
-		minPresenceAhead: _minPresenceAhead,
+		minPresenceAhead,
 		class: classValue,
 		className,
 		children,
@@ -39,11 +39,10 @@
 		if (wrap === false) {
 			merged.breakInside = 'avoid';
 		}
-		if (fixed) {
-			merged.position = 'fixed';
-		}
+		if (fixed) throw new Error('Takumi View fixed is unsupported. Use PageHeader fixed or PageFooter fixed inside a flowing Page.');
+		if (minPresenceAhead !== undefined && (!Number.isFinite(minPresenceAhead) || minPresenceAhead < 0)) throw new Error('minPresenceAhead must be a finite non-negative number in points.');
 		return styleToCss(merged);
 	});
 </script>
 
-<div {...rest} class={classValue ?? className} style={css}>{@render children?.()}</div>
+<div data-pdf-min-ahead={minPresenceAhead} {...rest} class={classValue ?? className} style={css}>{@render children?.()}</div>

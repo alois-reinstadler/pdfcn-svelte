@@ -7,6 +7,7 @@
 	import Page from '$lib/bases/takumi/lib/Page.svelte';
 	import { modernTheme } from '$lib/themes/modern';
 
+	let { secondSize = 'A4' }: { secondSize?: string | { width: number; height: number } } = $props();
 	const data = [
 		{ label: 'Alpha', value: 12 },
 		{ label: 'Beta', value: 20 },
@@ -29,7 +30,7 @@
 			/>
 			<PageNumber format={'Smoke page {page} of {total}'} />
 		</Page>
-		<Page size={{ width: 300, height: 400 }}>
+		<Page size={secondSize}>
 			<Text noMargin>Second page content</Text>
 			<PageNumber format={'Smoke page {page}'} muted={false} />
 		</Page>

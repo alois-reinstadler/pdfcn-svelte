@@ -18,12 +18,14 @@
 		flow?: boolean;
 		/** Physical-page margins in points, used only with flow. Bottom reserves the repeated footer. */
 		margin?: number | { top?: number; right?: number; bottom?: number; left?: number };
+		/** Swap the physical page width and height. All Pages in a Document must share geometry. */
+		landscape?: boolean;
 		size?: string | { width: number; height: number };
 		style?: StyleInput;
 		children?: Snippet;
 	}
 
-	let { size, style, children, flow = false, margin = 48 }: Props = $props();
+	let { size, style, children, flow = false, margin, landscape = false }: Props = $props();
 
 	setContext(TAKUMI_FLOW_PAGE_CONTEXT, { get flow() { return flow; } });
 	const documentPagination = getContext<TakumiDocumentPagination | undefined>(
@@ -58,25 +60,33 @@
 	const insetPageDimension = (dimension: number) =>
 		Math.max(dimension - PAGE_EDGE_INSET, 0);
 
+	const dimensions = $derived.by(() => {
+		const value = typeof size === 'string' ? Object.entries(pageSizes).find(([name]) => name.toLowerCase() === size.toLowerCase())?.[1] : size ?? (landscape ? pageSizes.A4 : undefined);
+		if (size && !value) throw new Error(`Unsupported Page size: ${size}. Use A3, A4, A5, Legal, Letter, Tabloid, or point dimensions.`);
+		if (value && (typeof value.width !== 'number' || typeof value.height !== 'number' || !Number.isFinite(value.width) || !Number.isFinite(value.height) || value.width <= 0 || value.height <= 0)) throw new Error('Page dimensions must be finite positive numbers in points.');
+		return value as { width: number; height: number } | undefined;
+	});
 	const sizeStyle = $derived.by((): Style | undefined => {
-		if (!size) return undefined;
-		const dimensions = typeof size === 'string' ? pageSizes[size] : size;
+		if (!dimensions) return undefined;
 		if (!dimensions || typeof dimensions.height !== 'number' || typeof dimensions.width !== 'number') {
 			return undefined;
 		}
 		return {
-			height: insetPageDimension(dimensions.height),
-			width: insetPageDimension(dimensions.width)
+			height: insetPageDimension(landscape ? dimensions.width : dimensions.height),
+			width: insetPageDimension(landscape ? dimensions.height : dimensions.width)
 		};
 	});
 
 	const flowGeometry = $derived.by(() => {
-		if (!flow) return undefined;
-		const dimensions = typeof size === 'string' ? pageSizes[size] : size;
+		if (!flow) {
+			if (margin !== undefined) throw new Error('Page margin requires flow. Use style.padding for a fixed-size authored Page.');
+			return undefined;
+		}
 		if (size && !dimensions) throw new Error(`Unsupported flowing page size: ${size}`);
-		const sides = typeof margin === 'number'
-			? { top: margin, right: margin, bottom: margin, left: margin }
-			: { top: 0, right: 0, bottom: 0, left: 0, ...margin };
+		const value = margin ?? 48;
+		const sides = typeof value === 'number'
+			? { top: value, right: value, bottom: value, left: value }
+			: { top: 0, right: 0, bottom: 0, left: 0, ...value };
 		for (const value of Object.values(sides)) {
 			if (!Number.isFinite(value) || value < 0) throw new Error('Flow margins must be finite non-negative numbers in points.');
 		}
@@ -85,7 +95,8 @@
 			throw new Error('Flow page dimensions must be finite positive numbers in points.');
 		}
 		return JSON.stringify({
-			size: typeof size === 'string' ? size.toLowerCase() : dimensions
+			landscape,
+			size: dimensions
 				? { width: pointToCssPixel(Number(dimensions.width)), height: pointToCssPixel(Number(dimensions.height)) } : 'a4',
 			margin: Object.fromEntries(Object.entries(sides).map(([side, value]) => [side, pointToCssPixel(value)]))
 		});
@@ -103,4 +114,4 @@
 	);
 </script>
 
-<div data-pdf-page data-pdf-flow={flowGeometry} style={css}>{@render children?.()}</div>
+<div data-pdf-page data-pdf-size={dimensions ? JSON.stringify({ width: pointToCssPixel(landscape ? dimensions.height : dimensions.width), height: pointToCssPixel(landscape ? dimensions.width : dimensions.height) }) : undefined} data-pdf-flow={flowGeometry} style={css}>{@render children?.()}</div>

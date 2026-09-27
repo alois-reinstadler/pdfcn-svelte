@@ -27,7 +27,7 @@
 		tracking?: HeadingTracking;
 		/** @default false */
 		noMargin?: boolean;
-		/** Accepted for API parity; Takumi does not support keep-with-next. Use KeepTogether around a short heading/content group. */
+		/** Keep this heading and its following sibling on the same physical page. Oversized groups fail with an actionable error. */
 		keepWithNext?: boolean;
 	}
 
@@ -39,6 +39,7 @@
 		weight,
 		tracking,
 		noMargin,
+		keepWithNext = false,
 		children,
 		style
 	}: HeadingProps = $props();
@@ -168,6 +169,6 @@
 	});
 </script>
 
-<PDFText style={mergedStyle}>
+<PDFText data-pdf-keep-next={keepWithNext || undefined} style={mergedStyle}>
 	{@render children?.()}
 </PDFText>

@@ -15,12 +15,12 @@
 		leftText?: FooterContent; rightText?: FooterContent; centerText?: FooterContent;
 		/** @default 'simple' */ variant?: PageFooterVariant;
 		background?: string; textColor?: string; marginTop?: number; address?: string; phone?: string; email?: string; website?: string;
-		/** Accepted for API parity; placement is controlled by Takumi's document renderer. */ fixed?: boolean;
+		/** Repeat in the bottom margin. Defaults to true on flowing Pages. Explicit false keeps the footer inline. */ fixed?: boolean;
 		/** @default false */ sticky?: boolean;
 		/** @default 0 */ pagePadding?: number;
 		/** @default true */ noWrap?: boolean;
 	}
-	let { leftText, rightText, centerText, variant = 'simple', background, textColor, marginTop, address, phone, email, website, sticky = false, pagePadding = 0, noWrap = true, style }: PageFooterProps = $props();
+	let { leftText, rightText, centerText, variant = 'simple', background, textColor, marginTop, address, phone, email, website, fixed, sticky = false, pagePadding = 0, noWrap = true, style }: PageFooterProps = $props();
 	const theme = usePdfcnTheme();
 	const flowPage = getContext<{ flow: boolean } | undefined>(TAKUMI_FLOW_PAGE_CONTEXT);
 	const createPageFooterStyles = (t: PdfcnTheme) => {
@@ -39,6 +39,11 @@
 	const resolvedTextColor = $derived(textColor ? resolveColor(textColor, theme.colors) : undefined);
 	const colorize = (base: Style) => flattenTakumiStyle([base, resolvedTextColor ? { color: resolvedTextColor } : undefined]);
 	const containerStyle = $derived.by(() => {
+		if (flowPage?.flow && fixed === false && sticky) throw new Error('PageFooter fixed=false is inline and cannot also be sticky. Remove sticky or set fixed=true.');
+		if ((address || phone || email || website) && !['detailed', 'three-column'].includes(variant)) throw new Error('PageFooter contact details require variant=detailed or three-column.');
+		if (centerText && !['simple', 'centered', 'three-column'].includes(variant)) throw new Error('PageFooter centerText requires variant=simple, centered or three-column.');
+		if (sticky && marginTop !== undefined && marginTop !== 0) throw new Error('PageFooter sticky cannot use marginTop. Use pagePadding to inset a sticky footer.');
+		if (fixed && !flowPage?.flow) throw new Error('PageFooter fixed requires Page flow. Reserve enough bottom margin for the footer.');
 		const variantMap = { branded: styles.brandedContainer, centered: styles.centeredContainer, detailed: styles.detailedContainer, minimal: styles.minimalContainer, simple: styles.simpleContainer, 'three-column': styles.threeColumnContainer };
 		const placement = flowPage?.flow ? { paddingLeft: pagePadding, paddingRight: pagePadding } : sticky ? { bottom: pagePadding, left: pagePadding, position: 'absolute', right: pagePadding } : { paddingLeft: pagePadding, paddingRight: pagePadding };
 		return flattenTakumiStyle([variantMap[variant], { marginTop: sticky ? 0 : (marginTop ?? theme.spacing.sectionGap) }, background ? { backgroundColor: resolveColor(background, theme.colors) } : undefined, style, placement]);
@@ -68,7 +73,7 @@
 	{/if}
 </View>
 {/snippet}
-{#if flowPage?.flow}
+{#if flowPage?.flow && fixed !== false}
 	<template data-pdf-flow-footer>{@render footer()}</template>
 {:else}
 	{@render footer()}

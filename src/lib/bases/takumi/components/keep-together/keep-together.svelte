@@ -4,13 +4,14 @@
 
 	export interface KeepTogetherProps {
 		children?: PDFComponentProps['children'];
+		/** Minimum following sibling content to keep with this group, in points. */
 		minPresenceAhead?: number;
 		style?: PDFComponentProps['style'];
 	}
 
-	let { children, style }: KeepTogetherProps = $props();
+	let { children, style, minPresenceAhead }: KeepTogetherProps = $props();
 </script>
 
-<View style={[{ breakInside: 'avoid' }, style]}>
+<View wrap={false} {minPresenceAhead} {style}>
 	{@render children?.()}
 </View>

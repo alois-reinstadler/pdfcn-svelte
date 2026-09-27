@@ -55,7 +55,7 @@ try {
 	assert.match(formeInspection.text, /Forme renderer smoke test/);
 	assert.ok(formeInspection.baseFonts.length > 0, 'expected the Forme PDF to embed a font');
 
-	const { body: html } = svelteServer.render(TakumiDocument);
+	const { body: html } = svelteServer.render(TakumiDocument, { props: { secondSize: { width: 300, height: 400 } } });
 	assert.match(html, /data-pdf-document="pdfcn-svelte Takumi smoke test"/);
 	assert.equal((html.match(/data-pdf-page/g) ?? []).length, 2);
 	assert.match(html, /height:1121\.9866666666667px/);
@@ -74,6 +74,11 @@ try {
 	assert.match(html, /class="totalPages">1<\/span>/);
 	assert.match(html, /Second page content/);
 
+	// Mixed physical sizes were previously ignored by the engine. HTML sizing
+	// remains valid, but binary rendering now rejects that lossy combination.
+	await assert.rejects(() => takumiAdapter.renderTakumiDocument(TakumiDocument, {
+		props: { secondSize: { width: 300, height: 400 } }
+	}), /same physical size/);
 	const takumiPdf = await takumiAdapter.renderTakumiDocument(TakumiDocument, {
 		margin: 0,
 		size: 'a4'

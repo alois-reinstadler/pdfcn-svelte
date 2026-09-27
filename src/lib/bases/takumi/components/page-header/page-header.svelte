@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { getContext, type Snippet } from 'svelte';
 
 	import PDFText from '$lib/bases/takumi/lib/Text.svelte';
 	import View from '$lib/bases/takumi/lib/View.svelte';
-	import { flattenTakumiStyle } from '$lib/bases/takumi/lib/pdf-primitives';
+	import { flattenTakumiStyle, TAKUMI_FLOW_PAGE_CONTEXT } from '$lib/bases/takumi/lib/pdf-primitives';
 	import { usePdfcnTheme } from '$lib/theme-provider.svelte';
 	import type { PDFComponentProps } from '$lib/types/pdf-components';
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
@@ -26,15 +26,16 @@
 		phone?: string;
 		email?: string;
 		logo?: Snippet;
-		/** Accepted for API parity; Takumi headers are positioned by the document renderer. */
+		/** Repeat in the top margin of every physical page. Requires Page flow. */
 		fixed?: boolean;
 		/** @default true */
 		noWrap?: boolean;
 	}
 
 	let { title, subtitle, rightText, rightSubText, variant = 'simple', background, titleColor,
-		marginBottom, address, phone, email, logo, noWrap = true, style }: PageHeaderProps = $props();
+		marginBottom, address, phone, email, logo, fixed = false, noWrap = true, style }: PageHeaderProps = $props();
 	const theme = usePdfcnTheme();
+	const flowPage = getContext<{ flow: boolean } | undefined>(TAKUMI_FLOW_PAGE_CONTEXT);
 
 	const createPageHeaderStyles = (t: PdfcnTheme) => {
 		const { spacing, borderRadius, fontWeights } = t.primitives;
@@ -66,12 +67,17 @@
 	};
 	const styles = $derived(createPageHeaderStyles(theme));
 	const containerStyle = $derived.by(() => {
+		if ((address || phone || email) && variant !== 'two-column') throw new Error('PageHeader address, phone and email require variant=two-column.');
+		if (logo && variant !== 'logo-left' && variant !== 'logo-right') throw new Error('PageHeader logo requires variant=logo-left or logo-right.');
+		if ((rightText || rightSubText) && ['centered', 'branded', 'logo-right'].includes(variant)) throw new Error('PageHeader rightText/rightSubText require simple, minimal, two-column or logo-left.');
+		if (fixed && !flowPage?.flow) throw new Error('PageHeader fixed requires Page flow. Reserve enough top margin for the header.');
 		const variantMap = { branded: styles.brandedContainer, centered: styles.centeredContainer, 'logo-left': styles.logoLeftContainer, 'logo-right': styles.logoRightContainer, minimal: styles.minimalContainer, simple: styles.simpleContainer, 'two-column': styles.twoColumnContainer };
 		return flattenTakumiStyle([variantMap[variant], { marginBottom: marginBottom ?? theme.spacing.sectionGap }, background ? { backgroundColor: resolveColor(background, theme.colors) } : undefined, style]);
 	});
 	const titleStyle = $derived(flattenTakumiStyle([styles.title, variant === 'branded' ? styles.titleBranded : undefined, variant === 'branded' || variant === 'centered' ? styles.titleCentered : undefined, variant === 'minimal' ? styles.titleMinimal : undefined, titleColor ? { color: resolveColor(titleColor, theme.colors) } : undefined]));
 </script>
 
+{#snippet header()}
 <View wrap={!noWrap} style={containerStyle}>
 	{#if variant === 'branded' || variant === 'centered'}
 		<PDFText style={titleStyle}>{title}</PDFText>
@@ -91,3 +97,10 @@
 		{#if rightText || rightSubText}<View style={variant === 'minimal' ? styles.minimalRight : styles.simpleRight}>{#if rightText}<PDFText style={styles.rightText}>{rightText}</PDFText>{/if}{#if rightSubText}<PDFText style={styles.rightSubText}>{rightSubText}</PDFText>{/if}</View>{/if}
 	{/if}
 </View>
+
+{/snippet}
+{#if fixed}
+	<template data-pdf-flow-header>{@render header()}</template>
+{:else}
+	{@render header()}
+{/if}
