@@ -20,8 +20,7 @@
 	let { data }: { data: InvoiceConsultantData } = $props();
 	const theme = usePdfcnTheme();
 	const money = $derived(invoiceFormatter(data));
-	const pageStyle = { backgroundColor: theme.colors.background, boxSizing: 'border-box', minHeight: 841,
-		padding: theme.spacing.page.marginTop, paddingBottom: theme.spacing.page.marginBottom, position: 'relative' };
+	const pageStyle = { backgroundColor: theme.colors.background, boxSizing: 'border-box', position: 'relative' };
 	const partyLabelStyle = { borderBottomColor: theme.colors.border, borderBottomStyle: 'solid', borderBottomWidth: 1,
 		color: theme.colors.primary, fontSize: 9, fontWeight: 'bold', letterSpacing: 0.6, marginBottom: 6, paddingBottom: 4, textTransform: 'uppercase' };
 </script>

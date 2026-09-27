@@ -13,6 +13,7 @@ function find(node: Node, key: string): Node[] {
 	return [...(has(node, key) ? [node] : []), ...childrenOf(node).flatMap(child => find(child, key))];
 }
 const column = (children: Node[], style: ContainerNode['style'] = {}): ContainerNode => ({ type: 'container', style: { display: 'flex', flexDirection: 'column', ...style }, children });
+const lengthAt = (value: unknown, available: number): number => typeof value === 'string' && /^\d+(\.\d+)?%$/.test(value) ? available * parseFloat(value) / 100 : px(value);
 const px = (value: unknown): number => typeof value === 'number' ? value : typeof value === 'string' && /^\d+(\.\d+)?px$/.test(value) ? parseFloat(value) : 0;
 
 /**
@@ -129,17 +130,22 @@ export async function renderTakumiDocument<Props extends Record<string, any>>(
 		}
 	}
 	const measureAt = (item: Node, width: number) => measure(item, { ...resources, viewport: { width } } satisfies MeasureOptions);
-	async function prepare(parent: Node, availableWidth: number): Promise<void> {
+	async function prepare(parent: Node, availableWidth: number, knownWidth = true): Promise<void> {
 		if (parent.type !== 'container') return;
 		const style = parent.style ?? {};
-		const width = (px(style.width) || availableWidth) - px(style.paddingLeft ?? style.padding) - px(style.paddingRight ?? style.padding);
+		const width = (lengthAt(style.width, availableWidth) || availableWidth) - lengthAt(style.paddingLeft ?? style.padding, availableWidth) - lengthAt(style.paddingRight ?? style.padding, availableWidth);
 		const children = childrenOf(parent);
-		for (const child of children) await prepare(child, width);
+		for (const child of children) {
+			const uncertainTrack = style.flexDirection === 'row' || style.display === 'grid';
+			const explicitTrack = lengthAt(child.style?.width, width) > 0 && Number(child.style?.flexShrink) === 0;
+			await prepare(child, width, knownWidth && (!uncertainTrack || explicitTrack));
+		}
 		for (let i = children.length - 1; i >= 0; i--) {
 			const child = children[i];
 			const keepNext = has(child, 'data-pdf-keep-next');
 			const ahead = Number(child.attributes?.['data-pdf-min-ahead'] ?? 0) * 96 / 72;
 			if (!keepNext && !ahead) continue;
+			if (!knownWidth) throw new Error('Pagination hints inside flexible rows/grids need an explicit column width and flexShrink: 0. Alternatively put KeepTogether around the complete row.');
 			if (style.flexDirection === 'row' || style.display === 'grid') throw new Error('keepWithNext and minPresenceAhead require vertically stacked siblings. Use KeepTogether around the complete row instead.');
 			let end = i + 1;
 			let followingHeight = 0;
@@ -153,7 +159,7 @@ export async function renderTakumiDocument<Props extends Record<string, any>>(
 				end++;
 			}
 			if (ahead > 0 && followingHeight < ahead) throw new Error('minPresenceAhead exceeds the following sibling content. Lower it or wrap the complete section in KeepTogether; pagination hints cannot cross parent boundaries.');
-			const grouped = column(children.slice(i, end), { breakInside: 'avoid', flexShrink: 0 });
+			const grouped = column(children.slice(i, end), { breakInside: 'avoid', flexShrink: 0, gap: style.gap, rowGap: style.rowGap, columnGap: style.columnGap, alignItems: style.alignItems });
 			const measured = await measureAt(grouped, width);
 			if (measured.height > contentHeight + 0.5) throw new Error('A keepWithNext/minPresenceAhead group is taller than the printable page. Reduce the requested presence, split the following content, or remove the pagination hint.');
 			children.splice(i, end - i, grouped);

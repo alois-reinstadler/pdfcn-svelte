@@ -21,8 +21,7 @@
 	let { data }: { data: InvoiceCreativeData } = $props();
 	const theme = usePdfcnTheme();
 	const money = $derived(invoiceFormatter(data));
-	const pageStyle = { backgroundColor: theme.colors.background, boxSizing: 'border-box', minHeight: 841,
-		padding: theme.spacing.page.marginTop, paddingBottom: theme.spacing.page.marginBottom, position: 'relative' };
+	const pageStyle = { backgroundColor: theme.colors.background, boxSizing: 'border-box', position: 'relative' };
 	const sectionLabelStyle = { color: theme.colors.accent, fontSize: 8, fontWeight: 'bold', letterSpacing: 0.8, marginBottom: 6, textTransform: 'uppercase' };
 </script>
 

@@ -1,11 +1,19 @@
 <script lang="ts">
  import { Document, Page, View, Text, Heading, KeepTogether, PageHeader, PageFooter, PageNumber, PageBreak, Image, Watermark } from '$lib/bases/takumi';
- let { scenario = 'flow', count = 32 }: { scenario?: string; count?: number } = $props();
+ let { scenario = 'flow', count = 32, pageStyle = {} }: { scenario?: string; count?: number; pageStyle?: Record<string, unknown> } = $props();
  const margin = { top: 55, right: 24, bottom: 40, left: 33 };
 </script>
 {#snippet counter()}<PageNumber format={"PHYSICAL {page}/{total}"} size="xs" />{/snippet}
 <Document>
- {#if scenario === 'overflow'}
+ {#if scenario === 'flow-style'}
+  <Page flow style={pageStyle}><Text>STYLE</Text></Page>
+ {:else if scenario === 'gap' || scenario === 'gap-plain'}
+  <Page flow size={{ width: 280, height: 300 }} margin={30}><View style={{ gap: 20 }}><Heading keepWithNext={scenario === 'gap'} noMargin level={6}>GAP HEADING</Heading><Text noMargin>NEXT GAP CONTENT</Text></View></Page>
+ {:else if scenario === 'flex-width'}
+  <Page flow><View style={{ flexDirection: 'row' }}><View style={{ flex: 1 }}><Heading keepWithNext>Nested</Heading><Text>Following</Text></View><Text>Other column</Text></View></Page>
+ {:else if scenario === 'percentage-width'}
+  <Page flow size={{ width: 280, height: 300 }} margin={30}><View style={{ width: '50%' }}><Heading keepWithNext noMargin level={6}>NARROW HEADING</Heading><Text noMargin>{'Narrow column content wraps and stays with its heading. '.repeat(6)}</Text></View></Page>
+ {:else if scenario === 'overflow'}
   <Page size={{ width: 220, height: 200 }}><View style={{ height: 300 }}><Text>OVERFLOW</Text></View></Page>
  {:else if scenario === 'mixed'}
   <Page flow size="A4"><Text>A</Text></Page><Page flow size="Letter"><Text>B</Text></Page>

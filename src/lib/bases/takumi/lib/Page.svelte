@@ -102,16 +102,23 @@
 		});
 	});
 
-	const css = $derived(
-		styleToCss({
+	const css = $derived.by(() => {
+		const customStyle = flattenTakumiStyle(style);
+		if (flow) {
+			const geometry = Object.keys(customStyle ?? {}).find(key =>
+				customStyle?.[key] !== undefined && customStyle?.[key] !== null &&
+				(/^(?:width|height|minWidth|minHeight|maxWidth|maxHeight|inlineSize|blockSize|minInlineSize|minBlockSize|maxInlineSize|maxBlockSize)$/.test(key) || key.startsWith('padding'))
+			);
+			if (geometry) throw new Error(`Page flow cannot use style.${geometry}. Set physical geometry with Page size/margin, or put sized/padded content in an inner View.`);
+		}
+		return styleToCss({
 			display: 'flex',
 			flexDirection: 'column',
 			position: 'relative',
-			...sizeStyle,
-			...flattenTakumiStyle(style),
-			...(flow ? { height: undefined, minHeight: undefined, width: undefined, padding: 0, paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 } : {})
-		})
-	);
+			...(!flow ? sizeStyle : {}),
+			...customStyle
+		});
+	});
 </script>
 
 <div data-pdf-page data-pdf-size={dimensions ? JSON.stringify({ width: pointToCssPixel(landscape ? dimensions.height : dimensions.width), height: pointToCssPixel(landscape ? dimensions.width : dimensions.height) }) : undefined} data-pdf-flow={flowGeometry} style={css}>{@render children?.()}</div>
