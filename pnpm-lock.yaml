@@ -19,11 +19,11 @@ importers:
         version: 3.6.0
     devDependencies:
       '@formepdf/core':
-        specifier: ^0.11.1
-        version: 0.11.1(react@19.2.8)
+        specifier: ^0.25.0
+        version: 0.25.0(react@19.2.8)
       '@formepdf/svelte':
-        specifier: ^0.11.1
-        version: 0.11.1(@formepdf/core@0.11.1(react@19.2.8))(svelte@5.56.10)
+        specifier: ^0.25.0
+        version: 0.25.0(@formepdf/core@0.25.0(react@19.2.8))(svelte@5.56.10)
       '@napi-rs/canvas':
         specifier: ^0.1.100
         version: 0.1.100
@@ -225,23 +225,23 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@formepdf/core@0.11.1':
-    resolution: {integrity: sha512-MJkWc2iHIX/9S258nxxUAvN/vn0Xiljj7SW9LBT9eLMc78CW3wpTkr5hLDrNiWkp0k41iFGcwP+PdiankcJpfw==}
+  '@formepdf/core@0.25.0':
+    resolution: {integrity: sha512-elxPOq5BT9X9vCBH9nx1Q9sYiizvRKu70cGRXC4nDOJGt482QcUye7R2OUHq5lCqoNTl3HElGhNcW0t/1Eh+PA==}
     peerDependencies:
       react: ^18 || ^19
 
-  '@formepdf/react@0.11.1':
-    resolution: {integrity: sha512-yrwLA6b2COZnfXSV0eOnxkh6efs4ORJOlK6zs7p+t9NPiHXX6a1ub1f02NqBMYXeWGyrrumkm0coWLXLuVRgIw==}
+  '@formepdf/react@0.25.0':
+    resolution: {integrity: sha512-ZcM/807fuuxyk1vTUJu9rsj9vpM1IjSfV6iTh2kHxHTi+Md9L/rFmiCh/YTsUbYJ2c1Dmz33z9f66C8EzFCHzw==}
     peerDependencies:
       react: ^18 || ^19
 
-  '@formepdf/shared@0.11.1':
-    resolution: {integrity: sha512-PyggPPXrGsvjKj3bEJLwO+PE/caSGajCW6sPJ+ocm2OhjH6QUwsFZ9J+6ufJ4T6ZzhanwrYeJUkDtVBL/hWiZg==}
+  '@formepdf/shared@0.25.0':
+    resolution: {integrity: sha512-0S3Vs3m6nev/XsDRR9LGmeZSXqFxCtHVnjVBTlyPhPQeeAPIE0S7DrvdneQqrhNMx2D6+58irR5eUOoyY3jsgg==}
 
-  '@formepdf/svelte@0.11.1':
-    resolution: {integrity: sha512-yauiK+HTT3O0zejvfSxoVSjCfs8GBDOgnScJPetCk8KPwx1KPmmKw2rnZ9uHd8I1bJN9QSFFSZf1T3lUE+uuiA==}
+  '@formepdf/svelte@0.25.0':
+    resolution: {integrity: sha512-nKm5msueGKr0MqF/Vy6xLwiIxzGvHQRkL6Pr1yitldf8Vppcwl/nVk8axH7eEgDXvJtZCIiW21luJyXX2ikcow==}
     peerDependencies:
-      '@formepdf/core': ^0.11.1
+      '@formepdf/core': ^0.25.0
       svelte: ^5.30.0
     peerDependenciesMeta:
       '@formepdf/core':
@@ -1023,25 +1023,27 @@ snapshots:
   '@esbuild/win32-x64@0.25.12':
     optional: true
 
-  '@formepdf/core@0.11.1(react@19.2.8)':
+  '@formepdf/core@0.25.0(react@19.2.8)':
     dependencies:
-      '@formepdf/react': 0.11.1(react@19.2.8)
+      '@formepdf/react': 0.25.0(react@19.2.8)
       react: 19.2.8
 
-  '@formepdf/react@0.11.1(react@19.2.8)':
+  '@formepdf/react@0.25.0(react@19.2.8)':
     dependencies:
-      '@formepdf/shared': 0.11.1
+      '@formepdf/shared': 0.25.0
       react: 19.2.8
 
-  '@formepdf/shared@0.11.1': {}
-
-  '@formepdf/svelte@0.11.1(@formepdf/core@0.11.1(react@19.2.8))(svelte@5.56.10)':
+  '@formepdf/shared@0.25.0':
     dependencies:
-      '@formepdf/shared': 0.11.1
+      parse5: 7.3.0
+
+  '@formepdf/svelte@0.25.0(@formepdf/core@0.25.0(react@19.2.8))(svelte@5.56.10)':
+    dependencies:
+      '@formepdf/shared': 0.25.0
       parse5: 7.3.0
       svelte: 5.56.10
     optionalDependencies:
-      '@formepdf/core': 0.11.1(react@19.2.8)
+      '@formepdf/core': 0.25.0(react@19.2.8)
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

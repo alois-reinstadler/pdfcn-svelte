@@ -3,7 +3,7 @@
 	import { flattenTakumiStyle, styleToCss, type StyleInput } from './pdf-primitives';
 
 	interface Props extends Omit<HTMLImgAttributes, 'alt' | 'class' | 'height' | 'src' | 'style' | 'width'> {
-		src: string | { uri: string };
+		src: string;
 		width?: number;
 		height?: number;
 		style?: StyleInput;
@@ -24,7 +24,10 @@
 		...rest
 	}: Props = $props();
 
-	const resolvedSrc = $derived(typeof src === 'string' ? src : src.uri);
+	const resolvedSrc = $derived.by(() => {
+		if (typeof src !== 'string' || !src.trim()) throw new TypeError('[Image] src must be a URL or data URI string. For request options, await loadImage({ uri, method, headers, body }) before rendering.');
+		return src;
+	});
 	const css = $derived(
 		styleToCss({
 			...(width !== undefined ? { width } : undefined),

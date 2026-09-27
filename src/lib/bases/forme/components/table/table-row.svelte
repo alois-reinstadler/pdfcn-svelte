@@ -11,8 +11,8 @@
 	import type { TableRowProps, TableVariant } from './table.types';
 
 	let {
-		header = false,
-		footer = false,
+		header = undefined,
+		footer = undefined,
 		stripe = false,
 		variant,
 		children,
@@ -36,10 +36,10 @@
 			return effectiveVariant;
 		},
 		get header() {
-			return header;
+			return header ?? section?.kind === 'header';
 		},
 		get footer() {
-			return footer;
+			return footer ?? section?.kind === 'footer';
 		},
 		registerCell: () => cellIndex++
 	});
@@ -66,8 +66,8 @@
 		return [
 			styles.row,
 			variants[effectiveVariant],
-			header ? headerVariants[effectiveVariant] : undefined,
-			footer
+			(header ?? section?.kind === 'header') ? headerVariants[effectiveVariant] : undefined,
+			(footer ?? section?.kind === 'footer')
 				? effectiveVariant === 'striped'
 					? styles.rowFooterStriped
 					: styles.rowFooter

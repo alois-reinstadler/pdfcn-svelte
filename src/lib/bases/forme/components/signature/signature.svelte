@@ -8,11 +8,13 @@
 
 	export type SignatureVariant = 'single' | 'double' | 'inline';
 	export interface SignatureSigner { label?: string; name?: string; title?: string; date?: string }
+	/** Printable lines for handwritten signatures; no form fields or cryptographic signing. */
 	export interface PdfSignatureBlockProps {
 		/** @default 'single' */ variant?: SignatureVariant;
 		label?: string; name?: string; title?: string; date?: string;
 		signers?: [SignatureSigner, SignatureSigner]; style?: Style;
 	}
+	export type PrintableSignatureProps = PdfSignatureBlockProps;
 	let { variant = 'single', label = 'Signature', name, title, date, signers, style }: PdfSignatureBlockProps = $props();
 	const theme = usePdfcnTheme();
 	const createSignatureStyles = (t: PdfcnTheme) => {
@@ -32,7 +34,11 @@
 		};
 	};
 	const styles = $derived(createSignatureStyles(theme));
-	const containerStyle = $derived(mergeFormeStyles(styles.container, style));
+	const containerStyle = $derived.by(() => {
+		if (signers && variant !== "double") throw new Error("[PrintableSignature] signers requires variant=double. Use name/title/date for a single or inline signer.");
+		if (variant === "double" && (name || title || date || label !== "Signature")) throw new Error("[PrintableSignature] For variant=double, put label/name/title/date in the two signers entries.");
+		return mergeFormeStyles(styles.container, style);
+	});
 	const resolvedSigners = $derived(signers ?? [{ date: '', label: 'Authorized by', name: '', title: '' }, { date: '', label: 'Approved by', name: '', title: '' }] as [SignatureSigner, SignatureSigner]);
 </script>
 
@@ -47,7 +53,7 @@
 
 <View wrap={false} style={containerStyle}>
 	{#if variant === 'inline'}
-		<View style={styles.inlineRow}><PDFText style={styles.inlineLabel}>{label}:</PDFText><View style={styles.inlineLine} />{#if name}<PDFText style={styles.inlineName}>{name}</PDFText>{/if}</View>
+		<View style={styles.inlineRow}><PDFText style={styles.inlineLabel}>{label}:</PDFText><View style={styles.inlineLine} />{#if name}<PDFText style={styles.inlineName}>{name}</PDFText>{/if}{#if title}<PDFText style={styles.titleText}>{title}</PDFText>{/if}{#if date}<PDFText style={styles.dateText}>{date}</PDFText>{/if}</View>
 	{:else if variant === 'double'}
 		<View style={styles.doubleRow}>{@render signerBlock(resolvedSigners[0])}{@render signerBlock(resolvedSigners[1])}</View>
 	{:else}

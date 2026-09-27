@@ -13,7 +13,7 @@
 		fmtNum,
 		getDefaultPalette,
 		getGraphWidth,
-		normalizeData,
+		validateGraph,
 		polarToCartesian,
 		smoothPath,
 		truncate
@@ -45,19 +45,32 @@
 
 	const theme = usePdfcnTheme();
 	const styles = $derived(createGraphStyles(theme));
-	const palette = $derived(colors ?? getDefaultPalette(theme));
-	const series = $derived(normalizeData(data));
+	const palette = $derived.by(() => {
+		if (colors && colors.length === 0) throw new Error('[Graph] colors must contain at least one color.');
+		return colors ?? getDefaultPalette(theme);
+	});
+	const series = $derived(validateGraph(data, variant));
 	const width = $derived(
 		fullWidth
 			? getGraphWidth(theme, { containerPadding, wrapperPadding })
 			: (explicitWidth ?? GRAPH_SAFE_WIDTHS.default)
 	);
 	const isPieOrDonut = $derived(variant === 'pie' || variant === 'donut');
-	const layout = $derived(buildLayout(series, width, height, isPieOrDonut, yTickCount));
+	const layout = $derived.by(() => {
+		if (fullWidth && explicitWidth !== undefined) throw new Error('[Graph] Choose width or fullWidth, not both.');
+		if (!fullWidth && (containerPadding !== 0 || wrapperPadding !== 0)) throw new Error('[Graph] containerPadding/wrapperPadding require fullWidth=true.');
+		if (centerLabel && variant !== 'donut') throw new Error('[Graph] centerLabel requires variant="donut".');
+		if (isPieOrDonut && (xLabel || yLabel)) throw new Error('[Graph] Pie/donut charts have no axes. Use title/subtitle instead.');
+		if (smooth && !['line', 'area'].includes(variant)) throw new Error('[Graph] smooth applies only to line and area charts.');
+		const result = buildLayout(series, width, height, isPieOrDonut, yTickCount);
+		const count = result.xLabels.length;
+		if (count > 100 || (!isPieOrDonut && count > 0 && (variant === 'horizontal-bar' ? result.chartH : result.chartW) / count < (variant === 'horizontal-bar' ? 18 : 32))) throw new Error('[Graph] Too many categories for readable labels. Increase the chart dimensions or split the data into separate charts.');
+		return result;
+	});
 	const range = $derived(layout.yMax - layout.yMin || 1);
 	const pointX = (index: number) =>
 		layout.chartX +
-		(index / Math.max(layout.xLabels.length - 1, 1)) * layout.chartW;
+		(layout.xLabels.length <= 1 ? 0.5 : index / (layout.xLabels.length - 1)) * layout.chartW;
 	const pointY = (value: number) =>
 		layout.chartY + layout.chartH - ((value - layout.yMin) / range) * layout.chartH;
 	const showLegend = $derived(legend !== 'none' && !isPieOrDonut);
@@ -122,7 +135,7 @@
 	<Svg width={width} height={height}>
 		{#if variant === 'bar'}
 			{@render cartesianGrid()}
-			<Line x1={layout.chartX} y1={layout.chartY + layout.chartH} x2={layout.chartX + layout.chartW} y2={layout.chartY + layout.chartH} stroke={theme.colors.foreground} strokeWidth={1} />
+			<Line x1={layout.chartX} y1={pointY(0)} x2={layout.chartX + layout.chartW} y2={pointY(0)} stroke={theme.colors.foreground} strokeWidth={1} />
 			{@const categoryCount = Math.max(layout.xLabels.length, 1)}
 			{@const seriesCount = Math.max(series.length, 1)}
 			{@const groupWidth = layout.chartW / categoryCount}
@@ -132,13 +145,13 @@
 				<G>
 					{#each series as item, seriesIndex (`${item.name}-${seriesIndex}`)}
 						{@const value = item.data[categoryIndex]?.value ?? 0}
-						{@const barHeight = ((value - layout.yMin) / range) * layout.chartH}
+						{@const barHeight = Math.abs(pointY(value) - pointY(0))}
 						{@const barX = groupLeft + seriesIndex * barWidth}
-						{@const barY = layout.chartY + layout.chartH - barHeight}
+						{@const barY = Math.min(pointY(value), pointY(0))}
 						<G>
-							<Rect x={barX} y={barY} width={barWidth - 1} height={barHeight} fill={item.data[categoryIndex]?.color ?? item.color ?? palette[seriesIndex % palette.length]} />
-							{#if showValues && barHeight > 10}
-								<SvgText x={barX + barWidth / 2 - 0.5} y={barY - 2} fill={theme.colors.foreground} textAnchor="middle" style={{ fontSize: 6 }}>{fmtNum(value)}</SvgText>
+							<Rect x={barX} y={barY} width={Math.max(barWidth - 1, 0)} height={barHeight} fill={item.data[categoryIndex]?.color ?? item.color ?? palette[seriesIndex % palette.length]} />
+							{#if showValues}
+								<SvgText x={barX + barWidth / 2 - 0.5} y={(value < 0 ? pointY(0) : barY) - 2} fill={theme.colors.foreground} textAnchor="middle" style={{ fontSize: 6 }}>{fmtNum(value)}</SvgText>
 							{/if}
 						</G>
 					{/each}
@@ -150,20 +163,21 @@
 			{@const barHeight = rowHeight * 0.5}
 			{@const labelWidth = 60}
 			{@const maximum = Math.max(...series.flatMap((item) => item.data.map((point) => point.value)), 1)}
+			{#if showGrid}{#each layout.yTicks as tick}<Line x1={layout.chartX + labelWidth + ((tick - layout.yMin) / range) * (layout.chartW - labelWidth)} x2={layout.chartX + labelWidth + ((tick - layout.yMin) / range) * (layout.chartW - labelWidth)} y1={layout.chartY} y2={layout.chartY + layout.chartH} stroke={theme.colors.border} strokeWidth={0.5} strokeDasharray="3 3" />{/each}{/if}
 			{#each layout.xLabels as label, categoryIndex (`${label}-${categoryIndex}`)}
 				{@const rowY = layout.chartY + categoryIndex * rowHeight}
 				{@const value = series[0]?.data[categoryIndex]?.value ?? 0}
-				{@const barWidth = (value / maximum) * (layout.chartW - labelWidth)}
+				{@const barWidth = (Math.abs(value) / range) * (layout.chartW - labelWidth)}
 				<G>
 					<SvgText x={layout.chartX + labelWidth - 4} y={rowY + rowHeight / 2 + 3} fill={theme.colors.mutedForeground} textAnchor="end" style={{ fontSize: 7 }}>{truncate(label, 14)}</SvgText>
-					<Rect x={layout.chartX + labelWidth} y={rowY + (rowHeight - barHeight) / 2} width={Math.max(barWidth, 1)} height={barHeight} fill={series[0]?.data[categoryIndex]?.color ?? series[0]?.color ?? palette[categoryIndex % palette.length]} />
-					{#if showValues}<SvgText x={layout.chartX + labelWidth + barWidth + 3} y={rowY + rowHeight / 2 + 3} fill={theme.colors.foreground} textAnchor="start" style={{ fontSize: 6 }}>{fmtNum(value)}</SvgText>{/if}
+					<Rect x={layout.chartX + labelWidth + ((Math.min(value, 0) - layout.yMin) / range) * (layout.chartW - labelWidth)} y={rowY + (rowHeight - barHeight) / 2} width={barWidth} height={barHeight} fill={series[0]?.data[categoryIndex]?.color ?? series[0]?.color ?? palette[categoryIndex % palette.length]} />
+					{#if showValues}<SvgText x={layout.chartX + labelWidth + ((value - layout.yMin) / range) * (layout.chartW - labelWidth) + 3} y={rowY + rowHeight / 2 + 3} fill={theme.colors.foreground} textAnchor="start" style={{ fontSize: 6 }}>{fmtNum(value)}</SvgText>{/if}
 				</G>
 			{/each}
-			<Line x1={layout.chartX + labelWidth} y1={layout.chartY} x2={layout.chartX + labelWidth} y2={layout.chartY + layout.chartH} stroke={theme.colors.foreground} strokeWidth={1} />
+			<Line x1={layout.chartX + labelWidth + (-layout.yMin / range) * (layout.chartW - labelWidth)} y1={layout.chartY} x2={layout.chartX + labelWidth + (-layout.yMin / range) * (layout.chartW - labelWidth)} y2={layout.chartY + layout.chartH} stroke={theme.colors.foreground} strokeWidth={1} />
 		{:else if variant === 'line' || variant === 'area'}
 			{@render cartesianGrid()}
-			<Line x1={layout.chartX} y1={layout.chartY + layout.chartH} x2={layout.chartX + layout.chartW} y2={layout.chartY + layout.chartH} stroke={theme.colors.foreground} strokeWidth={1} />
+			<Line x1={layout.chartX} y1={pointY(0)} x2={layout.chartX + layout.chartW} y2={pointY(0)} stroke={theme.colors.foreground} strokeWidth={1} />
 			{#each series as item, seriesIndex (`${item.name}-${seriesIndex}`)}
 				{@const color = item.color ?? palette[seriesIndex % palette.length]}
 				{@const points = item.data.map((point, index) => ({ x: pointX(index), y: pointY(point.value) }))}
@@ -183,7 +197,7 @@
 			{#each pieGeometry as slice (slice.index)}
 				<G>
 					<Path d={slice.path} fill={slice.color} stroke="white" strokeWidth={1} />
-					{#if slice.sweep > 15}<SvgText x={slice.labelPoint.x} y={slice.labelPoint.y + 3} fill={theme.colors.mutedForeground} textAnchor={slice.labelPoint.x > slice.cx ? 'start' : 'end'} style={{ fontSize: 7 }}>{truncate(slice.label, 10)}</SvgText>{/if}
+					
 				</G>
 			{/each}
 			{#if variant === 'donut' && centerLabel}
@@ -199,27 +213,30 @@
 {#snippet textFallback()}
 	<View style={{ height: layout.svgH, left: 0, position: 'absolute', top: 0, width: layout.svgW }}>
 		{#if isPieOrDonut}
-			{#each pieGeometry as slice (slice.index)}
-				{#if slice.sweep > 15}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 7, left: slice.labelPoint.x > slice.cx ? slice.labelPoint.x : slice.labelPoint.x - 60, lineHeight: 1, position: 'absolute', textAlign: slice.labelPoint.x > slice.cx ? 'left' : 'right', top: slice.labelPoint.y - 4, width: 60 }}>{truncate(slice.label, 10)}</PDFText>{/if}
-			{/each}
+			{#if variant === 'donut' && centerLabel}<PDFText style={{ color: theme.colors.foreground, fontSize: 9, fontWeight: 'bold', position: 'absolute', top: pieCenter.cy - 5, left: pieCenter.cx - pieCenter.innerRadius, width: pieCenter.innerRadius * 2, textAlign: 'center' }}>{centerLabel}</PDFText>{/if}
 		{:else if variant === 'horizontal-bar'}
 			{@const rowHeight = layout.chartH / Math.max(layout.xLabels.length, 1)}
 			{@const maximum = Math.max(...series.flatMap((item) => item.data.map((point) => point.value)), 1)}
 			{#each layout.xLabels as label, index (`${label}-${index}`)}
 				{@const value = series[0]?.data[index]?.value ?? 0}
-				{@const barWidth = (value / maximum) * (layout.chartW - 60)}
+				{@const barWidth = (Math.abs(value) / range) * (layout.chartW - 60)}
 				<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 7, left: layout.chartX, lineHeight: 1, position: 'absolute', textAlign: 'right', top: layout.chartY + index * rowHeight + rowHeight / 2 - 4, width: 56 }}>{truncate(label, 14)}</PDFText>
-				{#if showValues}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 6, left: layout.chartX + 60 + barWidth + 3, lineHeight: 1, position: 'absolute', top: layout.chartY + index * rowHeight + rowHeight / 2 - 4, width: 28 }}>{fmtNum(value)}</PDFText>{/if}
+				{#if showValues}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 6, left: layout.chartX + 60 + ((value - layout.yMin) / range) * (layout.chartW - 60) + 3, lineHeight: 1, position: 'absolute', top: layout.chartY + index * rowHeight + rowHeight / 2 - 4, width: 28 }}>{fmtNum(value)}</PDFText>{/if}
 			{/each}
 		{:else}
 			{#each layout.yTicks as tick, index (`${tick}-${index}`)}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 7, left: 0, lineHeight: 1, position: 'absolute', textAlign: 'right', top: pointY(tick) - 4, width: layout.chartX - 4 }}>{fmtNum(tick)}</PDFText>{/each}
-			{#if variant === 'line' || variant === 'area'}{#each layout.xLabels as label, index (`${label}-${index}`)}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 7, left: pointX(index) - 12, lineHeight: 1, position: 'absolute', textAlign: 'center', top: layout.chartY + layout.chartH + 3, width: 24 }}>{truncate(label, 8)}</PDFText>{/each}{/if}
+			{#if variant === 'line' || variant === 'area'}{#each layout.xLabels as label, index (`${label}-${index}`)}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 7, left: pointX(index) - Math.min(80, layout.chartW / Math.max(layout.xLabels.length - 1, 1)) / 2, lineHeight: 1, position: 'absolute', textAlign: 'center', top: layout.chartY + layout.chartH + 3, width: Math.min(80, layout.chartW / Math.max(layout.xLabels.length - 1, 1)) }}>{truncate(label, 8)}</PDFText>{/each}{/if}
 			{#if variant === 'bar' && showValues}
 				{@const groupWidth = layout.chartW / Math.max(layout.xLabels.length, 1)}
 				{@const barWidth = Math.max((groupWidth - 2 * (series.length + 1)) / Math.max(series.length, 1), 1)}
-				{#each layout.xLabels as label, categoryIndex (`${label}-${categoryIndex}`)}{#each series as item, seriesIndex (`${item.name}-${seriesIndex}`)}{@const value = item.data[categoryIndex]?.value ?? 0}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 6, left: layout.chartX + categoryIndex * groupWidth + 2 + seriesIndex * (barWidth + 2), lineHeight: 1, position: 'absolute', textAlign: 'center', top: pointY(value) - 8, width: barWidth }}>{fmtNum(value)}</PDFText>{/each}{/each}
+				{#each layout.xLabels as label, categoryIndex (`${label}-${categoryIndex}`)}{#each series as item, seriesIndex (`${item.name}-${seriesIndex}`)}{@const value = item.data[categoryIndex]?.value ?? 0}<PDFText style={{ color: theme.colors.mutedForeground, fontSize: 6, left: layout.chartX + categoryIndex * groupWidth + 2 + seriesIndex * (barWidth + 2), lineHeight: 1, position: 'absolute', textAlign: 'center', top: (value < 0 ? pointY(0) : pointY(value)) - 8, width: barWidth }}>{fmtNum(value)}</PDFText>{/each}{/each}
 			{/if}
 		{/if}
+		{#if !isPieOrDonut && (variant === 'line' || variant === 'area') && showValues}
+			{#each series as item}{#each item.data as point, index}<PDFText style={{ color: theme.colors.foreground, fontSize: 6, position: 'absolute', left: pointX(index) - 18, top: pointY(point.value) - 11, width: 36, textAlign: 'center' }}>{fmtNum(point.value)}</PDFText>{/each}{/each}
+		{/if}
+		{#if !isPieOrDonut && xLabel}<PDFText style={{ fontSize: 8, position: 'absolute', left: layout.chartX, top: height - 10, width: layout.chartW, textAlign: 'center' }}>{xLabel}</PDFText>{/if}
+		{#if !isPieOrDonut && yLabel}<PDFText style={{ fontSize: 8, position: 'absolute', left: 2, top: 2, width: layout.chartW }}>{yLabel}</PDFText>{/if}
 	</View>
 {/snippet}
 
@@ -232,6 +249,10 @@
 			{#if showLegend && legend === 'right'}{@render legendContent('right')}{/if}
 		</View>
 		{#if variant === 'bar'}<View style={{ display: 'flex', flexDirection: 'row', marginLeft: layout.chartX, width: layout.chartW }}>{#each series[0]?.data ?? [] as point, index (`${point.label}-${index}`)}<View style={{ alignItems: 'center', flex: 1 }}><PDFText style={{ fontSize: 7 }}>{truncate(point.label, 10)}</PDFText></View>{/each}</View>{/if}
+		{#if isPieOrDonut}<View style={styles.legendRow}>{#each series[0]?.data ?? [] as point}<View style={styles.legendItem}><PDFText style={styles.legendText}>{point.label}{#if showValues}: {fmtNum(point.value)}{/if}</PDFText></View>{/each}</View>{/if}
+		{#if !isPieOrDonut && layout.xLabels.some(label => label.length > (variant === 'horizontal-bar' ? 14 : variant === 'bar' ? 10 : 8))}
+			<View style={{ width }}>{#each layout.xLabels as label, index}{#if label.length > (variant === 'horizontal-bar' ? 14 : variant === 'bar' ? 10 : 8)}<PDFText style={styles.legendText}>{index + 1}. {label}</PDFText>{/if}{/each}</View>
+		{/if}
 		{#if showLegend && legend === 'bottom'}{@render legendContent('bottom')}{/if}
 	</View>
 {/snippet}

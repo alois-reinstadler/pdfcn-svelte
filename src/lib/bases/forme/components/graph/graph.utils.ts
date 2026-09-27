@@ -1,5 +1,5 @@
 import type { PdfcnTheme } from '$lib/types/pdf-themes';
-import type { ChartLayout, GraphDataPoint, GraphSeries, GraphWidthOptions } from './graph.types.js';
+import type { ChartLayout, GraphDataPoint, GraphSeries, GraphWidthOptions, GraphVariant } from './graph.types.js';
 
 export const A4_WIDTH = 595;
 export const GRAPH_SAFE_WIDTHS = {
@@ -26,7 +26,7 @@ export const CHART_MARGINS = {
 	pieBottom: 10,
 	pieLeft: 10,
 	right: 10,
-	top: 10
+	top: 26
 } as const;
 
 export const normalizeData = (data: GraphDataPoint[] | GraphSeries[]): GraphSeries[] => {
@@ -121,6 +121,8 @@ export const buildLayout = (
 	isPieOrDonut: boolean,
 	yTickCount: number
 ): ChartLayout => {
+	if (!Number.isFinite(width) || width < 120 || !Number.isFinite(height) || height < 80) throw new Error('[Graph] width must be at least 120pt and height at least 80pt.');
+	if (!Number.isInteger(yTickCount) || yTickCount < 2 || yTickCount > 20) throw new Error('[Graph] yTicks must be an integer between 2 and 20.');
 	const mL = isPieOrDonut ? CHART_MARGINS.pieLeft : CHART_MARGINS.axisLeft;
 	const mB = isPieOrDonut ? CHART_MARGINS.pieBottom : CHART_MARGINS.axisBottom;
 	const chartX = mL;
@@ -132,6 +134,7 @@ export const buildLayout = (
 	const rawMax = Math.max(...allValues, 1);
 	const yMin = Math.min(0, rawMin);
 	const yMax = rawMax + (rawMax - yMin) * 0.08;
+	if (!Number.isFinite(yMax) || !Number.isFinite(yMax - yMin)) throw new Error('[Graph] Values exceed the representable chart range. Scale the caller data explicitly.');
 	return {
 		chartH,
 		chartW,
@@ -144,4 +147,21 @@ export const buildLayout = (
 		yMin,
 		yTicks: computeYTicks(yMin, yMax, yTickCount)
 	};
+};
+
+/** Validate chart data before geometry; never drop a caller's series or fabricate missing points. */
+export const validateGraph = (data: GraphDataPoint[] | GraphSeries[], variant: GraphVariant): GraphSeries[] => {
+ const series = normalizeData(data);
+ if (['pie', 'donut', 'horizontal-bar'].includes(variant) && series.length > 1) throw new Error(`[Graph] ${variant} accepts one series. Render separate charts or use bar/line/area for multiple series.`);
+ const labels = series[0]?.data.map(point => point.label) ?? [];
+ for (const item of series) {
+  if (!Array.isArray(item.data)) throw new Error('[Graph] Each series requires a data array.');
+  if (item.data.length !== labels.length || item.data.some((point, index) => point.label !== labels[index])) throw new Error('[Graph] All series must have the same ordered labels. Align categories explicitly; missing values are not assumed to be zero.');
+  for (const point of item.data) {
+   if (typeof point.label !== 'string' || point.label.split(/\s+/).some(word => word.length > 40)) throw new Error('[Graph] Labels must be strings with words of at most 40 characters. Shorten identifiers or insert spaces for readable labels.');
+   if (!Number.isFinite(point.value)) throw new Error('[Graph] Every value must be a finite number.');
+   if (['pie', 'donut'].includes(variant) && point.value < 0) throw new Error('[Graph] Pie/donut values must be nonnegative. Use bar/line for signed values.');
+  }
+ }
+ return series;
 };

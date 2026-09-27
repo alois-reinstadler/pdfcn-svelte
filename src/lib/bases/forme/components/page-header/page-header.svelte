@@ -137,6 +137,9 @@
 
 	const styles = $derived(createPageHeaderStyles(theme));
 	const containerStyle = $derived.by(() => {
+		if ((address || phone || email) && variant !== 'two-column') throw new Error('[PageHeader] Contact fields require variant="two-column".');
+		if (logo && !['logo-left', 'logo-right'].includes(variant)) throw new Error('[PageHeader] logo requires variant="logo-left" or "logo-right".');
+		if ((rightText || rightSubText) && ['centered', 'branded', 'logo-right'].includes(variant)) throw new Error('[PageHeader] rightText/rightSubText require simple, minimal, logo-left, or two-column.');
 		const variantMap = {
 			branded: styles.brandedContainer,
 			centered: styles.centeredContainer,

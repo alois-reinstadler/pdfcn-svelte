@@ -8,7 +8,8 @@
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
 	export type PdfImageHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-	export type PdfImageSrc = string | { uri: string; method?: PdfImageHTTPMethod; headers?: Record<string, string>; body?: string };
+	/** Resolve authenticated requests with loadImage before rendering. */
+	export type PdfImageSrc = string;
 	export type PdfImageFit = 'cover' | 'contain' | 'fill' | 'none';
 	export type PdfImageVariant = 'default' | 'full-width' | 'thumbnail' | 'avatar' | 'cover' | 'bordered' | 'rounded';
 
@@ -24,31 +25,31 @@
 	}
 	let { src, variant = 'default', width, height, fit, position = '50% 50%', caption, aspectRatio, borderRadius, noWrap = true, style }: PdfImageProps = $props();
 	const theme = usePdfcnTheme();
+	const validatedSrc = $derived.by(() => {
+		if (typeof src !== 'string' || !src.trim()) throw new TypeError('[PdfImage] src must be a URL or data URI string. For request options, await loadImage({ uri, method, headers, body }) before rendering.');
+		return src;
+	});
 	interface VariantDefaults { width?: number | string; height?: number | string; fit: PdfImageFit; borderRadius?: number }
 	const VARIANT_DEFAULTS: Record<PdfImageVariant, VariantDefaults> = {
 		avatar: { borderRadius: 999, fit: 'cover', height: 48, width: 48 }, bordered: { fit: 'contain', width: '100%' },
 		cover: { fit: 'cover', height: 160, width: '100%' }, default: { fit: 'contain' }, 'full-width': { fit: 'cover', width: '100%' },
 		rounded: { borderRadius: 8, fit: 'contain', width: 200 }, thumbnail: { fit: 'cover', height: 80, width: 80 }
 	};
-	const UNSUPPORTED_FORMATS = new Set(['webp', 'avif', 'heic', 'heif', 'ico']);
-	const detectFormat = (value: PdfImageSrc): string | null => {
-		if (typeof value !== 'string') return null;
-		const dataMatch = value.match(/^data:image\/([a-zA-Z0-9+.-]+)/);
-		if (dataMatch) return dataMatch[1].toLowerCase();
-		return value.split('?')[0].split('.').pop()?.toLowerCase() ?? null;
-	};
-	$effect.pre(() => {
-		const format = detectFormat(src);
-		if (format && UNSUPPORTED_FORMATS.has(format)) console.warn(`[PdfImage] Unsupported format "${format}" detected. Use PNG or JPEG for portable output; support for other formats depends on the selected PDF renderer.`);
-	});
+
 	const createImageStyles = (t: PdfcnTheme) => ({
 		caption: { color: t.colors.mutedForeground, fontFamily: t.typography.body.fontFamily, fontSize: t.primitives.typography.xs, marginTop: t.primitives.spacing[1], textAlign: 'center' },
 		container: { flexDirection: 'column' }, imageBordered: { borderColor: t.colors.border, borderStyle: 'solid', borderWidth: 1 }
 	});
 	const styles = $derived(createImageStyles(theme));
 	const defaults = $derived(VARIANT_DEFAULTS[variant]);
-	const resolvedWidth = $derived(width ?? defaults.width);
-	const resolvedHeight = $derived.by(() => height !== undefined ? height : defaults.height !== undefined ? defaults.height : aspectRatio !== undefined && typeof resolvedWidth === 'number' ? resolvedWidth / aspectRatio : undefined);
+	const resolvedWidth = $derived.by(() => {
+		if (aspectRatio !== undefined && (!Number.isFinite(aspectRatio) || aspectRatio <= 0)) throw new Error('[PdfImage] aspectRatio must be positive and finite.');
+		if (aspectRatio !== undefined && typeof (width ?? defaults.width) !== 'number') throw new Error('[PdfImage] aspectRatio requires a numeric width in points.');
+		if (aspectRatio !== undefined && height !== undefined) throw new Error('[PdfImage] Choose aspectRatio or height, not both.');
+		for (const dimension of [width, height]) if (typeof dimension === 'number' && (!Number.isFinite(dimension) || dimension <= 0)) throw new Error('[PdfImage] width and height must be positive finite dimensions.');
+		return width ?? defaults.width;
+	});
+	const resolvedHeight = $derived.by(() => height !== undefined ? height : aspectRatio !== undefined && typeof resolvedWidth === 'number' ? resolvedWidth / aspectRatio : defaults.height);
 	const imageStyle = $derived(flattenTakumiStyle([
 		resolvedWidth !== undefined ? { width: resolvedWidth } : undefined,
 		resolvedHeight !== undefined ? { height: resolvedHeight } : undefined,
@@ -59,6 +60,6 @@
 </script>
 
 {#snippet imageContent()}
-	<View style={styles.container}><Image src={src} style={imageStyle} />{#if caption}<PDFText style={styles.caption}>{caption}</PDFText>{/if}</View>
+	<View style={styles.container}><Image src={validatedSrc} style={imageStyle} />{#if caption}<PDFText style={styles.caption}>{caption}</PDFText>{/if}</View>
 {/snippet}
 {#if noWrap}<View style={{ breakInside: 'avoid' }}>{@render imageContent()}</View>{:else}{@render imageContent()}{/if}

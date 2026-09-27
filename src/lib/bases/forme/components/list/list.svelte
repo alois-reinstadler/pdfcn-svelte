@@ -267,7 +267,7 @@
 				<View
 					style={mergeFormeStyles(
 						styles.checkBox,
-						(item.checked ?? true) ? styles.checkBoxChecked : undefined
+						(item.checked ?? false) ? styles.checkBoxChecked : undefined
 					)}
 				/>
 				<View style={styles.checklistTextWrap}>
@@ -294,6 +294,8 @@
 				</View>
 			</View>
 		{/if}
+		{#if variant !== 'descriptive' && item.description}<PDFText style={styles.descriptiveDesc}>{item.description}</PDFText>{/if}
+		{#if variant !== 'bullet' && variant !== 'multi-level' && item.children?.length}<View style={styles.childrenContainer}>{@render renderItems(item.children, level + 1)}</View>{/if}
 	{/each}
 {/snippet}
 

@@ -18,6 +18,8 @@ export type {
 	DividerVariant,
 	DividerProps
 } from './components/divider/divider.svelte';
+export { default as PrintableForm } from './components/form/form.svelte';
+/** @deprecated Use PrintableForm; these are printable blanks, not interactive PDF fields. */
 export { default as Form, default as PdfForm } from './components/form/form.svelte';
 export type {
 	FormLabelPosition,
@@ -25,6 +27,7 @@ export type {
 	PdfFormField,
 	PdfFormGroup,
 	PdfFormProps,
+	PrintableFormProps,
 	PdfFormVariant
 } from './components/form/form.types.js';
 export { default as Graph, default as PdfGraph } from './components/graph/graph.svelte';
@@ -99,12 +102,15 @@ export type {
 	SectionSpacing,
 	SectionVariant
 } from './components/section/section.svelte';
+export { default as PrintableSignature } from './components/signature/signature.svelte';
+/** @deprecated Use PrintableSignature; this draws signature lines and does not digitally sign PDFs. */
 export {
 	default as PdfSignatureBlock,
 	default as Signature
 } from './components/signature/signature.svelte';
 export type {
 	PdfSignatureBlockProps,
+	PrintableSignatureProps,
 	SignatureSigner,
 	SignatureVariant
 } from './components/signature/signature.svelte';
@@ -240,3 +246,6 @@ export {
 	svgAttributeName,
 	svgStyleToCss
 } from './lib/svg-utils.js';
+
+export { loadImage, imageDataUri } from '$lib/utils/image-source.js';
+export type { ImageRequest } from '$lib/utils/image-source.js';

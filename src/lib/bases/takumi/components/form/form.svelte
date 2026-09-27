@@ -18,7 +18,12 @@
 
 	const theme = usePdfcnTheme();
 	const styles = $derived(createFormStyles(theme, variant));
-	const rootStyles = $derived([styles.root, style]);
+	const rootStyles = $derived.by(() => {
+		for (const group of groups) for (const field of group.fields) {
+			if (field.height !== undefined && (!Number.isFinite(field.height) || field.height <= 0)) throw new Error("[PrintableForm] field.height must be a positive number of points.");
+		}
+		return [styles.root, style];
+	});
 
 	const columnCount = (group: PdfFormGroup): number => {
 		if (group.layout === 'three-column') return 3;
@@ -44,14 +49,14 @@
 {#snippet field(field: PdfFormField)}
 	{@const areaHeight = field.height ?? 18}
 	{#if labelPosition === 'left'}
-		<View style={styles.fieldLeft}>
+		<View style={[styles.fieldLeft, field.width !== undefined ? { width: field.width } : undefined]}>
 			<PDFText style={styles.labelLeft}>{field.label}</PDFText>
 			<View style={[styles.fieldArea, styles.fieldLeftArea, { minHeight: areaHeight }]}>
 				{#if field.hint}<PDFText style={styles.hint}>{field.hint}</PDFText>{/if}
 			</View>
 		</View>
 	{:else}
-		<View style={styles.fieldAbove}>
+		<View style={[styles.fieldAbove, field.width !== undefined ? { width: field.width } : undefined]}>
 			<PDFText style={styles.labelAbove}>{field.label}</PDFText>
 			<View style={[styles.fieldArea, { minHeight: areaHeight }]}>
 				{#if field.hint}<PDFText style={styles.hint}>{field.hint}</PDFText>{/if}

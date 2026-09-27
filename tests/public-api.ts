@@ -186,10 +186,13 @@ const unsupportedFormeImageSource: Forme.PdfImageSrc = {
 	uri: 'https://example.com/private.png',
 	method: 'GET'
 };
-const takumiImageSource: Takumi.PdfImageSrc = {
-	uri: 'https://example.com/image.png',
-	method: 'GET'
-};
+const takumiImageSource: Takumi.PdfImageSrc = 'https://example.com/image.png';
+// @ts-expect-error Request options must be resolved with loadImage first.
+const unsupportedTakumiImageSource: Takumi.PdfImageSrc = { uri: 'https://example.com/image.png', headers: { Authorization: 'test' } };
+void unsupportedTakumiImageSource;
+void Forme.PrintableForm;
+void Takumi.PrintableSignature;
+void Forme.loadImage;
 
 void (sharedValues satisfies unknown[]);
 void (null as unknown as SharedTypes);

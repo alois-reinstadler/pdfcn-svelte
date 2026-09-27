@@ -24,8 +24,8 @@
 	const cellIndex = row?.registerCell() ?? 0;
 	const styles = $derived(createTableStyles(theme));
 	const effectiveVariant = $derived(variant ?? row?.variant ?? 'line');
-	const effectiveHeader = $derived(row ? row.header : Boolean(header));
-	const effectiveFooter = $derived(row ? row.footer : Boolean(footer));
+	const effectiveHeader = $derived(header ?? row?.header ?? false);
+	const effectiveFooter = $derived(footer ?? row?.footer ?? false);
 
 	const cellStyle = $derived.by(() => {
 		const cellVariants: Partial<Record<TableVariant, Style>> = {

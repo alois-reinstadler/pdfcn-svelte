@@ -22,9 +22,9 @@
 		fontSize?: number;
 		color?: string;
 		angle?: number;
-		position?: WatermarkPosition;
+		position?: 'center';
 		/** @default true */
-		fixed?: boolean;
+		fixed?: true;
 		children?: never;
 	}
 
@@ -34,6 +34,8 @@
 		fontSize = 60,
 		color = 'mutedForeground',
 		angle = -45,
+		position = 'center',
+		fixed = true,
 		style
 	}: PdfWatermarkProps = $props();
 
@@ -51,7 +53,11 @@
 
 	const resolvedColor = $derived(resolveColor(color, theme.colors));
 
-	const mergedStyle = $derived(mergeFormeStyles(style));
+	const mergedStyle = $derived.by(() => {
+		if (position !== "center" || fixed !== true) throw new Error("[Watermark] Forme supports only centered, repeated watermarks. Use positioned Text for a single authored mark.");
+		if (!Number.isFinite(opacity) || opacity < 0 || opacity > 1) throw new Error("[Watermark] opacity must be between 0 and 1.");
+		return mergeFormeStyles(style);
+	});
 </script>
 
 <Watermark

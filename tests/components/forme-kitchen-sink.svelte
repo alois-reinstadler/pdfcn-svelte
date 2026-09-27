@@ -52,7 +52,7 @@
 <PdfcnThemeProvider theme={modernTheme}>
 	<Document title="Component contract: Forme" author="pdfcn-svelte tests">
 		<Page size="A4" margin={24}>
-			<Watermark text="CMP:watermark" fontSize={22} opacity={0.06} position="bottom-right" />
+			<Watermark text="CMP:watermark" fontSize={22} opacity={0.06} position="center" />
 			<PageHeader
 				title="CMP:page-header"
 				subtitle="Renderer contract"
@@ -70,7 +70,7 @@
 			<Section variant="highlight" spacing="sm" padding="sm" noWrap>
 				<Text noMargin variant="xs">CMP:section</Text>
 			</Section>
-			<KeepTogether minPresenceAhead={20}>
+			<KeepTogether>
 				<Text noMargin variant="xs">CMP:keep-together</Text>
 			</KeepTogether>
 			<KeyValue

@@ -18,6 +18,8 @@ export type {
 	DividerVariant,
 	DividerProps
 } from './components/divider/divider.svelte';
+export { default as PrintableForm } from './components/form/form.svelte';
+/** @deprecated Use PrintableForm; these are printable blanks, not interactive PDF fields. */
 export { default as Form, default as PdfForm } from './components/form/form.svelte';
 export type {
 	FormLabelPosition,
@@ -25,6 +27,7 @@ export type {
 	PdfFormField,
 	PdfFormGroup,
 	PdfFormProps,
+	PrintableFormProps,
 	PdfFormVariant
 } from './components/form/form.types.js';
 export { default as Graph, default as PdfGraph } from './components/graph/graph.svelte';
@@ -64,8 +67,8 @@ export type {
 export { default as PageBreak } from './components/page-break/page-break.svelte';
 export type PageBreakProps = Omit<
 	import('../../types/pdf-components.js').PDFComponentProps,
-	'children'
-> & { children?: never };
+	'children' | 'style'
+> & { children?: never; style?: never };
 export { default as PageFooter } from './components/page-footer/page-footer.svelte';
 export type {
 	PageFooterProps,
@@ -99,12 +102,15 @@ export type {
 	SectionSpacing,
 	SectionVariant
 } from './components/section/section.svelte';
+export { default as PrintableSignature } from './components/signature/signature.svelte';
+/** @deprecated Use PrintableSignature; this draws signature lines and does not digitally sign PDFs. */
 export {
 	default as PdfSignatureBlock,
 	default as Signature
 } from './components/signature/signature.svelte';
 export type {
 	PdfSignatureBlockProps,
+	PrintableSignatureProps,
 	SignatureSigner,
 	SignatureVariant
 } from './components/signature/signature.svelte';
@@ -231,3 +237,6 @@ export { THEME_COLOR_KEYS } from '$lib/utils/resolve-color.js';
 export { Circle, G, Line, Path, Rect, Svg, SvgText } from './lib/pdf-svg.js';
 export type { SvgElementProps, SvgRootProps, SvgStyle, SvgValue } from './lib/pdf-svg.js';
 export { cleanCapturedSvg, normalizeFormeSvgAttributes } from './lib/svg-utils.js';
+
+export { loadImage, imageDataUri } from '$lib/utils/image-source.js';
+export type { ImageRequest } from '$lib/utils/image-source.js';

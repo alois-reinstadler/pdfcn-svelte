@@ -163,10 +163,10 @@
 					borderBottomColor: resolveColor(dividerColor, theme.colors)
 				};
 			}
-			if (dividerThickness) {
+			if (dividerThickness !== undefined) {
 				dividerStyle = { ...dividerStyle, borderBottomWidth: dividerThickness };
 			}
-			if (dividerMargin) {
+			if (dividerMargin !== undefined) {
 				dividerStyle = { ...dividerStyle, marginBottom: dividerMargin };
 			}
 			styleArray.push({ ...styles.divider, ...dividerStyle });
@@ -179,7 +179,7 @@
 		return (
 			flattenTakumiStyle([
 				styles.rowVertical,
-				divided && !isLast ? styles.divider : undefined
+				divided && !isLast ? { ...styles.divider, ...(dividerColor ? { borderBottomColor: resolveColor(dividerColor, theme.colors) } : {}), ...(dividerThickness !== undefined ? { borderBottomWidth: dividerThickness } : {}), ...(dividerMargin !== undefined ? { marginBottom: dividerMargin } : {}) } : undefined
 			]) ?? {}
 		);
 	};

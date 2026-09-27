@@ -178,12 +178,12 @@
 						borderBottomColor: resolveColor(dividerColor, theme.colors)
 					}) ?? dividerStyle;
 				}
-				if (dividerThickness) {
+				if (dividerThickness !== undefined) {
 					dividerStyle = mergeFormeStyles(dividerStyle, {
 						borderBottomWidth: dividerThickness
 					}) ?? dividerStyle;
 				}
-				if (dividerMargin) {
+				if (dividerMargin !== undefined) {
 					dividerStyle = mergeFormeStyles(dividerStyle, {
 						marginBottom: dividerMargin
 					}) ?? dividerStyle;
@@ -198,7 +198,7 @@
 		const isLast = index === items.length - 1;
 		return mergeFormeStyles(
 			styles.rowVertical,
-			divided && !isLast ? styles.divider : undefined
+			divided && !isLast ? { ...styles.divider, ...(dividerColor ? { borderBottomColor: resolveColor(dividerColor, theme.colors) } : {}), ...(dividerThickness !== undefined ? { borderBottomWidth: dividerThickness } : {}), ...(dividerMargin !== undefined ? { marginBottom: dividerMargin } : {}) } : undefined
 		) ?? {};
 	};
 </script>

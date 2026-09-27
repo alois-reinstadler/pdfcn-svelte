@@ -27,7 +27,8 @@
 		tracking?: HeadingTracking;
 		/** @default false */
 		noMargin?: boolean;
-		keepWithNext?: boolean;
+		/** Use KeepTogether around the heading and following content. */
+		keepWithNext?: false;
 	}
 
 	let {
@@ -38,7 +39,7 @@
 		weight,
 		tracking,
 		noMargin,
-		keepWithNext: _keepWithNext,
+		keepWithNext = false,
 		children,
 		style
 	}: HeadingProps = $props();
@@ -114,6 +115,7 @@
 	const styles = $derived(createHeadingStyles(theme));
 
 	const mergedStyle = $derived.by(() => {
+		if (keepWithNext) throw new Error("[Heading] Forme cannot keep a heading with its next sibling. Wrap the heading and following content in KeepTogether instead.");
 		const headingStyles: Record<number, Record<string, unknown>> = {
 			1: styles.h1,
 			2: styles.h2,

@@ -49,6 +49,10 @@
 	const resolvedTextColor = $derived(textColor ? resolveColor(textColor, theme.colors) : undefined);
 	const colorize = (base: Style, extra?: Style) => mergeFormeStyles(base, extra, resolvedTextColor ? { color: resolvedTextColor } : undefined);
 	const containerStyle = $derived.by(() => {
+		if ((address || phone || email || website) && !['detailed', 'three-column'].includes(variant)) throw new Error('[PageFooter] Contact fields require variant="detailed" or "three-column".');
+		if (centerText && ['branded', 'minimal', 'detailed'].includes(variant)) throw new Error('[PageFooter] centerText requires simple, centered, or three-column.');
+		if (pagePadding !== 0 && !sticky) throw new Error('[PageFooter] pagePadding requires sticky=true.');
+		if (sticky && marginTop !== undefined) throw new Error('[PageFooter] sticky positions the footer at the bottom; omit marginTop.');
 		const variantMap = { branded: styles.brandedContainer, centered: styles.centeredContainer, detailed: styles.detailedContainer, minimal: styles.minimalContainer, simple: styles.simpleContainer, 'three-column': styles.threeColumnContainer };
 		return mergeFormeStyles(variantMap[variant], { marginTop: sticky ? 0 : (marginTop ?? theme.spacing.sectionGap) }, background ? { backgroundColor: resolveColor(background, theme.colors) } : undefined, style);
 	});
@@ -73,9 +77,9 @@
 		</View>
 		{#if rightText}<PDFText style={colorize(styles.detailedPageNumber)}>{rightText}</PDFText>{/if}
 	{:else if variant === 'simple'}
-		{#if leftText}<PDFText style={colorize(styles.simpleTextLeft, { width: centerText ? 160 : 360 })}>{leftText}</PDFText>{/if}
-		{#if centerText}<PDFText style={colorize(styles.simpleTextCenter, { width: 160 })}>{centerText}</PDFText>{/if}
-		{#if rightText}<PDFText style={colorize(styles.simpleTextRight, { width: centerText ? 160 : 120 })}>{rightText}</PDFText>{/if}
+		{#if leftText}<PDFText style={colorize(styles.simpleTextLeft, { flex: 1 })}>{leftText}</PDFText>{/if}
+		{#if centerText}<PDFText style={colorize(styles.simpleTextCenter, { flex: 1 })}>{centerText}</PDFText>{/if}
+		{#if rightText}<PDFText style={colorize(styles.simpleTextRight, { flex: 1 })}>{rightText}</PDFText>{/if}
 	{:else}
 		{#if leftText}<PDFText style={colorize(styles.textLeft)}>{leftText}</PDFText>{/if}{#if rightText}<PDFText style={colorize(styles.textRight)}>{rightText}</PDFText>{/if}
 	{/if}

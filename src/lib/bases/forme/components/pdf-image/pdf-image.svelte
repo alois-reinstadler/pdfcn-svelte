@@ -8,15 +8,10 @@
 	import type { PdfcnTheme } from '$lib/types/pdf-themes';
 
 	export type PdfImageHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-	/**
-	 * A URL, file path, or data URI accepted by `@formepdf/svelte`.
-	 *
-	 * The React renderer's structured request source (`{ uri, method, headers, body }`)
-	 * is not supported by Forme's Svelte serializer. Keeping this type string-only
-	 * prevents request options from being silently discarded.
-	 */
+	/** A validated PNG/JPEG data URI. Use loadImage(url) or imageDataUri(bytes) before rendering. */
 	export type PdfImageSrc = string;
-	export type PdfImageFit = 'cover' | 'contain' | 'fill' | 'none';
+	/** Forme stretches two explicit dimensions; one dimension preserves the intrinsic ratio. */
+	export type PdfImageFit = 'fill';
 	export type PdfImageVariant = 'default' | 'full-width' | 'thumbnail' | 'avatar' | 'cover' | 'bordered' | 'rounded';
 
 	/** Image element with layout presets, caption, and aspect ratio support. */
@@ -27,8 +22,8 @@
 		width?: number | string;
 		height?: number | string;
 		fit?: PdfImageFit;
-		/** @default '50% 50%' */
-		position?: string;
+		/** Preprocess cropping/positioning before passing the image to Forme. */
+		position?: never;
 		caption?: string;
 		aspectRatio?: number;
 		borderRadius?: number;
@@ -37,38 +32,27 @@
 		style?: Style;
 	}
 
-	let { src, variant = 'default', width, height, fit, position = '50% 50%', caption,
+	let { src, variant = 'default', width, height, fit, position, caption,
 		aspectRatio, borderRadius, noWrap = true, style }: PdfImageProps = $props();
 	const theme = usePdfcnTheme();
 	const validatedSrc = $derived.by(() => {
 		if (typeof src !== 'string') {
 			throw new TypeError(
-				'[PdfImage] The Forme Svelte renderer accepts only string URLs, file paths, or data URIs.'
+				'[PdfImage] The Forme Svelte renderer accepts only string URLs, file paths, or data URIs. Resolve image requests with await loadImage({ uri, method, headers, body }) before rendering.'
 			);
 		}
+		if (fit !== undefined && fit !== 'fill') throw new Error('[PdfImage] Forme supports fit="fill" only. Use one dimension to preserve the image ratio, preprocess the image for cropping, or use Takumi.');
+		if (position !== undefined) throw new Error('[PdfImage] Forme does not support image positioning. Preprocess the image or use Takumi.');
 		return src;
 	});
 
 	interface VariantDefaults { width?: number | string; height?: number | string; fit: PdfImageFit; borderRadius?: number }
 	const VARIANT_DEFAULTS: Record<PdfImageVariant, VariantDefaults> = {
-		avatar: { borderRadius: 999, fit: 'cover', height: 48, width: 48 },
-		bordered: { fit: 'contain', width: '100%' }, cover: { fit: 'cover', height: 160, width: '100%' },
-		default: { fit: 'contain' }, 'full-width': { fit: 'cover', width: '100%' },
-		rounded: { borderRadius: 8, fit: 'contain', width: 200 }, thumbnail: { fit: 'cover', height: 80, width: 80 }
+		avatar: { borderRadius: 999, fit: 'fill', height: 48, width: 48 },
+		bordered: { fit: 'fill', width: '100%' }, cover: { fit: 'fill', height: 160, width: '100%' },
+		default: { fit: 'fill' }, 'full-width': { fit: 'fill', width: '100%' },
+		rounded: { borderRadius: 8, fit: 'fill', width: 200 }, thumbnail: { fit: 'fill', height: 80, width: 80 }
 	};
-	const UNSUPPORTED_FORMATS = new Set(['webp', 'avif', 'heic', 'heif', 'ico']);
-	const detectFormat = (value: PdfImageSrc): string | null => {
-		const dataMatch = value.match(/^data:image\/([a-zA-Z0-9+.-]+)/);
-		if (dataMatch) return dataMatch[1].toLowerCase();
-		return value.split('?')[0].split('.').pop()?.toLowerCase() ?? null;
-	};
-	const warnIfUnsupported = (value: PdfImageSrc): void => {
-		const format = detectFormat(value);
-		if (format && UNSUPPORTED_FORMATS.has(format)) {
-			console.warn(`[PdfImage] Unsupported format "${format}" detected. Use PNG or JPEG for portable output; support for other formats depends on the selected PDF renderer.`);
-		}
-	};
-	$effect.pre(() => warnIfUnsupported(validatedSrc));
 
 	const createImageStyles = (t: PdfcnTheme) => ({
 		caption: { color: t.colors.mutedForeground, fontFamily: t.typography.body.fontFamily, fontSize: t.primitives.typography.xs, marginTop: t.primitives.spacing[1], textAlign: 'center' },
@@ -76,17 +60,23 @@
 	});
 	const styles = $derived(createImageStyles(theme));
 	const defaults = $derived(VARIANT_DEFAULTS[variant]);
-	const resolvedWidth = $derived(width ?? defaults.width);
+	const resolvedWidth = $derived.by(() => {
+		if (aspectRatio !== undefined && (!Number.isFinite(aspectRatio) || aspectRatio <= 0)) throw new Error('[PdfImage] aspectRatio must be positive and finite.');
+		if (aspectRatio !== undefined && typeof (width ?? defaults.width) !== 'number') throw new Error('[PdfImage] aspectRatio requires a numeric width in points.');
+		if (aspectRatio !== undefined && height !== undefined) throw new Error('[PdfImage] Choose aspectRatio or height, not both.');
+		for (const dimension of [width, height]) if (typeof dimension === 'number' && (!Number.isFinite(dimension) || dimension <= 0)) throw new Error('[PdfImage] width and height must be positive finite dimensions.');
+		return width ?? defaults.width;
+	});
 	const resolvedHeight = $derived.by(() => {
 		if (height !== undefined) return height;
-		if (defaults.height !== undefined) return defaults.height;
 		if (aspectRatio !== undefined && typeof resolvedWidth === 'number') return resolvedWidth / aspectRatio;
+		if (defaults.height !== undefined) return defaults.height;
 		return undefined;
 	});
 	const imageStyle = $derived(mergeFormeStyles(
 		resolvedWidth !== undefined ? { width: resolvedWidth } : undefined,
 		resolvedHeight !== undefined ? { height: resolvedHeight } : undefined,
-		{ objectFit: fit ?? defaults.fit, objectPosition: position },
+		
 		(borderRadius ?? defaults.borderRadius) !== undefined ? { borderRadius: borderRadius ?? defaults.borderRadius } : undefined,
 		variant === 'bordered' ? styles.imageBordered : undefined,
 		style

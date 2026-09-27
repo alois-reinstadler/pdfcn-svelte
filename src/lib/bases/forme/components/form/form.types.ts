@@ -38,3 +38,6 @@ export interface PdfFormProps {
 	noWrap?: boolean;
 	style?: Style;
 }
+
+/** Printable blank fields, not interactive AcroForm widgets. */
+export type PrintableFormProps = PdfFormProps;
