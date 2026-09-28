@@ -14,6 +14,19 @@ try {
  for (const key of ['width', 'height', 'minHeight', 'maxHeight', 'padding', 'paddingTop', 'paddingHorizontal', 'paddingInline']) {
   await assert.rejects(() => renderDocument(fixture, { props: { scenario: 'flow-style', pageStyle: { [key]: 10 } } }), /Page flow cannot use style\./);
  }
+ await assert.rejects(() => renderDocument(fixture, { props: { scenario: 'wide' } }), /Component width.*exceeds/);
+ await assert.rejects(() => renderDocument(fixture, { props: { scenario: 'offpage-x' } }), /Absolute left positioning/);
+ await assert.rejects(() => renderDocument(fixture, { props: { scenario: 'offpage-y' } }), /Absolute top positioning/);
+ for (const count of [240, 2400]) {
+  const longTokenPdf = await renderDocument(fixture, { props: { scenario: 'long-token', count } });
+  const longTokenDoc = await getDocument({ data: longTokenPdf, disableWorker: true }).promise;
+  assert.equal(longTokenDoc.numPages, 1, 'full-width atomic identifier row fits one page');
+  const longTokenItems = (await (await longTokenDoc.getPage(1)).getTextContent()).items;
+  assert.ok(longTokenItems.map(item => item.str).join('').replace(/\s/g, '').includes('START' + 'X'.repeat(count) + 'END'), 'long unbroken table text must survive completely');
+  assert.ok(longTokenItems.every(item => item.transform[4] + item.width <= 548), 'long identifier must wrap within the right margin');
+  await longTokenDoc.destroy();
+ }
+ await assert.rejects(() => renderDocument(fixture, { props: { scenario: 'long-token', count: 10000 } }), /unbreakable component/);
  if (artifactDir) await mkdir(artifactDir, { recursive: true });
  const bandPositions = [];
  for (const bandExtra of [0, 40]) {

@@ -76,7 +76,7 @@ function assertSampleBrandMark(inspection, block, label) {
 const server = await createServer({
 	root,
 	optimizeDeps: { noDiscovery: true },
-	server: { middlewareMode: true },
+	server: { middlewareMode: true, hmr: false },
 	appType: 'custom',
 	logLevel: 'error'
 });
@@ -88,7 +88,7 @@ try {
 	if (runTakumi) await assertCompleteCatalog('takumi');
 
 	const [forme, svelteServer, takumiAdapter, themesModule, showcaseModule, previewThemeModule] = await Promise.all([
-		runForme ? server.ssrLoadModule('@formepdf/svelte') : undefined,
+		runForme ? Promise.all([server.ssrLoadModule('@formepdf/svelte'), server.ssrLoadModule('/src/lib/bases/forme/server.ts')]).then(([native, checked]) => ({ ...native, ...checked })) : undefined,
 		runTakumi ? server.ssrLoadModule('svelte/server') : undefined,
 		runTakumi ? server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts') : undefined,
 		writePreviews ? server.ssrLoadModule('/src/lib/themes/index.ts') : undefined,
@@ -133,7 +133,7 @@ try {
 				const pdf = await forme.renderDocument(
 					component,
 					previewTheme ? { props: { theme: previewTheme } } : undefined
-				);
+				).catch(error => { throw new Error(`forme/${themeName}/${block.slug}: ${error.message}`, { cause: error }); });
 				const label = `forme/${themeName}/${block.slug}`;
 				assertPdf(pdf, label);
 				const inspection = await inspectPdf(pdf);
@@ -184,7 +184,6 @@ try {
 					? previewThemeModule.createPdfPreviewTheme(theme, 'takumi')
 					: undefined;
 				const pdf = await takumiAdapter.renderTakumiDocument(component, {
-					margin: 0,
 					...(previewTheme ? { props: { theme: previewTheme } } : {})
 				});
 				const label = `takumi/${themeName}/${block.slug}`;

@@ -5,7 +5,7 @@ import * as Root from 'pdfcn-svelte';
 import * as Themes from 'pdfcn-svelte/themes';
 import * as Forme from 'pdfcn-svelte/bases/forme';
 import * as Takumi from 'pdfcn-svelte/bases/takumi';
-import { renderDocument as renderFormeDocument } from '@formepdf/svelte';
+import { renderDocument as renderFormeDocument } from 'pdfcn-svelte/bases/forme/server';
 
 import FormeDocument from './FormeDocument.svelte';
 import TakumiDocument from './TakumiDocument.svelte';

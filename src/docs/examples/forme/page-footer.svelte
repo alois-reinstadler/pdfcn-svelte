@@ -7,6 +7,7 @@
 		Heading,
 		Text,
 		PageFooter,
+		PageBreak,
 		PAGE_NUMBER,
 		TOTAL_PAGES
 	} from '$lib/bases/forme';
@@ -27,12 +28,14 @@
 <PdfcnThemeProvider {theme}>
 	<Document title="Page Footer example">
 		<Page size="A4" margin={48}>
-			<Heading>Account summary</Heading><Text>Prepared for Ada Lovelace.</Text>
 			<PageFooter
 				fixed
+				marginTop={0}
 				leftText="Acme Studio"
 				rightText={`Page ${PAGE_NUMBER} of ${TOTAL_PAGES}`}
 			/>
+			<Heading>Account summary</Heading><Text>Prepared for Ada Lovelace.</Text>
+			<PageBreak /><Text>Second physical page with the same footer.</Text>
 		</Page>
 	</Document>
 </PdfcnThemeProvider>

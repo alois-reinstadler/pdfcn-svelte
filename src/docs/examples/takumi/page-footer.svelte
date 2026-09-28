@@ -7,6 +7,7 @@
 		Heading,
 		Text,
 		PageFooter,
+		PageBreak,
 		PageNumber
 	} from '$lib/bases/takumi';
 	// Built-in sans-serif fallback avoids a network font dependency in this example.
@@ -27,7 +28,8 @@
 	<Document title="Page Footer example">
 		<Page flow size="A4" margin={48}>
 			<Heading>Account summary</Heading><Text>Prepared for Ada Lovelace.</Text>
-			<PageFooter leftText="Acme Studio"
+			<PageBreak /><Text>Second physical page with the same footer.</Text>
+			<PageFooter fixed marginTop={0} leftText="Acme Studio"
 				>{#snippet rightText()}<PageNumber />{/snippet}</PageFooter
 			>
 		</Page>

@@ -6,7 +6,8 @@
  import { packageSource } from '../../../docs/component-examples';
  import { components } from '../../../docs/catalog';
  const customSources = import.meta.glob('../../../docs/template-examples/*/*.svelte', { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
- const componentHref = (name: string) => `${base}/components/${components.find(c => c.name.replaceAll(' ', '') === name)?.slug ?? name.toLowerCase()}`;
+ const componentHref = (name: string) => `${base}/components/${components.find(c => c.name.replaceAll(' ', '').replace('Printable', '') === name.replace('Printable', ''))?.slug ?? name.toLowerCase()}`;
+ import PdfPages from '../../../docs/components/PdfPages.svelte';
  import TemplateFrame from '../../../docs/components/TemplateFrame.svelte';
 	import TemplateInstallCommand from '../../../docs/components/TemplateInstallCommand.svelte';
 	import type { PageData } from './$types';
@@ -81,10 +82,11 @@
    <h2>Make this document yours.</h2>
    <p class="section-lede">Save this complete component as <code>src/lib/Example.svelte</code>, then use the {renderer} endpoint from <a href={`${base}/docs/getting-started`}>Getting started</a>. The imported type describes every required field.</p>
    <CodeBlock code={usage} label="src/lib/Example.svelte" />
-   <p class="section-lede">{data.template.kind === 'Invoice' ? 'Totals are caller-owned: provide consistent subtotal, tax, and total values. Line amounts use quantity × unit price (or hours × rate). currency and locale control formatting; taxLabel is caller-authored and defaults to neutral Tax. These options do not calculate tax.' : 'Supply summary metrics, rows, series, highlights, and your own status label/tone. Omit status for a neutral unassessed label. series provides the chart values, including the security report. Conclusions are never inferred from arbitrary labels.'}</p>
+   <p class="section-lede">{data.template.kind === 'Invoice' ? 'Totals are caller-owned: provide consistent subtotal, tax, and total values. Line amounts use quantity × unit price (or hours × rate). currency and locale control formatting; taxLabel is caller-authored and defaults to neutral Tax. These options do not calculate tax.' : 'Supply summary metrics, rows, series, highlights, and your own status label/tone. Omit status for a neutral unassessed label. series provides the chart values, including the security report. Optional tableFooter and facts contain caller-supplied aggregates and conclusions. chartTitle and chartSubtitle customize chart copy. No averages or risk counts are inferred.'}</p>
    <p class="section-lede">The example uses a built-in font fallback. To use a named theme font, <a href={`${base}/docs/fonts`}>register its resources</a>. Theme context is created with the document: recreate it to switch themes. <a href={`${base}/previews/custom/${renderer}/${data.template.slug}.pdf`} target="_blank" rel="noreferrer">Open the custom-data example PDF</a>.</p>
    <p class="section-lede">For copied source, first follow the <a href={`${base}/docs/registry`}>registry setup and import guide</a>. Import the component from <code>$lib/bases/{renderer}/blocks/{data.template.slug}/{data.template.slug}.svelte</code>.</p>
   </section>
+  <PdfPages artifact={`custom/${renderer}/${data.template.slug}`} title={`${data.template.name} custom example`} />
   <div class="section-label ingredients-label">Document anatomy</div>
 		<h2>Composed from primitives.</h2>
 		<p class="section-lede">Each template is readable Svelte source. Replace its sample data, reorder sections, or pull out the smaller components for a completely different document.</p>

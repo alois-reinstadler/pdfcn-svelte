@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import PdfPages from '../../../docs/components/PdfPages.svelte';
 	import CodeBlock from '../../../docs/components/CodeBlock.svelte';
 	import { registryInstallCommand } from '../../../docs/site';
 	import { components } from '../../../docs/catalog';
@@ -44,7 +45,7 @@
 	/></svelte:head
 >
 
-<main class="component-doc">
+<article class="component-doc">
 	<nav aria-label="Breadcrumb">
 		<a href={`${base}/components`}>Components</a> /
 		<span aria-current="page">{data.component.name}</span>
@@ -85,6 +86,7 @@
 				>Open the generated {renderer === 'forme' ? 'Forme' : 'Takumi'} example PDF</a
 			>. Generated from the exact example above.
 		</p>
+		<PdfPages artifact={`components/${renderer}/${slug}`} title={data.component.name} />
 		{#if renderer === 'takumi' && !pdfOnly.has(slug)}
 			<p class="preview-label">
 				Live Takumi HTML preview — PDF pagination and font metrics may differ.
@@ -136,7 +138,7 @@
 			<p>
 				Defaults below are extracted from the actual props declaration. Props
 				without an initializer defer to theme or variant styles, or remain
-				unset. Renderer notes above identify accepted props that have no effect.
+				unset. Unsupported combinations raise an error; renderer notes describe supported alternatives.
 			</p>
 			<CodeBlock label="Defaults from source" code={reference.defaults} />
 		</details>
@@ -162,7 +164,7 @@
 				>{/each}<a href={`${base}/templates`}>Document templates</a>
 		</nav>
 	</footer>
-</main>
+</article>
 
 <style>
 	.component-doc {

@@ -34,7 +34,7 @@
 			companyBold: { ...textBase, color: c.foreground, fontWeight: fontWeights.bold }, companyName: { ...textBase, color: c.foreground, fontWeight: fontWeights.medium },
 			contactInfoCenter: { ...textBase, fontSize: t.primitives.typography.xs - 1, marginTop: spacing[0.5], textAlign: 'center' },
 			detailedContainer: { borderTopColor: c.border, borderTopStyle: 'solid', borderTopWidth: spacing[1], display: 'flex', flexDirection: 'column', paddingTop: spacing[3] },
-			detailedLeft: { display: 'flex', flex: 1, flexDirection: 'column' }, detailedPageNumber: { ...textBase, borderTopColor: c.border, borderTopStyle: 'solid', borderTopWidth: spacing[0.5], paddingTop: spacing[2], textAlign: 'center' },
+			detailedLeft: { display: 'flex', flex: 1, flexDirection: 'column' }, detailedPageNumberFrame: { borderTopColor: c.border, borderTopStyle: 'solid', borderTopWidth: spacing[0.5], paddingTop: spacing[2] }, detailedPageNumber: { ...textBase, textAlign: 'center' },
 			detailedRight: { alignItems: 'flex-end', display: 'flex', flexDirection: 'column' }, detailedTopRow: { alignItems: 'flex-start', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing[2] },
 			minimalContainer: { alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingBottom: spacing[1], paddingTop: spacing[1] },
 			simpleContainer: { alignItems: 'center', borderTopColor: c.border, borderTopStyle: 'solid', borderTopWidth: spacing[0.5], display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: spacing[3] },

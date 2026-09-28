@@ -9,7 +9,7 @@
   ],
   "files": [
     {
-      "content": "<script lang=\"ts\">\n\timport View from '$lib/bases/forme/lib/View.svelte';\n\timport type { Snippet } from 'svelte';\n\timport type { Style } from '$lib/types/pdf-components';\n\n\texport interface KeepTogetherProps {\n\t\tchildren?: Snippet;\n\t\tminPresenceAhead?: number;\n\t\tstyle?: Style;\n\t}\n\n\tlet { children, style }: KeepTogetherProps = $props();\n</script>\n\n<View wrap={false} style={style}>\n\t{@render children?.()}\n</View>\n",
+      "content": "<script lang=\"ts\">\n\timport View from '$lib/bases/forme/lib/View.svelte';\n\timport type { Snippet } from 'svelte';\n\timport type { Style } from '$lib/types/pdf-components';\n\n\texport interface KeepTogetherProps {\n\t\tchildren?: Snippet;\n\t\t/** Unsupported by Forme. Include the following content inside KeepTogether instead. */\n\t\tminPresenceAhead?: never;\n\t\tstyle?: Style;\n\t}\n\n\tlet { children, style, minPresenceAhead }: KeepTogetherProps = $props();\n\tconst validatedStyle = $derived.by(() => {\n\t\tif (minPresenceAhead !== undefined) throw new Error(\"[KeepTogether] Forme does not support minPresenceAhead. Include the following content inside KeepTogether instead.\");\n\t\treturn style;\n\t});\n</script>\n\n<View wrap={false} style={validatedStyle}>\n\t{@render children?.()}\n</View>\n",
       "type": "registry:component",
       "target": "~/src/lib/bases/forme/components/keep-together/keep-together.svelte"
     }

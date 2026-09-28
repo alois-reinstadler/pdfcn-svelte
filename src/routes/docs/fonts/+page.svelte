@@ -16,11 +16,14 @@ Font.register({
   fontWeight: 'bold'
 });`;
 
-	const takumi = `import { googleFonts } from '@takumi-rs/helpers';
+	const takumi = `import { readFile } from 'node:fs/promises';
 import { renderDocument } from 'pdfcn-svelte/bases/takumi/server';
 import Invoice from './Invoice.svelte';
 
-const fonts = await googleFonts(['Inter']);
+const fonts = [
+  { name: 'Inter', data: await readFile('./fonts/Inter-Regular.ttf'), weight: 400 },
+  { name: 'Inter', data: await readFile('./fonts/Inter-Bold.ttf'), weight: 700 }
+];
 const pdf = await renderDocument(Invoice, {
   fonts,
   fontFamilies: ['Inter', 'sans-serif']
@@ -35,13 +38,16 @@ const pdf = await renderDocument(Invoice, {
 <DocPage title="Fonts are renderer resources." description="A pdfcn theme selects font-family names. Your PDF renderer still needs the matching font files so it can shape, subset, and embed those glyphs.">
 	<Callout title="Why an unregistered font looks wrong" tone="warning"><p>A browser may already have a requested font, but a server-side PDF renderer usually does not. If a theme asks for Inter, Lato, or Merriweather without loading that face, the engine must fall back. Register every family and weight your document uses.</p></Callout>
 
+	<p>First place your licensed font files in a <code>fonts/</code> directory at the application root. These setup fragments assume regular and bold Inter TTF files; use the same family name in your theme. Include that directory in the production deployment and start the server from the application root, or resolve an absolute path explicitly.</p>
+
 	<h2>Forme</h2>
 	<p>Register TrueType faces with <code>Font.register</code> from <code>@formepdf/svelte</code>. Forme subsets the registered files into the PDF. A font source may be a path, data URL, or byte array.</p>
-	<CodeBlock code={forme} label="fonts.ts" />
+	<CodeBlock code={forme} label="src/lib/server/fonts.ts — registration fragment" />
+	<p>Import <code>$lib/server/fonts</code> in your PDF endpoint before calling <code>renderDocument</code>. Registration happens in the server process; browser CSS font declarations do not register PDF fonts.</p>
 
 	<h2>Takumi</h2>
-	<p>Pass fonts through the renderer options. The official helper can resolve Google Fonts, or you can provide your own URL or bytes. An explicit fallback chain also makes missing-glyph behavior predictable.</p>
-	<CodeBlock code={takumi} label="render-invoice.ts" />
+	<p>Pass font bytes through the renderer options when rendering your component. This keeps production rendering independent of a font download service. An explicit fallback chain makes missing-glyph behavior predictable.</p>
+	<CodeBlock code={takumi} label="render-invoice.ts — rendering fragment" />
 
 	<h2>Shipping fonts responsibly</h2>
 	<ul>

@@ -18,7 +18,7 @@
 
 <PdfcnThemeProvider {theme}>
 	<Document title="Watermark example">
-		<Page flow size="A4" margin={48}>
+		<Page size="A4" style={{ padding: 48 }}>
 			<Watermark text="DRAFT" opacity={0.12} /><Heading>Proposal</Heading><Text
 				>For review before approval.</Text
 			>

@@ -30,7 +30,8 @@
 		page: { backgroundColor: theme.colors.background },
 		partiesRow: { flexDirection: 'row', gap: 40, marginBottom: theme.spacing.sectionGap },
 		partyColumn: { flex: 1 },
-		partyLabel: { borderBottomColor: theme.colors.border, borderBottomStyle: 'solid', borderBottomWidth: 1, color: theme.colors.primary, fontSize: 9, fontWeight: 'bold', letterSpacing: 0.6, marginBottom: 6, paddingBottom: 4, textTransform: 'uppercase' },
+		partyLabelFrame: { borderBottomColor: theme.colors.border, borderBottomStyle: 'solid', borderBottomWidth: 1, marginBottom: 6, paddingBottom: 4 },
+		partyLabel: { color: theme.colors.primary, fontSize: 9, fontWeight: 'bold', letterSpacing: 0.6, textTransform: 'uppercase' },
 		projectRef: { alignItems: 'center', backgroundColor: theme.colors.muted, borderRadius: theme.primitives.borderRadius.sm, flexDirection: 'row', gap: 8, marginBottom: theme.spacing.sectionGap, paddingHorizontal: 10, paddingVertical: 6 },
 		summaryRow: { flexDirection: 'row', marginTop: 20 }, totalsBox: { width: 250 }
 	};
@@ -61,13 +62,13 @@
 			{/if}
 			<View style={styles.partiesRow}>
 				<View style={styles.partyColumn}>
-					<Text style={styles.partyLabel} noMargin>From (Consultant)</Text>
+					<View style={styles.partyLabelFrame}><Text style={styles.partyLabel} noMargin>From (Consultant)</Text></View>
 					<Text variant="sm" weight="semibold" noMargin>{data.consultant.name}</Text>
 					<Text variant="xs" noMargin color="mutedForeground">{data.consultant.title}</Text>
 					<Text variant="xs" noMargin color="mutedForeground">{data.consultant.email}</Text>
 				</View>
 				<View style={styles.partyColumn}>
-					<Text style={styles.partyLabel} noMargin>Bill To (Client)</Text>
+					<View style={styles.partyLabelFrame}><Text style={styles.partyLabel} noMargin>Bill To (Client)</Text></View>
 					<Text variant="sm" weight="semibold" noMargin>{data.client.name}</Text>
 					<Text variant="xs" noMargin color="mutedForeground">{data.client.company}</Text>
 					<Text variant="xs" noMargin color="mutedForeground">{data.client.address}</Text>

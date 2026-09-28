@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -84,6 +85,7 @@ const fixedRoutes = [
 	'/docs/primitives',
 	'/docs/registry',
 	'/docs/renderers',
+	'/docs/pagination',
 	'/docs/themes'
 ];
 
@@ -112,6 +114,19 @@ for (const { slug } of blockCatalog) {
 				}
 			}
 	}
+}
+
+const physicalPages = JSON.parse(await readFile(path.join(root, 'src/docs/pdf-pages.json'), 'utf8'));
+assert.equal(Object.keys(physicalPages).length, 70, 'every displayed document must have real page images');
+for (const [key, artifact] of Object.entries(physicalPages)) {
+ const bytes = await readFile(path.join(buildDirectory, artifact.pdf));
+ assert.equal(createHash('sha256').update(bytes).digest('hex'), artifact.sha256, `${key}: page images must match the current PDF`);
+ assert.ok(artifact.pages.length > 0);
+ if (key.startsWith('pagination/')) assert.ok(artifact.pages.length > 1);
+ for (const page of artifact.pages) {
+  await assertBuiltPath(page.image);
+  assert.ok(page.text.trim().length && page.width >= 600 && page.height >= 600, `${key}: readable physical page`);
+ }
 }
 
 const htmlFiles = (await walk(buildDirectory)).filter((file) => file.endsWith('.html'));

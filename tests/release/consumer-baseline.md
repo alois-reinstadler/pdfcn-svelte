@@ -177,3 +177,38 @@ ranges against the package's declared ranges; the hosted baseline intentionally
 records the old unversioned behavior separately. Browser interaction and PDF
 visual review are performed by the coordinating release engineer, separately
 from these HTTP and build assertions.
+
+
+## Final integrated result (2026-09-28)
+
+The complete `pnpm validate` gate passed with
+`PDFCN_CONSUMER_PREVIEW_SLUG=pdfcn-svelte-review` and
+`PDFCN_REGRESSION_ARTIFACTS=/tmp/pdfcn-release-final`.
+Final consumer evidence: `/tmp/pdfcn-release-consumers-mNVdSe/results.json`;
+neighboring numbered logs retain the exact invocations and output. All five
+applications were freshly scaffolded outside the repository.
+
+Node 24.20.0, pnpm 11.23.0, sv 0.17.1, shadcn-svelte 1.7.0;
+Svelte 5.57.1, SvelteKit 2.70.3, Vite 8.3.1, TypeScript 6.0.3,
+adapter-node 5.5.7. CLI apps resolved Tailwind 4.3.3.
+Forme core/Svelte 0.25.0; takumi-pdf 0.11.3; helpers 2.14.0.
+
+| Fresh app | Typecheck/build | Dev and production first PDF | Additional verification |
+| --- | --- | --- | --- |
+| Real CLI Forme | passed | 3,771 bytes each | Component/template/theme, invoice endpoints, dependency isolation |
+| Real CLI Takumi | passed | 7,713 bytes each | Component/template/theme, invoice endpoints, browser assets |
+| Package Forme only | passed | 3,771 bytes each | All 35 displayed examples over production HTTP |
+| Package Takumi only | passed | 7,713 bytes each | All 35 displayed examples over production HTTP |
+| Browser without renderers | passed | HTML only | No renderer installed; shared Chrome: nine 200 responses, no console errors |
+
+The registry retains declared dependency ranges. The real CLI/pnpm can save a
+narrower compatible range (helpers `^2.12.0` becomes `^2.14.0`). The consumer
+assertion therefore checks semantic-version subset compatibility and the installed
+version, rather than incorrect exact string equality. This strengthens dependency
+validation while accepting the observed package-manager behavior; unversioned or
+out-of-range artifacts still fail. No text/layout preservation assertion was
+weakened.
+
+The separately retained hosted baseline predates these fixes. No hosted artifacts
+were changed; repeat the documented `--hosted --registry-only` CLI gate after an
+authorized deployment before claiming hosted installation is fixed.

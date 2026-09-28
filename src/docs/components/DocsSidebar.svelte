@@ -3,6 +3,7 @@
 	import { docsNavigation } from '../navigation';
 
 	let open = $state(false);
+	let menuButton: HTMLButtonElement;
 	let { pathname = '/docs' }: { pathname?: string } = $props();
 	const active = (href: string) => {
 		const resolved = `${base}${href}`;
@@ -10,7 +11,9 @@
 	};
 </script>
 
-<button class="mobile-trigger" onclick={() => (open = !open)} aria-expanded={open}>
+<svelte:window onkeydown={(event) => { if (event.key === 'Escape' && open) { open = false; menuButton?.focus(); } }} />
+
+<button bind:this={menuButton} class="mobile-trigger" onclick={() => (open = !open)} aria-expanded={open}>
 	<span>Documentation menu</span><span aria-hidden="true">{open ? '×' : '⌄'}</span>
 </button>
 

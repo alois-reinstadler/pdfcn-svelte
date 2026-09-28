@@ -29,7 +29,7 @@
 {#snippet pageNumber()}<PageNumber align="right" size="xs" />{/snippet}
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
-	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 48), left: theme.spacing.page.marginLeft }} style={pageStyle}>
+	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 72), left: theme.spacing.page.marginLeft }} style={pageStyle}>
 		<PageHeader variant="branded" title={data.companyName} subtitle={`${data.subtitle}  ·  ${data.companyAddress}  ·  ${data.companyEmail}`} />
 		<View style={{ flexDirection: 'row', marginBottom: theme.spacing.sectionGap }}>
 			<View style={{ flex: 1, paddingRight: 12 }}><Text style={metaLabelStyle} noMargin>Invoice Number</Text><Text style={{ ...metaValueStyle, fontSize: 11, fontWeight: 'bold' }} noMargin>{data.invoiceNumber}</Text></View>
@@ -50,6 +50,6 @@
 				{ key: 'Total Due', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { fontSize: 12, fontWeight: 'bold' } }
 			]} /></View>
 		</Section>
-		<PageFooter leftText={data.notes} rightText={pageNumber} sticky pagePadding={25} />
+		<PageFooter leftText={data.notes} rightText={pageNumber} sticky />
 	</Page>
 </Document>

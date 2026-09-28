@@ -26,7 +26,7 @@
 				{src}
 				width={80}
 				height={80}
-				fit="contain"
+				fit="fill"
 				caption="Replace with your PNG or JPEG"
 			/>
 		</Page>

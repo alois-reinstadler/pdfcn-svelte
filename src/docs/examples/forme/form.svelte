@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PdfcnThemeProvider } from '$lib/index';
 	import { professionalTheme } from '$lib/themes';
-	import { Document, Page, Form, type PdfFormGroup } from '$lib/bases/forme';
+	import { Document, Page, PrintableForm, type PdfFormGroup } from '$lib/bases/forme';
 	// Built-in Helvetica avoids a network font dependency in this example.
 	const theme = {
 		...professionalTheme,
@@ -27,9 +27,9 @@
 </script>
 
 <PdfcnThemeProvider {theme}>
-	<Document title="Form example">
+	<Document title="PrintableForm example">
 		<Page size="A4" margin={48}>
-			<Form title="Registration" {groups} variant="box" />
+			<PrintableForm title="Registration" {groups} variant="box" />
 		</Page>
 	</Document>
 </PdfcnThemeProvider>

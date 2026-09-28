@@ -1,3 +1,4 @@
+import * as FormeServer from '../dist/bases/forme/server.js';
 import * as TakumiServer from '../dist/bases/takumi/server.js';
 import {
 	PdfcnThemeProvider,
@@ -201,3 +202,6 @@ void (null as unknown as TakumiTypes);
 void formeImageSource;
 void unsupportedFormeImageSource;
 void takumiImageSource;
+
+void FormeServer.renderDocument;
+void FormeServer.renderDocumentWithLayout;

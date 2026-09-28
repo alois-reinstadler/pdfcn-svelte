@@ -13,7 +13,7 @@
  <h2>1. Prerequisites and installation</h2>
  <p>Start with a TypeScript SvelteKit app using Svelte 5.30 or newer and a server-capable adapter. A static-only deployment cannot execute this endpoint. The package is currently a preview release: first build and install its local tarball using <a href={`${base}/docs/install`}>Installation</a>. Copied source has a separate <a href={`${base}/docs/registry`}>registry guide</a>.</p>
  <div class="renderer-switch" aria-label="Renderer choice"><button type="button" aria-pressed={renderer === 'forme'} onclick={() => renderer = 'forme'}>Forme</button><button type="button" aria-pressed={renderer === 'takumi'} onclick={() => renderer = 'takumi'}>Takumi</button></div>
- <CodeBlock label="In your consuming application" code={renderer === 'forme' ? 'pnpm add @formepdf/svelte @formepdf/core' : 'pnpm add takumi-pdf @takumi-rs/helpers'} />
+ <CodeBlock label="In your consuming application" code={renderer === 'forme' ? 'pnpm add @formepdf/svelte@^0.25.0 @formepdf/core@^0.25.0' : 'pnpm add takumi-pdf@^0.11.3 @takumi-rs/helpers@^2.12.0'} />
  <p>Forme produces native PDF document instructions. Takumi also supports an HTML preview, with PDF rendering isolated in its server entry. Install only the dependencies for your chosen renderer.</p>
  <h2>2. Save the entire document file</h2>
  <CodeBlock label="src/lib/Example.svelte" code={source} />

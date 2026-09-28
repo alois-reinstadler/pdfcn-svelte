@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { PdfcnThemeProvider } from '$lib/index';
 	import { professionalTheme } from '$lib/themes';
-	import { Document, Page, Signature } from '$lib/bases/forme';
+	import { Document, Page, PrintableSignature } from '$lib/bases/forme';
 	// Built-in Helvetica avoids a network font dependency in this example.
 	const theme = {
 		...professionalTheme,
@@ -17,9 +17,9 @@
 </script>
 
 <PdfcnThemeProvider {theme}>
-	<Document title="Signature example">
+	<Document title="PrintableSignature example">
 		<Page size="A4" margin={48}>
-			<Signature
+			<PrintableSignature
 				variant="double"
 				signers={[
 					{ name: 'Ada Lovelace', label: 'Approved by' },

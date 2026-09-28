@@ -37,6 +37,9 @@ export async function renderTakumiDocument<Props extends Record<string, any>>(
 	const imageSources = Array.isArray(finalOptions.images) ? finalOptions.images : finalOptions.images?.sources ?? [];
 	if (imageSources.some(source => typeof source.data === 'function')) finalOptions.images = await Promise.all(imageSources.map(async source => ({ ...source, data: typeof source.data === 'function' ? await source.data() : source.data })));
 	async function validateImages(item: Node): Promise<void> {
+		if (item.style?.overflowWrap && !['anywhere', 'break-word'].includes(String(item.style.overflowWrap))) throw new Error('Takumi PDF text requires overflowWrap:anywhere or break-word to preserve long identifiers. Remove the override or shorten the caller-provided label explicitly.');
+		if (item.style?.whiteSpace && ['nowrap', 'pre'].includes(String(item.style.whiteSpace))) throw new Error('Takumi PDF whiteSpace:nowrap/pre can discard long text. Use normal or pre-wrap so all content can wrap.');
+		if (item.type === 'text') item.style = { overflowWrap: 'anywhere', ...item.style };
 		if (item.style?.position === 'fixed') throw new Error('Takumi position:fixed does not repeat content. Use PageHeader fixed or PageFooter fixed on a flowing Page.');
 		if (item.type === 'image' && typeof item.src === 'string') {
 			if (!item.src.startsWith('data:') && !/^\s*<svg[\s>]/i.test(item.src) && !imageSources.some(source => source.src === item.src)) throw new Error(`Takumi image "${item.src.slice(0, 120)}" has no bytes. Use await loadImage(urlOrRequest) as src, or supply matching render options.images data.`);
@@ -153,8 +156,20 @@ export async function renderTakumiDocument<Props extends Record<string, any>>(
 	}
 	const measureAt = (item: Node, width: number) => measure(item, { ...resources, viewport: { width } } satisfies MeasureOptions);
 	async function prepare(parent: Node, availableWidth: number, knownWidth = true): Promise<void> {
-		if (parent.type !== 'container') return;
 		const style = parent.style ?? {};
+		const explicitWidth = lengthAt(style.width, availableWidth);
+		if (knownWidth && explicitWidth > availableWidth + 0.5) throw new Error(`Component width ${(explicitWidth * 0.75).toFixed(1)}pt exceeds its available ${(availableWidth * 0.75).toFixed(1)}pt. Reduce the width, use a percentage, or use a larger page; off-page content cannot be preserved.`);
+		if (knownWidth && style.position === 'absolute') {
+			for (const edge of ['left', 'right', 'top', 'bottom'] as const) {
+				const raw = style[edge];
+				if (raw === undefined || raw === 'auto') continue;
+				const limit = edge === 'left' || edge === 'right' ? availableWidth : contentHeight;
+				const offset = typeof raw === 'number' ? raw : /^-?\d+(\.\d+)?%$/.test(raw) ? parseFloat(raw) * limit / 100 : /^-?\d+(\.\d+)?px$/.test(raw) ? parseFloat(raw) : NaN;
+				if (!Number.isFinite(offset) || offset < 0 || offset >= limit) throw new Error(`Absolute ${edge} positioning places content outside the printable area or uses an unsupported length. Keep offsets inside the containing block or use normal flow.`);
+			}
+
+		}
+		if (parent.type !== 'container') return;
 		const width = (lengthAt(style.width, availableWidth) || availableWidth) - lengthAt(style.paddingLeft ?? style.padding, availableWidth) - lengthAt(style.paddingRight ?? style.padding, availableWidth);
 		const children = childrenOf(parent);
 		for (const child of children) {

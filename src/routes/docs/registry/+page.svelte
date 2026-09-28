@@ -20,9 +20,10 @@
 	<div class="reasons"><div><span>01</span><strong>Local ownership</strong><p>Edit layout behavior without waiting on a package release.</p></div><div><span>02</span><strong>Resolved dependencies</strong><p>Components bring the renderer primitives and shared theme files they use.</p></div><div><span>03</span><strong>Explicit base</strong><p>The URL makes Forme or Takumi an intentional installation choice.</p></div></div>
 
 	<h2>1. Initialize the consuming application</h2>
- <p>Start with a TypeScript SvelteKit project whose <code>$lib</code> alias points to <code>src/lib</code>. The shadcn-svelte CLI expects its normal project configuration; follow the <a href="https://www.shadcn-svelte.com/docs/installation/sveltekit">official SvelteKit prerequisites</a>, including Tailwind for CLI initialization. pdfcn document layouts themselves do not rely on Tailwind.</p>
- <CodeBlock label="In your consuming application" code="pnpm dlx shadcn-svelte@latest init" />
- <p>Review the generated <code>components.json</code>. The <a href="https://shadcn-svelte.com/docs/components-json">official components.json reference</a> describes its paths. Existing shadcn projects can keep their configuration.</p>
+ <p>The verified path uses Node 24.20.0, pnpm 11.23.0, Svelte CLI 0.17.1 and shadcn-svelte CLI 1.7.0. Start outside the library checkout:</p>
+ <CodeBlock label="Create the consumer" code={'pnpm dlx sv@0.17.1 create my-pdf-app --template minimal --types ts --add tailwindcss=plugins:none sveltekit-adapter=adapter:node --no-install\ncd my-pdf-app\npnpm pkg set packageManager=pnpm@11.23.0\npnpm install\npnpm dlx shadcn-svelte@1.7.0 init --preset b0'} />
+ <p><code>--template minimal</code> creates the minimal app; <code>--types ts</code> enables TypeScript; <code>--add</code> adds Tailwind without optional plugins and the Node server adapter; <code>--no-install</code> leaves installation to pnpm. The <code>b0</code> preset selects the tested default design system.</p>
+ <p>During initialization, choose <code>src/routes/layout.css</code>, retain the standard <code>$lib</code> aliases, and accept the CSS changes. Complete the prompts: an interrupted CLI may exit without fully initializing. The PDF layouts do not use Tailwind, but CLI initialization requires it. Existing shadcn projects can keep their configuration.</p>
  <h2>2. Install from the hosted registry</h2>
 	<CodeBlock code={commands} label="terminal" />
 	<p>Your consuming project must already have a valid shadcn-svelte <code>components.json</code>. Change <code>forme</code> to <code>takumi</code>, and change the last path segment to the item slug you need.</p>
@@ -37,7 +38,7 @@
  <CodeBlock code={copiedExample} label="src/lib/Example.svelte" />
  <CodeBlock code={copiedEndpoint} label="src/routes/example.pdf/+server.ts" />
  <p>Run your application and open <code>/example.pdf</code>. The registry installs the renderer dependencies and all referenced source files under <code>src/lib</code>; root-relative targets deliberately preserve internal <code>$lib</code> imports. It does not install a top-level package barrel. To customize data, use the full <a href={`${base}/templates/invoice-modern`}>invoice example</a> and import its type from <code>$lib/bases/takumi/blocks/invoice-modern/invoice-modern.types</code>.</p>
- <p>Generated registry source graphs are compiled and rendered in a fresh consumer during validation. This checks local item contents and imports; it does not assert the hosted deployment already contains uncommitted changes or test every interactive CLI prompt.</p>
+ <p>Validation invokes the actual CLI to initialize consumers, install component/template/theme graphs and resolve dependencies, then builds and renders both bases. The checked-in artifacts contain this release candidate; hosted artifacts change only after an authorized deployment and a fresh hosted CLI check.</p>
 </DocPage>
 
 <style>

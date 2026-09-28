@@ -60,7 +60,7 @@ const findNode = (node, predicate) => {
 const server = await createServer({
 	root,
 	optimizeDeps: { noDiscovery: true },
-	server: { middlewareMode: true },
+	server: { middlewareMode: true, hmr: false },
 	appType: 'custom'
 });
 
@@ -80,7 +80,7 @@ try {
 		server.ssrLoadModule('/tests/components/forme-unsupported-image-source.svelte'),
 		server.ssrLoadModule('/tests/components/takumi-kitchen-sink.svelte'),
 		server.ssrLoadModule('/tests/components/takumi-page-break.svelte'),
-		server.ssrLoadModule('@formepdf/svelte'),
+		Promise.all([server.ssrLoadModule('@formepdf/svelte'), server.ssrLoadModule('/src/lib/bases/forme/server.ts')]).then(([native, checked]) => ({ ...native, ...checked })),
 		server.ssrLoadModule('svelte/server'),
 		server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts')
 	]);

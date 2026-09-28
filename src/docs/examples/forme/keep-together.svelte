@@ -5,6 +5,7 @@
 		Document,
 		Page,
 		KeepTogether,
+		View,
 		Heading,
 		Text
 	} from '$lib/bases/forme';
@@ -24,7 +25,9 @@
 
 <PdfcnThemeProvider {theme}>
 	<Document title="Keep Together example">
-		<Page size="A4" margin={48}>
+		<Page size="A5" margin={48}>
+			<Text>Previous section: the space below simulates a nearly full page.</Text>
+			<View style={{ height: 430 }} />
 			<KeepTogether
 				><Heading level={2}>Approval</Heading><Text
 					>This short section should stay on one physical page.</Text

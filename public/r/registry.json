@@ -14,7 +14,7 @@
       "title": "Alert",
       "description": "Alert PDF component for the forme base.",
       "dependencies": [
-        "@formepdf/svelte"
+        "@formepdf/svelte@^0.25.0"
       ],
       "registryDependencies": [
         "./utils.json"
@@ -109,8 +109,8 @@
     },
     {
       "name": "forme/form",
-      "title": "Form",
-      "description": "Form PDF component for the forme base.",
+      "title": "Printable Form",
+      "description": "Printable Form PDF component for the forme base.",
       "dependencies": [],
       "registryDependencies": [
         "./utils.json"
@@ -539,9 +539,9 @@
       "title": "QR Code",
       "description": "QR Code PDF component for the forme base.",
       "dependencies": [
-        "@formepdf/svelte",
-        "@types/qrcode",
-        "qrcode"
+        "@formepdf/svelte@^0.25.0",
+        "@types/qrcode@^1.5.6",
+        "qrcode@^1.5.4"
       ],
       "registryDependencies": [
         "./utils.json"
@@ -718,8 +718,8 @@
     },
     {
       "name": "forme/signature",
-      "title": "Signature",
-      "description": "Signature PDF component for the forme base.",
+      "title": "Printable Signature",
+      "description": "Printable Signature PDF component for the forme base.",
       "dependencies": [],
       "registryDependencies": [
         "./utils.json"
@@ -982,8 +982,8 @@
       "title": "Forme PDF Utilities",
       "description": "Shared theme context, types, color helpers, and PDF primitives for the forme base.",
       "dependencies": [
-        "@formepdf/core",
-        "@formepdf/svelte"
+        "@formepdf/core@^0.25.0",
+        "@formepdf/svelte@^0.25.0"
       ],
       "registryDependencies": [],
       "files": [
@@ -1001,6 +1001,11 @@
           "path": "src/lib/bases/forme/lib/Fixed.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/bases/forme/lib/Fixed.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/flow-context.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/flow-context.ts"
         },
         {
           "path": "src/lib/bases/forme/lib/G.svelte",
@@ -1031,6 +1036,11 @@
           "path": "src/lib/bases/forme/lib/Page.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/bases/forme/lib/Page.svelte"
+        },
+        {
+          "path": "src/lib/bases/forme/lib/PageBreak.svelte",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/lib/PageBreak.svelte"
         },
         {
           "path": "src/lib/bases/forme/lib/Path.svelte",
@@ -1078,6 +1088,11 @@
           "target": "~/src/lib/bases/forme/lib/View.svelte"
         },
         {
+          "path": "src/lib/bases/forme/server.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/bases/forme/server.ts"
+        },
+        {
           "path": "src/lib/PdfcnThemeProvider.svelte",
           "type": "registry:lib",
           "target": "~/src/lib/PdfcnThemeProvider.svelte"
@@ -1106,6 +1121,11 @@
           "path": "src/lib/types/pdf-themes.ts",
           "type": "registry:lib",
           "target": "~/src/lib/types/pdf-themes.ts"
+        },
+        {
+          "path": "src/lib/utils/image-source.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/image-source.ts"
         },
         {
           "path": "src/lib/utils/invoice-format.ts",
@@ -1235,8 +1255,8 @@
     },
     {
       "name": "takumi/form",
-      "title": "Form",
-      "description": "Form PDF component for the takumi base.",
+      "title": "Printable Form",
+      "description": "Printable Form PDF component for the takumi base.",
       "dependencies": [],
       "registryDependencies": [
         "./utils.json"
@@ -1671,8 +1691,8 @@
       "title": "QR Code",
       "description": "QR Code PDF component for the takumi base.",
       "dependencies": [
-        "@types/qrcode",
-        "qrcode"
+        "@types/qrcode@^1.5.6",
+        "qrcode@^1.5.4"
       ],
       "registryDependencies": [
         "./utils.json"
@@ -1853,8 +1873,8 @@
     },
     {
       "name": "takumi/signature",
-      "title": "Signature",
-      "description": "Signature PDF component for the takumi base.",
+      "title": "Printable Signature",
+      "description": "Printable Signature PDF component for the takumi base.",
       "dependencies": [],
       "registryDependencies": [
         "./utils.json"
@@ -2117,8 +2137,8 @@
       "title": "Takumi PDF Utilities",
       "description": "Shared theme context, types, color helpers, and PDF primitives for the takumi base.",
       "dependencies": [
-        "@takumi-rs/helpers",
-        "takumi-pdf"
+        "@takumi-rs/helpers@^2.12.0",
+        "takumi-pdf@^0.11.3"
       ],
       "registryDependencies": [],
       "files": [
@@ -2246,6 +2266,11 @@
           "path": "src/lib/types/pdf-themes.ts",
           "type": "registry:lib",
           "target": "~/src/lib/types/pdf-themes.ts"
+        },
+        {
+          "path": "src/lib/utils/image-source.ts",
+          "type": "registry:lib",
+          "target": "~/src/lib/utils/image-source.ts"
         },
         {
           "path": "src/lib/utils/invoice-format.ts",

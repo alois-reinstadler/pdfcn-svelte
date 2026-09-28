@@ -20,8 +20,10 @@ to HTML and passes it to the official `takumi-pdf` renderer.
 
 ## Requirements
 
+Consumer workflows below are verified with Node `24.20.0` and pnpm `11.23.0`.
+
 - Svelte `^5.30.0`
-- `@formepdf/svelte` and `@formepdf/core` `^0.11.1` when using the Forme base
+- `@formepdf/svelte` and `@formepdf/core` `^0.25.0` when using the Forme base
 - `takumi-pdf` `^0.11.3` and `@takumi-rs/helpers` `^2.12.0` when rendering with Takumi
 - A Svelte project configured for TypeScript and Svelte 5 snippets/runes
 
@@ -43,9 +45,9 @@ Install the generated tarball (or link the workspace) in a Svelte 5 project.
 For Forme PDF rendering, install its renderer as well:
 
 ```sh
-pnpm add @formepdf/svelte @formepdf/core
+pnpm add @formepdf/svelte@^0.25.0 @formepdf/core@^0.25.0
 # or, for Takumi
-pnpm add takumi-pdf @takumi-rs/helpers
+pnpm add takumi-pdf@^0.11.3 @takumi-rs/helpers@^2.12.0
 ```
 
 Install the tarball in your consuming application (replace this absolute path):
@@ -98,7 +100,7 @@ font download is required.
 Save `src/routes/example.pdf/+server.ts`:
 
 ```ts
-import { renderDocument } from '@formepdf/svelte';
+import { renderDocument } from 'pdfcn-svelte/bases/forme/server';
 import Example from '$lib/Example.svelte';
 
 export async function GET() {
@@ -138,7 +140,7 @@ official renderer from a SvelteKit endpoint:
 
 ```ts
 // src/routes/document.pdf/+server.ts
-import { renderDocument } from '@formepdf/svelte';
+import { renderDocument } from 'pdfcn-svelte/bases/forme/server';
 import FormeDocument from '$lib/FormeDocument.svelte';
 
 export async function GET() {
@@ -166,9 +168,7 @@ import { renderDocument } from 'pdfcn-svelte/bases/takumi/server';
 import TakumiDocument from '$lib/TakumiDocument.svelte';
 
 const pdf = await renderDocument(TakumiDocument, {
-	props: { project: 'Apollo' },
-	size: 'a4',
-	margin: 0
+	props: { project: 'Apollo' }
 });
 ```
 
@@ -187,23 +187,25 @@ alias, follow the [shadcn-svelte prerequisites](https://www.shadcn-svelte.com/do
 and initialize `components.json` once:
 
 ```sh
-pnpm dlx shadcn-svelte@latest init
+pnpm dlx shadcn-svelte@1.7.0 init --preset b0
 ```
+
+The verified CLI is `1.7.0`; `--preset b0` selects its default design system. Complete its prompts, select `src/routes/layout.css`, and accept CSS changes. The [registry guide](https://alois-reinstadler.github.io/pdfcn-svelte/docs/registry) includes the exact SvelteKit, Tailwind and Node-adapter scaffold command.
 
 The CLI setup uses Tailwind configuration; PDF layouts themselves do not
 require Tailwind. Existing shadcn projects can keep their configuration.
 Then install directly from the GitHub Pages registry:
 
 ```sh
-pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/alert.json
-pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/invoice-modern.json
+pnpm dlx shadcn-svelte@1.7.0 add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/alert.json
+pnpm dlx shadcn-svelte@1.7.0 add https://alois-reinstadler.github.io/pdfcn-svelte/r/forme/invoice-modern.json
 ```
 
 Replace `forme` with `takumi` to copy that base. Theme presets are registry
 items too:
 
 ```sh
-pnpm dlx shadcn-svelte@latest add https://alois-reinstadler.github.io/pdfcn-svelte/r/takumi/theme-modern.json
+pnpm dlx shadcn-svelte@1.7.0 add https://alois-reinstadler.github.io/pdfcn-svelte/r/takumi/theme-modern.json
 ```
 
 To inspect registry changes locally before pushing:
@@ -262,10 +264,10 @@ application must switch presets at runtime, recreate the provider subtree.
 
 Both bases currently include these 24 component families:
 
-- Alert, Badge, Card, Data Table, Divider, Form, Graph
+- Alert, Badge, Card, Data Table, Divider, Printable Form, Graph
 - Heading, Keep Together, Key Value, Link, List
 - Page Break, Page Footer, Page Header, Page Number, PDF Image
-- QR Code, Section, Signature, Stack, Table, Text, Watermark
+- QR Code, Section, Printable Signature, Stack, Table, Text, Watermark
 
 Both bases include Classic, Consultant, Corporate, Creative, Minimal, and
 Modern invoice blocks, plus Financial, Marketing, Operations, and Security
@@ -293,7 +295,7 @@ pnpm run test:documents  # render all 20 renderer/template combinations
 pnpm run test:release    # long invoices, page labels, formatting and report data
 pnpm run test:consumer   # pack/install into a fresh Svelte 5 consumer
 pnpm run docs:api        # regenerate the source-derived component reference
-pnpm run test:docs-examples # check reference drift and render all 68 shown examples
+pnpm run test:docs-examples # check reference drift and render all 70 shown examples
 pnpm run docs:build      # generate preview PDFs and prerender the docs site
 pnpm run docs:check      # crawl the built docs and verify every showcase route
 pnpm run validate:api    # package and type-check the public export surface
@@ -309,7 +311,7 @@ includes renderer, theme, and font guides plus recipes for statements, proposals
 audit packs, certificates, product briefs, and inspection reports.
 
 Component and template usage examples share their source with the generated
-PDFs. Validation renders all 68 example files, typechecks their displayed package
+PDFs. Validation renders all 70 example files, typechecks their displayed package
 imports in a fresh consumer, and executes the documented first-PDF endpoints
 and representative copied-source invoices after production builds. Browser
 consumer checks ensure Takumi components do not pull in server renderer assets.
@@ -323,32 +325,54 @@ Regenerate the registry after changing any source copied by registry items.
 Import Takumi's `renderDocument` / `renderTakumiDocument` from
 `pdfcn-svelte/bases/takumi/server`; these functions are no longer exported by
 `pdfcn-svelte/bases/takumi`. The component entry point is safe for browser builds.
-Forme rendering remains server-only.
+Forme rendering remains server-only. Import its checked `renderDocument` from
+`pdfcn-svelte/bases/forme/server` instead of `@formepdf/svelte`. This uses Forme
+0.25 content/layout diagnostics and rejects overflow or oversized atomic groups
+before returning PDF bytes.
 
 Invoice data accepts `currency` (default `USD`), `locale` (default `en-US`, matching
 samples), and `taxLabel` (default `Tax`). These format supplied amounts; callers
 remain responsible for calculations. Report data accepts `status: { label, tone? }`.
 Omitting it displays a neutral status; charts use the supplied `series`.
 
-Takumi invoice templates use a flowing `Page` and repeat their footer across
-physical pages, including when descriptions wrap. A flowing page must be the
-only `Page` in a document and cannot use a fixed clipping `viewport`; its paper
-size and margins come from the template, overriding renderer geometry options.
-Only one repeated footer is supported. Browser flow output is unpaginated, so
-inspect the generated PDF when checking page breaks and page numbers.
+Takumi flowing documents support multiple authored sections with shared paper
+size and margins. Each section starts a physical page. Repeated header/footer
+bands are document-wide: declare them once, with sufficient top/bottom margin.
+With Forme, declare fixed headers, footers and page numbers before all body content inside the library’s `Page`; late declarations throw because the engine otherwise omits them from earlier pages.
 
-Takumi `PageHeader fixed`, `Heading keepWithNext`, and
-`KeepTogether minPresenceAhead` are accepted but do not implement those Forme
-behaviors. Use `KeepTogether` for short heading/content groups that fit on a
-page. Put a repeating Takumi page number inside the flowing page's footer.
+Use `PageHeader fixed` / `PageFooter fixed`; multiple bands stack and identical
+bands are deduplicated. Mixed geometry, clipping viewports and overflowing
+fixed-size pages raise actionable errors. Set geometry on Page; conflicting server size/margin options are rejected. Render mixed paper sizes separately.
+See [Physical pages](https://alois-reinstadler.github.io/pdfcn-svelte/docs/pagination)
+for a forty-row invoice with real continuation pages and final totals.
 
-Forme percentage-based table cell widths can inflate row heights in the current
-engine. Use numeric point widths or proportional flex styles; the supplied
-examples and invoice templates follow these patterns.
+Takumi implements `Heading keepWithNext` and `KeepTogether minPresenceAhead`
+through measured sibling grouping. Forme cannot implement those sibling
+measurements and now rejects them. Replace Forme `keepWithNext=true` and
+`minPresenceAhead` with a `KeepTogether` containing the heading and the following
+short content. The group must fit on one page.
 
-`Form` draws printable blank fields and `Signature` draws signature lines.
-Neither creates interactive PDF fields or cryptographic signatures. See each
-component's renderer notes for supported behavior and asset restrictions.
+Forme 0.25 fixes the percentage table-width bug that inflated row heights. Numeric widths remain points. Keep the same column widths in every
+row.
+
+Use `PrintableForm` and `PrintableSignature` for handwritten completion.
+`Form` / `PdfForm` and `Signature` / `PdfSignatureBlock` remain deprecated aliases.
+These components expose printable decoration, without interactive PDF fields or
+cryptographic signing.
+
+Image `src` is a string. Resolve authenticated requests before rendering with
+`await loadImage({ uri, headers, method, body })`, exported by either base, and
+pass its PNG/JPEG data URI as `src`. For local files, pass `imageDataUri(await readFile(path))`; `readFile` comes from `node:fs/promises` in your server code. Forme requires resolved image data so failed file/URL loads cannot disappear silently. Invalid options and failed requests raise
+errors. Forme supports `fit="fill"`; use one dimension for natural proportions,
+or preprocess images for crop/contain behavior. Forme rejects unsupported fit
+and position options. Its watermark supports centered repeated text only.
+
+Reports preserve every supplied summary metric and chart series. Supply optional
+`tableFooter` and `facts` for aggregates and conclusions, and `chartTitle` /
+`chartSubtitle` for chart copy. The library no longer infers average progress,
+open risks or completed work from labels. Progress values must be finite
+percentages from 0 through 100. Invoice totals remain caller-owned; non-finite
+amounts fail rather than printing `NaN` or infinity.
 
 ## License
 

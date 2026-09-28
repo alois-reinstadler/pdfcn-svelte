@@ -51,11 +51,5 @@
 		graphLegend="none"
 		graphShowValues
 		graphColors={['#2563EB']}
-		graphData={[
-			{ label: 'Incident', value: 66 },
-			{ label: 'Automation', value: 77 },
-			{ label: 'L2 Support', value: 85 },
-			{ label: 'L1 Support', value: 91 }
-		]}
 	/>
 </PdfcnThemeProvider>

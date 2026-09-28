@@ -14,6 +14,7 @@ export const docsNavigation: readonly NavGroup[] = [
 		label: 'Foundations',
 		items: [
 			{ label: 'Renderers', href: '/docs/renderers' },
+			{ label: 'Physical pages', href: '/docs/pagination' },
 			{ label: 'Themes', href: '/docs/themes' },
 			{ label: 'Fonts', href: '/docs/fonts' },
 			{ label: 'Parity', href: '/docs/parity' },

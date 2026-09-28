@@ -39,6 +39,10 @@
 		"./bases/takumi/server": {
 			"types": "./dist/bases/takumi/server.d.ts",
 			"default": "./dist/bases/takumi/server.js"
+		},
+		"./bases/forme/server": {
+			"types": "./dist/bases/forme/server.d.ts",
+			"default": "./dist/bases/forme/server.js"
 		}
 	},
 	"files": [
@@ -65,14 +69,15 @@
 		"registry:build": "node scripts/build-registry.mjs",
 		"validate:api": "pnpm run package && node scripts/validate-package-exports.mjs && tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 tests/public-api.ts",
 		"validate:pack": "pnpm pack --dry-run",
-		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:api-components && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run test:pagination && pnpm run test:release && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run test:consumer-release && pnpm run validate:pack",
+		"validate": "pnpm run check && pnpm run test:primitives && pnpm run test:api-components && pnpm run test:components && pnpm run test:render && pnpm run test:documents && pnpm run test:pagination && pnpm run test:forme-output && pnpm run test:release && pnpm run docs:build && pnpm run docs:check && pnpm run validate:api && pnpm run test:consumer && pnpm run test:consumer-release && pnpm run validate:pack",
 		"test:release": "node scripts/release-regressions.mjs",
 		"docs:api": "node scripts/docs-api.mjs",
 		"test:docs-examples": "node scripts/docs-api.mjs --check && node scripts/docs-examples.mjs",
 		"test:consumer-release": "node scripts/consumer-release-contract.mjs",
 		"docs:pages": "node scripts/docs-pages.mjs",
 		"test:pagination": "node scripts/takumi-pagination-contract.mjs",
-		"test:api-components": "node scripts/api-regressions.mjs"
+		"test:api-components": "node scripts/api-regressions.mjs",
+		"test:forme-output": "node scripts/forme-output-contract.mjs"
 	},
 	"peerDependencies": {
 		"@formepdf/core": "^0.25.0",
@@ -112,6 +117,7 @@
 		"@types/node": "^22.15.3",
 		"@types/qrcode": "^1.5.6",
 		"pdfjs-dist": "^4.10.38",
+		"semver": "^7.8.5",
 		"svelte": "^5.38.0",
 		"svelte-check": "^4.3.0",
 		"takumi-pdf": "^0.11.3",

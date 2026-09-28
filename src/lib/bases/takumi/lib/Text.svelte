@@ -47,7 +47,7 @@
 
 	const css = $derived.by(() => {
 		if (fixed) throw new Error('Takumi Text fixed is unsupported. Put text inside PageHeader fixed or PageFooter fixed on a flowing Page.');
-		return styleToCss({ ...flattenTakumiStyle(style) });
+		return styleToCss({ overflowWrap: 'anywhere', ...flattenTakumiStyle(style) });
 	});
 	const link = $derived(href ?? src);
 </script>

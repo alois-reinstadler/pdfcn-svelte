@@ -7,5 +7,5 @@ export function registryItemUrl(renderer: 'forme' | 'takumi', item: string): str
 }
 
 export function registryInstallCommand(renderer: 'forme' | 'takumi', item: string): string {
-	return `pnpm dlx shadcn-svelte@latest add ${registryItemUrl(renderer, item)}`;
+	return `pnpm dlx shadcn-svelte@1.7.0 add ${registryItemUrl(renderer, item)}`;
 }

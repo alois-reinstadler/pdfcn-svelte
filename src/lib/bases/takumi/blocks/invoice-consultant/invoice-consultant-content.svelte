@@ -28,7 +28,7 @@
 {#snippet pageNumber()}<PageNumber align="right" size="xs" />{/snippet}
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
-	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 48), left: theme.spacing.page.marginLeft }} style={pageStyle}>
+	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 72), left: theme.spacing.page.marginLeft }} style={pageStyle}>
 		<View style={{ alignItems: 'flex-start', borderBottomColor: theme.colors.primary, borderBottomStyle: 'solid', borderBottomWidth: 2, flexDirection: 'row', justifyContent: 'space-between', marginBottom: theme.spacing.sectionGap, paddingBottom: theme.spacing.componentGap }}>
 			<View style={{ flex: 1 }}><Text variant="xl" weight="bold" noMargin>{data.companyName}</Text><Text variant="sm" color="mutedForeground" noMargin>{data.subtitle}</Text><Text variant="xs" color="mutedForeground" noMargin>{data.companyAddress}</Text></View>
 			<View style={{ alignItems: 'flex-end' }}><Text variant="xs" color="mutedForeground" transform="uppercase" noMargin>Invoice</Text><Text variant="lg" weight="bold" noMargin>{data.invoiceNumber}</Text><Text variant="xs" color="mutedForeground" noMargin>{data.invoiceDate}</Text><Text variant="xs" color="mutedForeground" noMargin>Due: {data.dueDate}</Text></View>
@@ -51,6 +51,6 @@
 			]} /></View>
 		</Section>
 		{#if data.notes}<View style={{ backgroundColor: theme.colors.muted, borderLeftColor: theme.colors.info, borderLeftStyle: 'solid', borderLeftWidth: 3, marginTop: 16, paddingLeft: 12, paddingVertical: 8 }}><Text variant="xs" color="mutedForeground">{data.notes}</Text></View>{/if}
-		<PageFooter leftText="Professional services invoice – Please retain for records" rightText={pageNumber} sticky pagePadding={25} />
+		<PageFooter leftText="Professional services invoice – Please retain for records" rightText={pageNumber} sticky />
 	</Page>
 </Document>

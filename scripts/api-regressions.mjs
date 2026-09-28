@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createServer as createViteServer } from 'vite';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { createCanvas } from '@napi-rs/canvas';
@@ -16,7 +16,7 @@ try {
  assert.match(await loadImage({uri,method:'POST',headers:{authorization:'test-token'},body:'image=one'}),/^data:image\/png;base64,/);
  assert.deepEqual(requests[0],{method:'POST',auth:'test-token',body:'image=one'});
  for(const [input,error] of [[{uri,method:'HEAD'},/HEAD/],[{uri,body:'ignored'},/GET cannot/],[{uri,cache:'ignored'},/Unsupported request options/],[`${uri}/missing`,/HTTP 404/],[`${uri}/invalid`,/Expected PNG or JPEG/]]) await assert.rejects(loadImage(input),error);
- const forme = await server.ssrLoadModule('@formepdf/svelte');
+ const forme = await Promise.all([server.ssrLoadModule('@formepdf/svelte'), server.ssrLoadModule('/src/lib/bases/forme/server.ts')]).then(([native, checked]) => ({ ...native, ...checked }));
  const takumi = await server.ssrLoadModule('/src/lib/bases/takumi/server.ts');
  const {render}=await server.ssrLoadModule('svelte/server');
  for(const base of ['forme','takumi']) {
@@ -79,6 +79,21 @@ try {
 await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'image',options:{src:'/tmp/pdfcn-missing-image-assertion.png'}}}),/loadImage/);
  await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'image',options:{src:'data:image/png;base64,AAAA'}}}),/PNG or JPEG/);
  await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'heading',fonts:[{family:'Missing',src:'/tmp/pdfcn-missing-font-assertion.ttf'}]}}),/font|ENOENT|not found/i);
+ // Exercise the documented registration API with a real, locally supplied TTF.
+ // PDF.js already declares and licenses this fixture; it is not a consumer dependency.
+ const fontPath = `${process.cwd()}/node_modules/pdfjs-dist/standard_fonts/LiberationSans-Regular.ttf`;
+ forme.Font.register({ family: 'ReleaseTest', src: fontPath });
+ const fontOptions = { weight: 'normal', style: { fontFamily: 'ReleaseTest' } };
+ const formeFontPdf = await forme.renderDocument(FormeApi,{props:{kind:'heading',options:fontOptions}});
+ const formeFont = await inspectPdf(formeFontPdf);
+ assert.ok(formeFont.baseFonts.includes('ReleaseTest'), 'Forme uses the registered family alias in its PDF font name');
+ assert.match(new TextDecoder('latin1').decode(formeFontPdf), /\/FontFile2\s/, 'Forme must embed actual TTF bytes');
+ const {default:TakumiApi}=await server.ssrLoadModule('/tests/components/takumi-api-validation.svelte');
+ const takumiFontPdf = await takumi.renderDocument(TakumiApi,{props:{kind:'heading',options:fontOptions},fonts:[{name:'ReleaseTest',data:await readFile(fontPath)}],fontFamilies:['ReleaseTest']});
+ const takumiFont = await inspectPdf(takumiFontPdf);
+ assert.ok(takumiFont.baseFonts.some(name => /LiberationSans|ReleaseTest/.test(name)), `Takumi must use supplied font: ${takumiFont.baseFonts.join(', ')}`);
+ assert.match(new TextDecoder('latin1').decode(takumiFontPdf), /\/FontFile2\s/, 'Takumi must embed actual TTF bytes');
+ console.log('Fonts: explicit Forme registration and Takumi byte resources embed the supplied TTF');
  const imageCanvas=createCanvas(100,50);imageCanvas.getContext('2d').fillRect(0,0,100,50);
  const imageResult=await forme.renderDocumentWithLayout(FormeApi,{props:{kind:'image',options:{src:imageCanvas.toDataURL('image/png'),width:100}}});
  const visit=node=>node.kind==='Image'?node:(node.children??[]).map(visit).find(Boolean);
@@ -95,6 +110,12 @@ await assert.rejects(forme.renderDocument(FormeApi,{props:{kind:'image',options:
  await doc.destroy();
  for(const count of [240,2400]) {
   const token='START'+'X'.repeat(count)+'END';
+  if (count === 2400) {
+   // Inspected native output: the atomic row is923.3pt tall in761.9pt body space
+   // and silently fragments across pages. The checked adapter must fail usefully.
+   await assert.rejects(forme.renderDocument(Table,{props:{description:token}}), /Atomic content.*(?:tall|split)/);
+   continue;
+  }
   const longPdf=await forme.renderDocument(Table,{props:{description:token}});
   const longDoc=await getDocument({data:longPdf.slice(),disableWorker:true,standardFontDataUrl:`${process.cwd()}/node_modules/pdfjs-dist/standard_fonts/`}).promise;
   let text='';

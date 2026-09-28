@@ -1,6 +1,6 @@
 # Public component prop audit
 
-Audited against Forme0.25.0 and Takumi0.11.3. This is an implementation trace, not a claim that arbitrary renderer `style` keys are portable. All numeric component dimensions are PDF points; Takumi converts point lengths to CSS pixels at the primitive boundary. Caller business totals, statuses, dates, labels and chart values are never derived by component rendering.
+Audited against Forme 0.25.0 and Takumi 0.11.3. This is an implementation trace, not a claim that arbitrary renderer `style` keys are portable. All numeric component dimensions are PDF points; Takumi converts point lengths to CSS pixels at the primitive boundary. Caller business totals, statuses, dates, labels and chart values are never derived by component rendering.
 
 For each family, the inventory includes declared interface fields (including nested data fields), runtime destructured props, and inherited style/children where declared. Source references identify the exact code that applies them. Types enumerate allowed visual variants; unsupported engine capabilities fail before serialization.
 
@@ -60,7 +60,7 @@ PrintableForm is the primary name. groups/layout → one/two/three columns; fiel
 
 ## graph
 
-data normalized without invented missing values. Aligned finite series required; pie/donut/horizontal-bar reject multiple series, pie/donut reject negative values. Signed Cartesian bars start at zero. width/fullWidth are exclusive; padding requires fullWidth. dimensions, density, yTicks and colors validated. showValues/grid/dots/smooth map to geometry or labels; inappropriate centerLabel/axes/smooth combinations reject. Pie labels preserve zero/tiny slices; long labels retained below Cartesian plots; unbroken words over40 chars reject. SVG text + PDF text overlays have distinct render paths. noWrap maps breakability. title/subtitle/style remain caller-owned.
+data normalized without invented missing values. Aligned finite series required; pie/donut/horizontal-bar reject multiple series, pie/donut reject negative values. Signed Cartesian bars start at zero. width/fullWidth are exclusive; padding requires fullWidth. dimensions, density, yTicks and colors validated. showValues/grid/dots/smooth map to geometry or labels; inappropriate centerLabel/axes/smooth combinations reject. Pie labels preserve zero/tiny slices; long labels retained below Cartesian plots; unbroken words over 40 chars reject. SVG text + PDF text overlays have distinct render paths. noWrap maps breakability. title/subtitle/style remain caller-owned.
 
 | Renderer | Public and nested prop inventory | Implementation trace |
 | --- | --- | --- |
@@ -123,7 +123,7 @@ No children. Forme style is never and runtime rejects because a break has no vis
 
 ## page-footer
 
-variant → container/content; left/right/center text rendered or invalid variant rejected. Contacts require detailed/three-column; centerText requires simple/centered/three-column. Forme simple columns now flex to actual content width instead of480pt. fixed/sticky → repeated footer; pagePadding requires sticky; sticky conflicts with marginTop. textColor/background style overrides; noWrap protects block. Takumi adapter handles measured footer reservation.
+variant → container/content; left/right/center text rendered or invalid variant rejected. Contacts require detailed/three-column; centerText requires simple/centered/three-column. Forme simple columns now flex to actual content width instead of 480pt. Forme fixed content must precede body content inside the library Page; late declarations fail. fixed/sticky → repeated footer; Forme pagePadding requires sticky; Takumi pagePadding adds an inset inside the repeated band. sticky conflicts with marginTop. textColor/background style overrides; noWrap protects block. Takumi adapter measures at the actual inset width and centers the repeated band inside Page margins.
 
 | Renderer | Public and nested prop inventory | Implementation trace |
 | --- | --- | --- |
@@ -141,7 +141,7 @@ variant → container/content; contacts require two-column; logo requires logo-l
 
 ## page-number
 
-format substitutions use physical PAGE_NUMBER/TOTAL_PAGES in Forme and adapter tokens in Takumi. align/size/muted/style → text; fixed chooses repeated footer. No children.
+format substitutions use physical PAGE_NUMBER/TOTAL_PAGES in Forme and adapter tokens in Takumi. align/size/muted/style → text; Forme fixed chooses a repeated footer. Takumi fixed on PageNumber alone is rejected; put the number in PageHeader/PageFooter. No children.
 
 | Renderer | Public and nested prop inventory | Implementation trace |
 | --- | --- | --- |
@@ -195,7 +195,7 @@ direction/gap/align/justify/wrap → flex layout; noWrap controls PDF splitting 
 
 ## table
 
-variant/zebraStripe/noWrap → table context/layout; sections set kind; rows inherit header/footer and variant, track stripe position; cells honor explicit header/footer ahead of context, align/width/text/children/style. text takes precedence over children. _last is deprecated legacy internal metadata only. Forme0.25 fixes percent-width row inflation; keep physical regression instead of an obsolete workaround. Numeric widths use points; percentage widths refer to containing row.
+variant/zebraStripe/noWrap → table context/layout; sections set kind; rows inherit header/footer and variant, track stripe position; cells honor explicit header/footer ahead of context, align/width/text/children/style. text takes precedence over children. _last is deprecated legacy internal metadata only. Forme 0.25 fixes percent-width row inflation; keep physical regression instead of an obsolete workaround. Numeric widths use points; percentage widths refer to containing row.
 
 | Renderer | Public and nested prop inventory | Implementation trace |
 | --- | --- | --- |
@@ -213,7 +213,7 @@ variant/weight/italic/decoration/transform/align/color/noMargin → text style m
 
 ## watermark
 
-Forme text/angle/fontSize/color/opacity → native repeated watermark. position is center only, fixed is true only; other requests throw with positioned-Text alternative. opacity finite0..1. Takumi positioning/repetition is adapter-owned and must match its explicit supported contract.
+Forme text/angle/fontSize/color/opacity → native repeated watermark. position is center only, fixed is true only; other requests throw with positioned-Text alternative. opacity finite 0..1. Takumi positioning/repetition is adapter-owned and must match its explicit supported contract.
 
 | Renderer | Public and nested prop inventory | Implementation trace |
 | --- | --- | --- |
@@ -226,6 +226,16 @@ Forme Document forwards metadata, registered fonts, tagged/PDF-A/PDF-UA/certific
 
 ## Reproducible evidence
 
-`pnpm exec node scripts/api-regressions.mjs`: local HTTP server verifies request method/headers/body, negative cases, printable field serialization, full inline signature metadata, nested list preservation, chart category and value preservation, missing image/font rejection, corrupt image rejection, intrinsic image ratio, physical percent-column header/row/column positions, and240/2400-character unbroken table text including multi-page content. `PDFCN_REGRESSION_ARTIFACTS=/tmp/pdfcn-api-artifacts` also writes raster/PDF artifacts. `pnpm run test:components` covers all24 families and browser/PDF label uniqueness. `pnpm run test:primitives` covers primitive style/unit contracts.
+`pnpm exec node scripts/api-regressions.mjs`: local HTTP server verifies request method/headers/body, negative cases, printable field serialization, full inline signature metadata, nested list preservation, chart category and value preservation, missing image/font rejection, corrupt image rejection, intrinsic image ratio, physical percent-column header/row/column positions, and 240/2400-character unbroken table text including multi-page content. `PDFCN_REGRESSION_ARTIFACTS=/tmp/pdfcn-api-artifacts` also writes raster/PDF artifacts. `pnpm run test:components` covers all 24 families and browser/PDF label uniqueness. `pnpm run test:primitives` covers primitive style/unit contracts.
 
-Baseline Forme0.11.1 with55%/15%/15%/15% columns put the first body row145pt below its header. Forme0.25.0 puts it26.2pt below, with identical horizontal column positions. The new assertion remains strict (<35pt). Raster inspection confirms readable header/body rows. No local percent-width workaround is retained.
+Baseline Forme 0.11.1 with 55%/15%/15%/15% columns put the first body row 145pt below its header. Forme 0.25.0 puts it 26.2pt below, with identical horizontal column positions. The new assertion remains strict (<35pt). Raster inspection confirms readable header/body rows. No local percent-width workaround is retained.
+
+## Checked Forme output
+
+The supported Forme rendering entry is `pdfcn-svelte/bases/forme/server`. It enables the 0.25 engine content audit and verifies physical bounds, fixed-band collisions and atomic-group page membership. An oversized KeepTogether or non-wrapping table row now fails with instructions instead of silently splitting. The 240-character unbroken table regression still verifies full content and bounds; the inspected 2,400-character atomic row measured 923.3pt against 761.9pt body space and now must reject. This deliberate expectation change reflects an invalid atomic layout, not relaxed content preservation.
+
+Enabling the audit also reproduced unpainted text borders in Card titles, consultant invoice party labels and detailed footer page numbers. Those borders now belong to enclosing View containers and remain covered by the checked full-document gate.
+
+Takumi horizontal overflow regression: a 1,000pt right-aligned View previously returned a valid PDF with no extracted text (the label was beyond the 595pt paper edge). Explicit widths exceeding the known containing width and off-page absolute offsets now reject. The pagination suite includes both horizontal and vertical offset probes.
+
+Takumi unbroken identifiers previously lost characters during native text layout. The adapter now applies `overflowWrap: anywhere` to text nodes and the browser Text/Link primitives use the same default. Unsafe wrap overrides and `whiteSpace: nowrap/pre` reject with a wrapping alternative. The 240- and 2,400-character full-width table probes preserve every character within the right boundary; a 10,000-character atomic row rejects with an oversized-content explanation.

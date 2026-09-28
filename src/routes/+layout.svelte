@@ -10,10 +10,13 @@
 	<meta name="description" content="A Svelte 5 document component library with 24 components, 10 templates, themes, and two PDF renderer bases." />
 </svelte:head>
 
+<a class="skip-link" href="#main-content">Skip to content</a>
 <SiteHeader />
-<main>{@render children()}</main>
+<main id="main-content" tabindex="-1">{@render children()}</main>
 
 <style>
+	.skip-link { position: fixed; z-index: 100; top: -5rem; left: 1rem; padding: 0.8rem 1rem; background: var(--ink); color: white; border-radius: 0.3rem; }
+	.skip-link:focus { top: 0.5rem; }
 	:global(*) { box-sizing: border-box; }
 	:global(:root) {
 		--canvas: #f5f4ee;

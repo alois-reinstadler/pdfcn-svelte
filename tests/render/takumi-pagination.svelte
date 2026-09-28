@@ -1,5 +1,5 @@
 <script lang="ts">
- import { Document, Page, View, Text, Heading, KeepTogether, PageHeader, PageFooter, PageNumber, PageBreak, Image, Watermark } from '$lib/bases/takumi';
+ import { Document, Page, View, Text, Heading, KeepTogether, PageHeader, PageFooter, PageNumber, PageBreak, Image, Watermark, DataTable } from '$lib/bases/takumi';
  let { scenario = 'flow', count = 32, pageStyle = {}, bandExtra = 0 }: { scenario?: string; count?: number; pageStyle?: Record<string, unknown>; bandExtra?: number } = $props();
  const margin = { top: 55, right: 24, bottom: 40, left: 33 };
 </script>
@@ -23,6 +23,14 @@
   <Page flow><View style={{ flexDirection: 'row' }}><View style={{ flex: 1 }}><Heading keepWithNext>Nested</Heading><Text>Following</Text></View><Text>Other column</Text></View></Page>
  {:else if scenario === 'percentage-width'}
   <Page flow size={{ width: 280, height: 300 }} margin={30}><View style={{ width: '50%' }}><Heading keepWithNext noMargin level={6}>NARROW HEADING</Heading><Text noMargin>{'Narrow column content wraps and stays with its heading. '.repeat(6)}</Text></View></Page>
+ {:else if scenario === 'long-token'}
+  <Page flow margin={48}><DataTable columns={[{ key: 'description', header: 'Description', width: '100%' }]} data={[{ description: 'START' + 'X'.repeat(count) + 'END' }]} /></Page>
+ {:else if scenario === 'wide'}
+  <Page flow margin={48}><View style={{ width: 1000, alignItems: 'flex-end' }}><Text>LOST RIGHT</Text></View></Page>
+ {:else if scenario === 'offpage-y'}
+  <Page flow margin={48}><View style={{ position: 'absolute', top: 1000 }}><Text>LOST BELOW</Text></View></Page>
+ {:else if scenario === 'offpage-x'}
+  <Page flow margin={48}><View style={{ position: 'absolute', left: 1000 }}><Text>LOST RIGHT</Text></View></Page>
  {:else if scenario === 'overflow'}
   <Page size={{ width: 220, height: 200 }}><View style={{ height: 300 }}><Text>OVERFLOW</Text></View></Page>
  {:else if scenario === 'mixed'}

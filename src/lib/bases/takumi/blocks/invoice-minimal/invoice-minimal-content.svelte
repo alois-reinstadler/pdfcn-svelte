@@ -28,7 +28,7 @@
 {#snippet pageNumber()}<PageNumber align="right" size="xs" />{/snippet}
 
 <Document title={`Invoice ${data.invoiceNumber}`}>
-	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 48), left: theme.spacing.page.marginLeft }} style={pageStyle}>
+	<Page flow size="A4" margin={{ top: theme.spacing.page.marginTop, right: theme.spacing.page.marginRight, bottom: Math.max(theme.spacing.page.marginBottom, 72), left: theme.spacing.page.marginLeft }} style={pageStyle}>
 		<Section noWrap style={{ alignItems: 'flex-start', flexDirection: 'row', marginBottom: theme.spacing.sectionGap }}>
 			<View style={{ flex: 1 }}><PageHeader variant="minimal" title={data.companyName} subtitle={`${data.companyAddress}  ·  ${data.companyEmail}`} marginBottom={0} /></View>
 			<View style={{ alignSelf: 'flex-start', borderColor: theme.colors.primary, borderRadius: theme.primitives.borderRadius.sm, borderStyle: 'solid', borderWidth: 2, paddingHorizontal: 12, paddingVertical: 8 }}>
@@ -53,6 +53,6 @@
 			{ key: 'Subtotal', value: money(data.summary.subtotal) }, { key: data.taxLabel ?? 'Tax', value: money(data.summary.tax) },
 			{ key: 'Balance Due', keyStyle: { fontSize: 12, fontWeight: 'bold' }, value: money(data.summary.total), valueStyle: { color: theme.colors.primary, fontSize: 13, fontWeight: 'bold' } }
 		]} /></View></Section>
-		<PageFooter leftText={data.notes} rightText={pageNumber} sticky pagePadding={25} />
+		<PageFooter leftText={data.notes} rightText={pageNumber} sticky />
 	</Page>
 </Document>

@@ -9,7 +9,7 @@
   ],
   "files": [
     {
-      "content": "<script lang=\"ts\">\n\timport { PageBreak } from '$lib/bases/forme/lib/pdf-primitives';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\n\tinterface PageBreakProps extends Omit<PDFComponentProps, 'children'> {\n\t\tchildren?: never;\n\t}\n\n\texport type { PageBreakProps };\n</script>\n\n<PageBreak />\n",
+      "content": "<script lang=\"ts\">\n\timport { PageBreak } from '$lib/bases/forme/lib/pdf-primitives';\n\timport type { PDFComponentProps } from '$lib/types/pdf-components';\n\n\tinterface PageBreakProps extends Omit<PDFComponentProps, 'children' | 'style'> {\n\t\tchildren?: never;\n\t\tstyle?: never;\n\t}\n\n\texport type { PageBreakProps };\n\tlet { style }: PageBreakProps = $props();\n\tconst valid = $derived.by(() => { if (style !== undefined) throw new Error('[PageBreak] A page break has no visual style. Apply spacing to the following content.'); return true; });\n</script>\n\n{#if valid}<PageBreak />{/if}\n",
       "type": "registry:component",
       "target": "~/src/lib/bases/forme/components/page-break/page-break.svelte"
     }

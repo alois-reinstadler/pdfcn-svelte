@@ -61,17 +61,13 @@
 			paddingLg: { padding: spacing[4] },
 			paddingMd: { padding: spacing[3] },
 			paddingSm: { padding: spacing[2] },
+			titleFrame: { borderBottomColor: t.colors.border, borderBottomStyle: 'solid', borderBottomWidth: 1, marginBottom: spacing[2], paddingBottom: spacing[1] + 2 },
 			title: {
-				borderBottomColor: t.colors.border,
-				borderBottomStyle: 'solid',
-				borderBottomWidth: 1,
 				color: t.colors.foreground,
 				fontFamily: t.typography.heading.fontFamily,
 				fontSize: t.primitives.typography.base,
 				fontWeight: fontWeights.semibold,
-				lineHeight: t.typography.heading.lineHeight,
-				marginBottom: spacing[2],
-				paddingBottom: spacing[1] + 2
+				lineHeight: t.typography.heading.lineHeight
 			}
 		};
 	};
@@ -96,7 +92,7 @@
 
 <View wrap={wrap} style={cardStyle}>
 	{#if title}
-		<PDFText style={styles.title}>{title}</PDFText>
+		<View style={styles.titleFrame}><PDFText style={styles.title}>{title}</PDFText></View>
 	{/if}
 	{#if text !== undefined}
 		<PDFText style={styles.body}>{text}</PDFText>

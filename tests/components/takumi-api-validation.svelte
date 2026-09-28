@@ -3,7 +3,7 @@
  import PdfcnThemeProvider from '$lib/PdfcnThemeProvider.svelte';
  let { kind, options = {} }: { kind: string; options?: Record<string, any> } = $props();
 </script>
-<PdfcnThemeProvider><Document><Page margin={40}>
+<PdfcnThemeProvider><Document><Page flow margin={40}>
  {#if kind === 'heading'}<Heading {...options}>Heading</Heading>
  {:else if kind === 'keep'}<KeepTogether {...options}><Heading>Kept heading</Heading></KeepTogether>
  {:else if kind === 'watermark'}<Watermark text="DRAFT" {...options} />

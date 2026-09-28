@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const server = await createServer({
 	root,
 	optimizeDeps: { noDiscovery: true },
-	server: { middlewareMode: true },
+	server: { middlewareMode: true, hmr: false },
 	appType: 'custom'
 });
 
@@ -25,7 +25,7 @@ try {
 		server.ssrLoadModule('/tests/render/forme-document.svelte'),
 		server.ssrLoadModule('/tests/render/takumi-document.svelte'),
 		server.ssrLoadModule('/tests/render/takumi-overflow-document.svelte'),
-		server.ssrLoadModule('@formepdf/svelte'),
+		Promise.all([server.ssrLoadModule('@formepdf/svelte'), server.ssrLoadModule('/src/lib/bases/forme/server.ts')]).then(([native, checked]) => ({ ...native, ...checked })),
 		server.ssrLoadModule('svelte/server'),
 		server.ssrLoadModule('/src/lib/bases/takumi/lib/render-document.ts')
 	]);

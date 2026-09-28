@@ -21,7 +21,7 @@
 		...rest
 	}: Props = $props();
 
-	const css = $derived(styleToCss(flattenTakumiStyle(style) ?? {}));
+	const css = $derived(styleToCss({ overflowWrap: 'anywhere', ...flattenTakumiStyle(style) }));
 </script>
 
 <a {...rest} class={classValue ?? className} href={src} style={css}>{@render children?.()}</a>

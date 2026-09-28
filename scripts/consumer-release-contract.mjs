@@ -1,5 +1,6 @@
 /** Real consumer release gate. No registry file is copied by this test: shadcn-svelte installs it. */
 import assert from 'node:assert/strict';
+import semver from 'semver';
 import { spawn, spawnSync } from 'node:child_process';
 import { mkdir, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -118,12 +119,19 @@ async function assertIsolation(app, base, copied = false) {
  if (copied) {
   assert.ok(!declared['pdfcn-svelte'], 'Copied-source consumer must not rely on the package');
   if (!hosted) for (const name of base === 'forme' ? ['@formepdf/core', '@formepdf/svelte'] : ['takumi-pdf', '@takumi-rs/helpers']) {
-   assert.equal(declared[name], pkg.peerDependencies[name], `CLI must preserve the declared supported range for ${name}`);
+   const supported = pkg.peerDependencies[name];
+   // pnpm may save a narrower caret range starting at the resolved version.
+   // It must never widen support, and the actual installed version must comply.
+   assert.ok(semver.subset(declared[name], supported), `CLI range ${name}@${declared[name]} must be contained in ${supported}`);
+   const installed = JSON.parse(await readFile(join(app, 'node_modules', name, 'package.json'), 'utf8')).version;
+   assert.ok(semver.satisfies(installed, supported), `${name}@${installed} must satisfy ${supported}`);
+   const item = JSON.parse(await readFile(join(root, 'public/r', base, 'utils.json'), 'utf8'));
+   assert.ok(item.dependencies.includes(`${name}@${supported}`), `Registry must request the declared range for ${name}`);
   }
  }
 }
 async function configure(app, base, copied) {
- const pdfRenderer = base === 'forme' ? '@formepdf/svelte' : copied ? '$lib/bases/takumi/server' : 'pdfcn-svelte/bases/takumi/server';
+ const pdfRenderer = base === 'forme' ? copied ? '$lib/bases/forme/server' : 'pdfcn-svelte/bases/forme/server' : copied ? '$lib/bases/takumi/server' : 'pdfcn-svelte/bases/takumi/server';
  let source = await readFile(join(root, `src/docs/examples/${base}/text.svelte`), 'utf8');
  if (copied) {
   source = source.replace("import { PdfcnThemeProvider } from '$lib/index';", "import PdfcnThemeProvider from '$lib/PdfcnThemeProvider.svelte';")
@@ -132,7 +140,7 @@ async function configure(app, base, copied) {
  } else source = packageSource(source);
  await put(join(app, 'src/lib/Example.svelte'), source);
  let endpoint = await readFile(join(root, `src/docs/examples/${base}-endpoint.ts.txt`), 'utf8');
- if (copied && base === 'takumi') endpoint = endpoint.replace('pdfcn-svelte/bases/takumi/server', '$lib/bases/takumi/server');
+ if (copied) endpoint = endpoint.replace(`pdfcn-svelte/bases/${base}/server`, `$lib/bases/${base}/server`);
  await put(join(app, 'src/routes/example.pdf/+server.ts'), endpoint);
  const files = [];
  if (!copied) {

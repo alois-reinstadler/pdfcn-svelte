@@ -4,9 +4,9 @@
   "title": "QR Code",
   "description": "QR Code PDF component for the forme base.",
   "dependencies": [
-    "@formepdf/svelte",
-    "@types/qrcode",
-    "qrcode"
+    "@formepdf/svelte@^0.25.0",
+    "@types/qrcode@^1.5.6",
+    "qrcode@^1.5.4"
   ],
   "registryDependencies": [
     "./utils.json"

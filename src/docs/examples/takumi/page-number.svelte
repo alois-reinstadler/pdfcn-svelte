@@ -29,7 +29,7 @@
 			<Text>First physical page.</Text><PageBreak /><Text
 				>Second physical page.</Text
 			>
-			<PageFooter leftText="Account summary"
+			<PageFooter marginTop={0} leftText="Account summary"
 				>{#snippet rightText()}<PageNumber
 						format={'Page {page} of {total}'}
 					/>{/snippet}</PageFooter

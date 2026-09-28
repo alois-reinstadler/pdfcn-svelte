@@ -34,6 +34,13 @@ export interface BaseReportData {
 	rows: ReportRow[];
 	series: ReportSeriesPoint[];
 	highlights: string[];
+	/** Optional caller-authored chart copy. */
+	chartTitle?: string;
+	chartSubtitle?: string;
+	/** Optional supplied footer; no aggregate is calculated by the library. */
+	tableFooter?: { label?: string; owner?: string; status?: string; progress?: number; risk?: string };
+	/** Caller-authored facts; risk counts and conclusions are never inferred. */
+	facts?: { key: string; value: string }[];
 }
 
 export interface ReportTemplateProps {

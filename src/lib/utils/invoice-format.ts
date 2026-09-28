@@ -12,5 +12,8 @@ export function invoiceFormatter(options: InvoiceFormatOptions): (amount: number
 	const formatter = new Intl.NumberFormat(options.locale ?? 'en-US', {
 		style: 'currency', currency: options.currency ?? 'USD'
 	});
-	return (amount) => formatter.format(amount);
+	return (amount) => {
+		if (!Number.isFinite(amount)) throw new Error('Invoice amounts must be finite numbers. Supply calculated totals and line amounts; NaN and Infinity cannot be printed as money.');
+		return formatter.format(amount);
+	};
 }

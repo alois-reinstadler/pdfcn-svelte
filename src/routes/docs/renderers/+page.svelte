@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import Callout from '../../../docs/components/Callout.svelte';
 	import DocPage from '../../../docs/components/DocPage.svelte';
 </script>
@@ -24,8 +25,10 @@
 	</tbody></table></div>
 
 	<h2>Pagination boundaries</h2>
- <p>Forme paginates native Page content and supports fixed header/footer regions. For variable-length Takumi documents use one <code>Page flow size="A4" margin=&#123;48&#125;</code>. Its server adapter owns physical pages, uses the Page size/margins, and repeats one PageFooter. Browser flow output is unpaginated and omits that footer. Multiple flowing pages, multiple flow footers, and viewport rendering with flow are rejected.</p>
- <p>Takumi PageHeader fixed is currently ignored. PageNumber fixed alone also does not repeat: put it in the flow footer. Explicit fixed-size Takumi pages remain available for layouts you know fit; overflowing them can clip content. Check the produced PDF with realistic long data.</p>
+ <p>Use <code>renderDocument</code> from <code>pdfcn-svelte/bases/forme/server</code> to check the physical layout before returning a PDF. Forme paginates Page content and supports fixed header/footer regions. Import Page from the library and declare all fixed headers, footers and page numbers before body content; late declarations raise an actionable error. For variable-length Takumi documents use <code>Page flow size="A4" margin=&#123;48&#125;</code>. Multiple authored sections must share paper size and margins; each begins a physical page. Their repeated header/footer bands are document-wide: declare them once, and reserve enough top/bottom margin.</p>
+ <p>Use <code>PageHeader fixed</code> and <code>PageFooter fixed</code> for repeated bands. Multiple Takumi bands stack; identical declarations are deduplicated. Put page numbers inside these bands. A clipping viewport, mixed page geometry and overflowing fixed pages raise errors instead of dropping content.</p>
+ <p>Takumi measures keep-with-next and minimum-presence groups. Forme cannot implement these sibling measurements: it rejects <code>Heading keepWithNext=true</code> and <code>KeepTogether minPresenceAhead</code>. Group a heading with the required following content inside <code>KeepTogether</code> instead. Such a group must fit on one physical page.</p>
+ <p>HTML output is a layout preview. The <a href={`${base}/docs/pagination`}>physical pages guide</a> shows a forty-line invoice rendered by each engine, including continuation pages and final totals. Component examples also show images rendered from their actual PDFs.</p>
  <h2>How to choose</h2>
 	<p>Choose Forme when you want its native Svelte document model and renderer semantics. Choose Takumi when browser-visible HTML/CSS previews and an HTML-to-paged-PDF pipeline fit your application. Both now return PDF bytes inside this repository.</p>
 	<p>The component source is duplicated by base on purpose. That makes output behavior explicit and lets copied registry items bring only the primitives their renderer needs.</p>

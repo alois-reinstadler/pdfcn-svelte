@@ -11,9 +11,9 @@
  <p>Then run this in your consuming Svelte 5.30+ application. Replace the path with the tarball produced above:</p>
  <CodeBlock label="Consuming application" code={'pnpm add /absolute/path/to/pdfcn-svelte-0.1.0.tgz'} />
  <h2>Install one renderer</h2>
- <CodeBlock label="Forme only" code="pnpm add @formepdf/svelte @formepdf/core" />
- <CodeBlock label="Or Takumi only" code="pnpm add takumi-pdf @takumi-rs/helpers" />
- <p>Forme uses version 0.11.x of its adapters. Takumi uses takumi-pdf 0.11.x and helpers 2.12.x. The unused renderer is optional. A server-capable SvelteKit deployment is needed for on-demand PDF endpoints; a static site can serve PDFs generated at build time.</p>
+ <CodeBlock label="Forme only" code="pnpm add @formepdf/svelte@^0.25.0 @formepdf/core@^0.25.0" />
+ <CodeBlock label="Or Takumi only" code="pnpm add takumi-pdf@^0.11.3 @takumi-rs/helpers@^2.12.0" />
+ <p>Forme uses version 0.25.x of its adapters. Takumi uses takumi-pdf 0.11.x and helpers 2.12 or newer within 2.x. The unused renderer is optional. A server-capable SvelteKit deployment is needed for on-demand PDF endpoints; a static site can serve PDFs generated at build time.</p>
  <h2>Workspace alternative</h2>
  <p>Place the built library in your pnpm workspace and add <code>"pdfcn-svelte": "workspace:*"</code> to the consuming application's dependencies, then run <code>pnpm install</code> at the workspace root. Build the library with <code>pnpm run package</code> before using its exports. Workspace imports are identical to tarball imports.</p>
  <h2>Package imports</h2>

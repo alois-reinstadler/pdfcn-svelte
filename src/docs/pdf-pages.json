@@ -1,0 +1,1034 @@
+{
+  "components/forme/alert": {
+    "pdf": "/previews/components/forme/alert.pdf",
+    "sha256": "e50e7d5e0c34e26600d38a8e148261378314adafc3bfc69e4cc26a430ae06bc4",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/alert/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment pending  Please pay within 14 days."
+      }
+    ]
+  },
+  "components/forme/badge": {
+    "pdf": "/previews/components/forme/badge.pdf",
+    "sha256": "7b66bbf6a6bdeb300d648aa7bf1ac4da28651d5108a38a992d0b3fc0dbd1234f",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/badge/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Paid   Reference copy"
+      }
+    ]
+  },
+  "components/forme/card": {
+    "pdf": "/previews/components/forme/card.pdf",
+    "sha256": "87ce275038e44975ae91e15c0ad764de9006883d637802a1b86588bfd016d343",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/card/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Delivery  Delivery takes three business days."
+      }
+    ]
+  },
+  "components/forme/data-table": {
+    "pdf": "/previews/components/forme/data-table.pdf",
+    "sha256": "12e34d827994bee25d90590ef89be149d79674b6da0a0a94732c7a277b2da79d",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/data-table/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Description   Qty   Amount  Design consultation   2   € 300,00"
+      }
+    ]
+  },
+  "components/forme/divider": {
+    "pdf": "/previews/components/forme/divider.pdf",
+    "sha256": "90293e84b49975af11bdf0d76d6bd465ff76233b4686628dc4aaa2dbd648b9a5",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/divider/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Services supplied  PAYMENT  Due in 14 days"
+      }
+    ]
+  },
+  "components/forme/form": {
+    "pdf": "/previews/components/forme/form.pdf",
+    "sha256": "2d5b9b5df4837b10e565c49a955f7c4269103d5d231fe671b8db8cbaf56f9aa1",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/form/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Registration  CONTACT  FULL NAME  Print clearly  EMAIL ADDRESS"
+      }
+    ]
+  },
+  "components/forme/graph": {
+    "pdf": "/previews/components/forme/graph.pdf",
+    "sha256": "181db4f4ee8e9adc636eaed5b6f45b8326089b743fe2c1b344baf4d0e2085517",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/graph/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Revenue and costs  0  48.6  97.2  145.8  194.4  120  80  180  100  Jan   Feb  Revenue   Costs  Revenue trend  0  48.6  97.2  145.8  194.4  Jan   Feb  Series 1"
+      }
+    ]
+  },
+  "components/forme/heading": {
+    "pdf": "/previews/components/forme/heading.pdf",
+    "sha256": "0866460de49f6c4766adaf3808dc8bffb0dd2ad64ef8b7fcee20bbaeff5d7d0c",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/heading/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Account summary  Activity for September 2026."
+      }
+    ]
+  },
+  "components/forme/keep-together": {
+    "pdf": "/previews/components/forme/keep-together.pdf",
+    "sha256": "ad0dcecfb3472b56e5bc3674b87239888a923601cfa7656f2df0e7674cb153cb",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/keep-together/1.webp",
+        "width": 672,
+        "height": 953,
+        "text": "Previous section: the space below simulates a nearly full page."
+      },
+      {
+        "image": "/previews/pages/components/forme/keep-together/2.webp",
+        "width": 672,
+        "height": 953,
+        "text": "Approval  This short section should stay on one physical page."
+      }
+    ]
+  },
+  "components/forme/key-value": {
+    "pdf": "/previews/components/forme/key-value.pdf",
+    "sha256": "2c9ac8731c0fb198141833dd0ec27fa5cb203723208309f3e34994325e391ab7",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/key-value/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Reference   INV-2026-01  Due date   5 October 2026"
+      }
+    ]
+  },
+  "components/forme/link": {
+    "pdf": "/previews/components/forme/link.pdf",
+    "sha256": "f34deef655269488fd4a9bee3c6ecf87058f5c778e80cd8ffa31d17e79c63b26",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/link/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "View your invoices"
+      }
+    ]
+  },
+  "components/forme/list": {
+    "pdf": "/previews/components/forme/list.pdf",
+    "sha256": "adc26db4c44f47555b6bec576b9745372e1070fcecc38cb8c447d5880444cbbc",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/list/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Review totals  Approve payment"
+      }
+    ]
+  },
+  "components/forme/page-break": {
+    "pdf": "/previews/components/forme/page-break.pdf",
+    "sha256": "cf538527280d536e77d6340b183a90c3d13e7458f0a4985f81330b34272fc095",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/page-break/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "First section  Before the break."
+      },
+      {
+        "image": "/previews/pages/components/forme/page-break/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second section  After the break."
+      }
+    ]
+  },
+  "components/forme/page-footer": {
+    "pdf": "/previews/components/forme/page-footer.pdf",
+    "sha256": "fe1fa79d22b7289ae1f5d3677050bbf75a2591eddae51a107233d62bbfeb87a3",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/page-footer/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Account summary  Prepared for Ada Lovelace.  Acme Studio   Page 1 of 2"
+      },
+      {
+        "image": "/previews/pages/components/forme/page-footer/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second physical page with the same footer.  Acme Studio   Page 2 of 2"
+      }
+    ]
+  },
+  "components/forme/page-header": {
+    "pdf": "/previews/components/forme/page-header.pdf",
+    "sha256": "9f400b1c8bbe788430f15853127e795ca05a04c2f757b7f4093348a7b8cbb147",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/page-header/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Account summary  September 2026  Prepared for Ada Lovelace."
+      },
+      {
+        "image": "/previews/pages/components/forme/page-header/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Account summary  September 2026  The same header appears on this second physical page."
+      }
+    ]
+  },
+  "components/forme/page-number": {
+    "pdf": "/previews/components/forme/page-number.pdf",
+    "sha256": "46b59d7c7a1278a08a59b335a66d74542166f45e68b625c1831bb465ca54cfe1",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/page-number/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "First physical page.  Page 1 of 2"
+      },
+      {
+        "image": "/previews/pages/components/forme/page-number/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second physical page.  Page 2 of 2"
+      }
+    ]
+  },
+  "components/forme/pdf-image": {
+    "pdf": "/previews/components/forme/pdf-image.pdf",
+    "sha256": "ba329c86a518542dc50a4522a4480b8b9dafb296789b96405f407f4fb8e0af90",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/pdf-image/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Replace with your PNG or JPEG"
+      }
+    ]
+  },
+  "components/forme/qrcode": {
+    "pdf": "/previews/components/forme/qrcode.pdf",
+    "sha256": "5f8d18df6a92c2d316353d68b107d076688190ba21d16ba46f3eac8f0152cf1e",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/qrcode/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment reference"
+      }
+    ]
+  },
+  "components/forme/section": {
+    "pdf": "/previews/components/forme/section.pdf",
+    "sha256": "f22d4494a4d2de9541f571515a850589c40c341fff2b3bef09de5ec5b1272921",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/section/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Notes  Include the invoice reference with your payment."
+      }
+    ]
+  },
+  "components/forme/signature": {
+    "pdf": "/previews/components/forme/signature.pdf",
+    "sha256": "f6f9e7bfbc21d8e708085b071523227d5b46a7a32d5206178bd27250395758ab",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/signature/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Approved by  Ada Lovelace  Prepared by  Alex Morgan"
+      }
+    ]
+  },
+  "components/forme/stack": {
+    "pdf": "/previews/components/forme/stack.pdf",
+    "sha256": "fd202c63521fd669445840c316d368db92a50d7541e7cd8816c859bc81e833ec",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/stack/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment status   Paid"
+      }
+    ]
+  },
+  "components/forme/table": {
+    "pdf": "/previews/components/forme/table.pdf",
+    "sha256": "414dca1dd73788ed137aed991557b9b3abd868425299cc5f94536a391a804685",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/table/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service   Hours  Consultation   2"
+      }
+    ]
+  },
+  "components/forme/text": {
+    "pdf": "/previews/components/forme/text.pdf",
+    "sha256": "bbdefd573992523af8703d76bc881dd67d3bd297adcb1be9038769ecd421c734",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/text/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment received  Your receipt is attached."
+      }
+    ]
+  },
+  "components/forme/watermark": {
+    "pdf": "/previews/components/forme/watermark.pdf",
+    "sha256": "9afdf6489079c9c45ceed32c707f607eb7ceb888156ffba76abb279203d17700",
+    "pages": [
+      {
+        "image": "/previews/pages/components/forme/watermark/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "DRAFT  Proposal  For review before approval."
+      }
+    ]
+  },
+  "components/takumi/alert": {
+    "pdf": "/previews/components/takumi/alert.pdf",
+    "sha256": "db43e8b526644acd19a793c57ea786993f72e6d2b69a19157f691cdd481dbe32",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/alert/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment pending  Please pay within 14 days."
+      }
+    ]
+  },
+  "components/takumi/badge": {
+    "pdf": "/previews/components/takumi/badge.pdf",
+    "sha256": "5a490f20aab6a529d4de08136ec31f97e0bc23bd1015879a14a5580de7f6cfb4",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/badge/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Paid   Reference copy"
+      }
+    ]
+  },
+  "components/takumi/card": {
+    "pdf": "/previews/components/takumi/card.pdf",
+    "sha256": "50258998730809a4bec957d10f54d3b6c8cf834e0830a1c2cfa7a532c5c45850",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/card/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Delivery  Delivery takes three business days."
+      }
+    ]
+  },
+  "components/takumi/data-table": {
+    "pdf": "/previews/components/takumi/data-table.pdf",
+    "sha256": "9753659bf777c03fe5a66b1b3979a0e53ff6ed5cbcb9a4ffa3c9ef3f04795c36",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/data-table/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Description   Qty   Amount  Design consultation   2   € 300,00"
+      }
+    ]
+  },
+  "components/takumi/divider": {
+    "pdf": "/previews/components/takumi/divider.pdf",
+    "sha256": "78c1b716ae9bd52014ef680b79c1eca29091a432e7b6896f0487e168f438a4bf",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/divider/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Services supplied  PAYMENT  Due in 14 days"
+      }
+    ]
+  },
+  "components/takumi/form": {
+    "pdf": "/previews/components/takumi/form.pdf",
+    "sha256": "4bde300b18f5e7772fa76694877a91820fb1bbc576ab2386b75e2fb0d4e0944e",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/form/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Registration  CONTACT  FULL NAME Print clearly   EMAIL ADDRESS"
+      }
+    ]
+  },
+  "components/takumi/graph": {
+    "pdf": "/previews/components/takumi/graph.pdf",
+    "sha256": "9d8d524c6a2a6d97adfb947d9c4af583f97482d751e07f9b2a04d909d4036780",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/graph/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Revenue and costs  0  48.6  97.2  145.8  194.4  120  80  180  100  Jan   Feb  Revenue   Costs  Revenue trend  0  48.6  97.2  145.8  194.4  Jan   Feb  Series 1"
+      }
+    ]
+  },
+  "components/takumi/heading": {
+    "pdf": "/previews/components/takumi/heading.pdf",
+    "sha256": "433ad3b33b8fb4e6d1bf9588a597f42c73b339da3d25b4a6ad2bd81d5478dd2b",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/heading/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Account summary  Activity for September 2026."
+      }
+    ]
+  },
+  "components/takumi/keep-together": {
+    "pdf": "/previews/components/takumi/keep-together.pdf",
+    "sha256": "1b5769add25ea746a6b2e9f64e42193012ece1bb696286cc976dfc12e8c95c7a",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/keep-together/1.webp",
+        "width": 672,
+        "height": 953,
+        "text": "Previous section: the space below simulates a nearly full page."
+      },
+      {
+        "image": "/previews/pages/components/takumi/keep-together/2.webp",
+        "width": 672,
+        "height": 953,
+        "text": "Approval  This short section should stay on one physical page."
+      }
+    ]
+  },
+  "components/takumi/key-value": {
+    "pdf": "/previews/components/takumi/key-value.pdf",
+    "sha256": "0c6a089201128cc09e546acaccf404848fd743e806b3e0a246038bfd7cb39f9f",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/key-value/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Reference   INV-2026-01  Due date   5 October 2026"
+      }
+    ]
+  },
+  "components/takumi/link": {
+    "pdf": "/previews/components/takumi/link.pdf",
+    "sha256": "4b49d5566b95ad1cacf09f46440ed1cb1133d93f595ba97976f7fa0702ae1921",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/link/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "View your invoices"
+      }
+    ]
+  },
+  "components/takumi/list": {
+    "pdf": "/previews/components/takumi/list.pdf",
+    "sha256": "85169fae726e70f0862a2cdc48e9062377d9c055acba4143b875e84f38172ec7",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/list/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Review totals  Approve payment"
+      }
+    ]
+  },
+  "components/takumi/page-break": {
+    "pdf": "/previews/components/takumi/page-break.pdf",
+    "sha256": "83fe3ee3d00757c4822d6006f9ad673dd3c5d1e6762e8246136de5b29b1a1cec",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/page-break/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "First section  Before the break."
+      },
+      {
+        "image": "/previews/pages/components/takumi/page-break/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second section  After the break."
+      }
+    ]
+  },
+  "components/takumi/page-footer": {
+    "pdf": "/previews/components/takumi/page-footer.pdf",
+    "sha256": "b1669a8a8f74a93fe1b0676b3ce151bd4fc8ee8216d97e2cd6686af084a634da",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/page-footer/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Account summary  Prepared for Ada Lovelace.  Acme Studio   Page   1   of   2"
+      },
+      {
+        "image": "/previews/pages/components/takumi/page-footer/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second physical page with the same footer.  Acme Studio   Page   2   of   2"
+      }
+    ]
+  },
+  "components/takumi/page-header": {
+    "pdf": "/previews/components/takumi/page-header.pdf",
+    "sha256": "6160ba77fe8417bdb12ee801231761e1670516b845b96b3c95e3c30e082cff8b",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/page-header/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Account summary  September 2026  Prepared for Ada Lovelace."
+      },
+      {
+        "image": "/previews/pages/components/takumi/page-header/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Account summary  September 2026  The same header appears on this second physical page."
+      }
+    ]
+  },
+  "components/takumi/page-number": {
+    "pdf": "/previews/components/takumi/page-number.pdf",
+    "sha256": "52f1e18dfe9c7e0dfc0670fd916bb7e2f2d5050b81231aabb60bab53d7aaf04e",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/page-number/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "First physical page.  Account summary   Page   1   of   2"
+      },
+      {
+        "image": "/previews/pages/components/takumi/page-number/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Second physical page.  Account summary   Page   2   of   2"
+      }
+    ]
+  },
+  "components/takumi/pdf-image": {
+    "pdf": "/previews/components/takumi/pdf-image.pdf",
+    "sha256": "47ca597ca8426f1d9cc808f67d8bb9bd85eaf219f19bd9737d38f5940a12d8d3",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/pdf-image/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Replace with your PNG or JPEG"
+      }
+    ]
+  },
+  "components/takumi/qrcode": {
+    "pdf": "/previews/components/takumi/qrcode.pdf",
+    "sha256": "d09e8771fcbf9f1fbd60b0d95b0e3458760e544250603e65dcdd37d80cf19568",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/qrcode/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment reference"
+      }
+    ]
+  },
+  "components/takumi/section": {
+    "pdf": "/previews/components/takumi/section.pdf",
+    "sha256": "43a63aac064abe417f62d018134819392dd245242d6e02f50811abb36b451634",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/section/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Notes  Include the invoice reference with your payment."
+      }
+    ]
+  },
+  "components/takumi/signature": {
+    "pdf": "/previews/components/takumi/signature.pdf",
+    "sha256": "ec77ee5f2564e588d65146f3ba9742cfcc4c5b71fd77679bb30a280637e202fd",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/signature/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Approved by  Ada Lovelace  Prepared by  Alex Morgan"
+      }
+    ]
+  },
+  "components/takumi/stack": {
+    "pdf": "/previews/components/takumi/stack.pdf",
+    "sha256": "82923af75121031633e180c9c2e7f3303e631b7b288abbee877248c5cf999611",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/stack/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment status   Paid"
+      }
+    ]
+  },
+  "components/takumi/table": {
+    "pdf": "/previews/components/takumi/table.pdf",
+    "sha256": "6c0f9b1835c15eccc13cb9be3c17a9b34b3eb125ec28e1a2fccb147c8f964151",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/table/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service   Hours  Consultation   2"
+      }
+    ]
+  },
+  "components/takumi/text": {
+    "pdf": "/previews/components/takumi/text.pdf",
+    "sha256": "1daa4a81e8c28ce2e6d660c2ca72403d2aca0ebdce30e4fc75fdb69ff091c2fd",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/text/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Payment received  Your receipt is attached."
+      }
+    ]
+  },
+  "components/takumi/watermark": {
+    "pdf": "/previews/components/takumi/watermark.pdf",
+    "sha256": "383a24aff2a9a8d1109ead16ae49e8a1ee4746636c74ca7ab5845de25a18975e",
+    "pages": [
+      {
+        "image": "/previews/pages/components/takumi/watermark/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "DRAFT Proposal  For review before approval."
+      }
+    ]
+  },
+  "custom/forme/invoice-classic": {
+    "pdf": "/previews/custom/forme/invoice-classic.pdf",
+    "sha256": "ee6a8a50592ed74f4165db1e00e089b850944d4f6d088ec017486e359c7bfa5d",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-classic/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PDF   Acme Studio  Design services  INV-2026-01  Due: 5 October 2026  FROM  Acme Studio  Vienna, Austria  hello@example.com  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  PAYMENT TERMS  Bank transfer  ATU00000000  5 October 2026  Description   QTY   Rate   Total  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Total   € 360,00  Include INV-2026-01 with your payment.   Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/invoice-consultant": {
+    "pdf": "/previews/custom/forme/invoice-consultant.pdf",
+    "sha256": "ce6a50a229b1f33cb0cf4ed318a5c6b3b82952516193c35f791e254d08ae182f",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-consultant/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services  Vienna, Austria  INVOICE  INV-2026-01  21 September 2026  Due: 5 October 2026  FROM (CONSULTANT)  Alex Morgan  Consultant  alex@example.com  BILL TO (CLIENT)  Ada Lovelace  Analytical Studio  Vienna, Austria  ada@example.com  Service Description   Hours   Rate / hour   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  Total Hours: 2  Payment: Bank transfer  Subtotal   € 300,00  VAT (20%)   € 60,00  Amount Due   € 360,00  Include INV-2026-01 with your payment.  Professional services invoice – Please retain for  records   Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/invoice-corporate": {
+    "pdf": "/previews/custom/forme/invoice-corporate.pdf",
+    "sha256": "59a657734456b26cc2cb829f1e770d0a12d68d02d28b3efe71ab21aaedd592b3",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-corporate/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria   PDF  INVOICE DETAILS  Invoice #   INV-2026-01  Issue Date   21 September 2026  Due Date   5 October 2026  Payment   Bank transfer  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  Description   Qty   Unit Price   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Total Due   € 360,00  Include INV-2026-01 with your payment.   Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/invoice-creative": {
+    "pdf": "/previews/custom/forme/invoice-creative.pdf",
+    "sha256": "a3fe91e4338c87d1a915c2243f60d41945d761cbfe135e38e96a42e1f44743ce",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-creative/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria  I N V O I C E  INV-2026-01  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com · +43 1 555 0100  INVOICE INFO  Issue Date   21 September 2026  Due Date   5 October 2026  Payment   Bank transfer  Deliverable   Qty   Rate   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  NOTES & TERMS  Include INV-2026-01 with your payment.  GST: ATU00000000  Subtotal   € 300,00  VAT (20%)   € 60,00  Total   € 360,00  Thank you for choosing us for your creative needs!  Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/invoice-minimal": {
+    "pdf": "/previews/custom/forme/invoice-minimal.pdf",
+    "sha256": "1f16a1d52b6977f34950e47bead82b47cf7a4330772c0e1e469998c775f6aca7",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-minimal/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Vienna, Austria · hello@example.com  INVOICE  INV-2026-01  21 September 2026  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  INVOICE DETAILS  Due Date   5 October 2026  Payment   Bank transfer  GST   ATU00000000  DESCRIPTION   QTY   RATE   TOTAL  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Balance Due   € 360,00  Include INV-2026-01 with your payment.   Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/invoice-modern": {
+    "pdf": "/previews/custom/forme/invoice-modern.pdf",
+    "sha256": "4bc50c7aa6bdd9f4b1d25d4fa65da31b33d4c5dc8915aa68c99689cf070d7ae7",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/invoice-modern/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria · hello@example.com  INVOICE NUMBER  INV-2026-01  INVOICE DATE  21 September 2026  DUE DATE  5 October 2026  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  DESCRIPTION   QTY   UNIT PRICE   AMOUNT  Design consultation and delivery review   2   € 150,00   € 300,00  PAYMENT METHOD  Bank transfer  ATU00000000  Subtotal   € 300,00  VAT (20%)   € 60,00  Total Due   € 360,00  Include INV-2026-01 with your payment.   Page 1 of 1"
+      }
+    ]
+  },
+  "custom/forme/report-financial": {
+    "pdf": "/previews/custom/forme/report-financial.pdf",
+    "sha256": "027cad6aca37fba528d0931c592a67c2db12fc811a21e88e6d08d2d11362b084",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/report-financial/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Financial Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page 1 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-financial/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Revenue trajectory  Quarterly weighted revenue index  0  3.2  6.5  9.7  13.0  July   August   Septemb…  3. September  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page 2 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-financial/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page 3 of 3"
+      }
+    ]
+  },
+  "custom/forme/report-marketing": {
+    "pdf": "/previews/custom/forme/report-marketing.pdf",
+    "sha256": "e24cd4d4a34ae6ce0b3a0c17b929efda6512567ea40373fc397de633462e4e2f",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/report-marketing/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Growth Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page 1 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-marketing/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Pipeline build by week  Demand creation output trend  0  3.2  6.5  9.7  13.0  8  10  12  July   August   September  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page 2 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-marketing/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page 3 of 3"
+      }
+    ]
+  },
+  "custom/forme/report-operations": {
+    "pdf": "/previews/custom/forme/report-operations.pdf",
+    "sha256": "2edb0aebd02488bf7ae13029760cb811cab324f05da0a1cf3b326d19ab2d4c21",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/report-operations/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Operations Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page 1 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-operations/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Throughput by week  Resolved workload distribution  July   8  August   10  September   12  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page 2 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-operations/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page 3 of 3"
+      }
+    ]
+  },
+  "custom/forme/report-security": {
+    "pdf": "/previews/custom/forme/report-security.pdf",
+    "sha256": "2391df13964908bc6cf3a30a81e756b52fe6eb3b3e1a04a9280105c0f5f42a96",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/forme/report-security/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Security Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page 1 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-security/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Open risk distribution  High/Medium/Low workload share  July: 8   August: 10   September: 12  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page 2 of 3"
+      },
+      {
+        "image": "/previews/pages/custom/forme/report-security/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page 3 of 3"
+      }
+    ]
+  },
+  "custom/takumi/invoice-classic": {
+    "pdf": "/previews/custom/takumi/invoice-classic.pdf",
+    "sha256": "5f17f801283e694e6ca36522c04fa7500c0ff23d1b9d0a7ac07dc8064aef879a",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-classic/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PDF   Acme Studio  Design services  INV-2026-01  Due: 5 October 2026  FROM  Acme Studio  Vienna, Austria  hello@example.com  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  PAYMENT TERMS  Bank transfer  ATU00000000  5 October 2026  Description   QTY   Rate   Total  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Total   € 360,00  Include INV-2026-01 with your payment.   Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/invoice-consultant": {
+    "pdf": "/previews/custom/takumi/invoice-consultant.pdf",
+    "sha256": "fc61a2063c8dd7fbc021f4b42ed38514da7c9375c2fed0a1ac6eda03e59cb266",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-consultant/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services  Vienna, Austria  INVOICE  INV-2026-01  21 September 2026  Due: 5 October 2026  FROM (CONSULTANT)  Alex Morgan  Consultant  alex@example.com  BILL TO (CLIENT)  Ada Lovelace  Analytical Studio  Vienna, Austria  ada@example.com  Service Description   Hours   Rate / hour   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  Total Hours: 2  Payment: Bank transfer  Subtotal   € 300,00  VAT (20%)   € 60,00  Amount Due   € 360,00  Include INV-2026-01 with your payment.  Professional services invoice – Please retain for records   Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/invoice-corporate": {
+    "pdf": "/previews/custom/takumi/invoice-corporate.pdf",
+    "sha256": "db74f388152588c6a33b81b87aa4ca6dd2d8afab317eaee83770bbd971b8803b",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-corporate/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria  PDF  INVOICE DETAILS  Invoice #   INV-2026-01  Issue Date   21 September 2026  Due Date   5 October 2026  Payment   Bank transfer  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  Description   Qty   Unit Price   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Total Due   € 360,00  Include INV-2026-01 with your payment.   Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/invoice-creative": {
+    "pdf": "/previews/custom/takumi/invoice-creative.pdf",
+    "sha256": "c184aebb6dd099f3f344270f39728741b08e2c407a333ed6fbc7546e8fe80251",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-creative/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria  I N V O I C E  INV-2026-01  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com · +43 1 555 0100  INVO ICE INFO  Issue Date   21 September 2026  Due Date   5 October 2026  Payment   Bank transfer  Deliverable   Qty   Rate   Amount  Design consultation and delivery review   2   € 150,00   € 300,00  NOTES & TERMS  Include INV-2026-01 with your payment.  GST: ATU00000000  Subtotal   € 300,00  VAT (20%)   € 60,00  Total   € 360,00  Thank you for choosing us for your creative needs!  Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/invoice-minimal": {
+    "pdf": "/previews/custom/takumi/invoice-minimal.pdf",
+    "sha256": "a3b4c23f0426e272d2bd862977d27e5bbea4f68928e764622c309bc28a430c4b",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-minimal/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Vienna, Austria · hello@example.com  INVOICE  INV-2026-01  21 September 2026  BILL TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  INVO ICE D ETAILS  Due Date   5 October 2026  Payment   Bank transfer  GST   ATU00000000  DESCRIPTION   QTY   RATE   TOTAL  Design consultation and delivery review   2   € 150,00   € 300,00  Subtotal   € 300,00  VAT (20%)   € 60,00  Balance Due   € 360,00  Include INV-2026-01 with your payment.   Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/invoice-modern": {
+    "pdf": "/previews/custom/takumi/invoice-modern.pdf",
+    "sha256": "645e38bc9818dbc5c08caa6ced6017c3d74d6bfa7c138f9f33a698b5b1cd0de5",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/invoice-modern/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria · hello@example.com  INVOICE NUMBER  INV-2026-01  INVOICE DATE  21 September 2026  DUE DATE  5 October 2026  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  DESCRIPTION   QTY   UNIT PRICE   AMOUNT  Design consultation and delivery review   2   € 150,00   € 300,00  PAYMENT METHOD  Bank transfer  ATU00000000  Subtotal   € 300,00  VAT (20%)   € 60,00  Total Due   € 360,00  Include INV-2026-01 with your payment.   Page   1   of   1"
+      }
+    ]
+  },
+  "custom/takumi/report-financial": {
+    "pdf": "/previews/custom/takumi/report-financial.pdf",
+    "sha256": "8941e46b5533430c52bf46e3964e0f4deecd12e9c8f206ad4426443fbd9c248f",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/report-financial/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Financial Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page   1   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-financial/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Revenue trajectory  Quarterly weighted revenue index  0  3.2  6.5  9.7  13.0  July   August   Septemb…  3. September  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page   2   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-financial/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page   3   of   3"
+      }
+    ]
+  },
+  "custom/takumi/report-marketing": {
+    "pdf": "/previews/custom/takumi/report-marketing.pdf",
+    "sha256": "793b627d008cc15e51cbaac9817ceed8631f58d3a66965801d0b003bb9423d1a",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/report-marketing/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Growth Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page   1   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-marketing/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Pipeline build by week  Demand creation output trend  0  3.2  6.5  9.7  13.0  8  10  12  July   August   September  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page   2   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-marketing/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page   3   of   3"
+      }
+    ]
+  },
+  "custom/takumi/report-operations": {
+    "pdf": "/previews/custom/takumi/report-operations.pdf",
+    "sha256": "7e1465deed9fa03ed1fc20ebf90433bdce4b8a19425f1b209e31f534145ca1f3",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/report-operations/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Operations Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page   1   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-operations/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Throughput by week  Resolved workload distribution  July   8  August   10  September   12  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page   2   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-operations/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page   3   of   3"
+      }
+    ]
+  },
+  "custom/takumi/report-security": {
+    "pdf": "/previews/custom/takumi/report-security.pdf",
+    "sha256": "550f0c595d52beb0913772c44c71ba02bf3145577bceaf1acb08e79a92c646c8",
+    "pages": [
+      {
+        "image": "/previews/pages/custom/takumi/report-security/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "September review  Security Report · Analytical Studio  September 2026  Generated 21 September 2026  Reviewed — no open actions   Author: Alex Morgan  EXECUTIVE SUMMARY  Completed reviews  12  All scheduled reviews complete  Confidential — Internal Use   Generated with pdfcn   Page   1   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-security/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "PERFORMANCE TREND  Open risk distribution  High/Medium/Low workload share  July: 8   August: 10   September: 12  DELIVERY TABLE  Stream   Owner   Status   Progress   Risk  Delivery review   Alex   Complete   100%   Low  Confidential — Internal Use   Generated with pdfcn   Page   2   of   3"
+      },
+      {
+        "image": "/previews/pages/custom/takumi/report-security/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "HIGHLIGHTS & NOTES  All scheduled reviews completed.  Confidential — Internal Use   Generated with pdfcn   Page   3   of   3"
+      }
+    ]
+  },
+  "pagination/forme/invoice": {
+    "pdf": "/previews/pagination/forme/invoice.pdf",
+    "sha256": "e772162251372c2379dadc46d19c2fd59751cfea4304a662fd61646dc5c177cf",
+    "pages": [
+      {
+        "image": "/previews/pages/pagination/forme/invoice/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria · hello@example.com  INVOICE NUMBER  INV-2026-01  INVOICE DATE  21 September 2026  DUE DATE  5 October 2026  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  DESCRIPTION   QTY   UNIT PRICE   AMOUNT  Service 01 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 02 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 03 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 04 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 05 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 06 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 07 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 08 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 09 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page 1 of 4"
+      },
+      {
+        "image": "/previews/pages/pagination/forme/invoice/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 10 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 11 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 12 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 13 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 14 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 15 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 16 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 17 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 18 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 19 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 20 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 21 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 22 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 23 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page 2 of 4"
+      },
+      {
+        "image": "/previews/pages/pagination/forme/invoice/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 24 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 25 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 26 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 27 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 28 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 29 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 30 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 31 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 32 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 33 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 34 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 35 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 36 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 37 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page 3 of 4"
+      },
+      {
+        "image": "/previews/pages/pagination/forme/invoice/4.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 38 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 39 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 40 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  PAYMENT METHOD  Bank transfer  ATU00000000  Subtotal   € 6.000,00  VAT (20%)   € 1.200,00  Total Due   € 7.200,00  Include INV-2026-01 with your payment.   Page 4 of 4"
+      }
+    ]
+  },
+  "pagination/takumi/invoice": {
+    "pdf": "/previews/pagination/takumi/invoice.pdf",
+    "sha256": "709311c72d6f1eaed404ed1c9119548042a05452f654349a53e44eb91e448efb",
+    "pages": [
+      {
+        "image": "/previews/pages/pagination/takumi/invoice/1.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Acme Studio  Design services · Vienna, Austria · hello@example.com  INVOICE NUMBER  INV-2026-01  INVOICE DATE  21 September 2026  DUE DATE  5 October 2026  BILLED TO  Ada Lovelace  Vienna, Austria  ada@example.com  +43 1 555 0100  DESCRIPTION   QTY   UNIT PRICE   AMOUNT  Service 01 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 02 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 03 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 04 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 05 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 06 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 07 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 08 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page   1   of   4"
+      },
+      {
+        "image": "/previews/pages/pagination/takumi/invoice/2.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 09 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 10 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 11 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 12 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 13 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 14 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 15 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 16 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 17 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 18 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 19 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 20 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 21 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page   2   of   4"
+      },
+      {
+        "image": "/previews/pages/pagination/takumi/invoice/3.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 22 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 23 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 24 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 25 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 26 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 27 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 28 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 29 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 30 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 31 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 32 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 33 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 34 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Include INV-2026-01 with your payment.   Page   3   of   4"
+      },
+      {
+        "image": "/previews/pages/pagination/takumi/invoice/4.webp",
+        "width": 953,
+        "height": 1348,
+        "text": "Service 35 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 36 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 37 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 38 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 39 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  Service 40 — Implementation,  documentation and review of the supplied  requirements.  1   € 150,00   € 150,00  PAYMENT METHOD  Bank transfer  ATU00000000  Subtotal   € 6.000,00  VAT (20%)   € 1.200,00  Total Due   € 7.200,00  Include INV-2026-01 with your payment.   Page   4   of   4"
+      }
+    ]
+  }
+}
