@@ -10,7 +10,7 @@ The upstream MIT notice remains intact. Font notices remain separately applicabl
 
 ## Qualification on 2026-11-09
 
-`heavy -- pnpm validate` passed type checks, primitive/component/render/pagination/output regressions, docs generation/build/contracts, API checks and the fresh package consumer. The final `test:consumer-release` stage stopped at `dev-preview start`: no free preview ports. The full gate is not passing; no allocations belonging to other work were changed. `validate:pack` was not reached. This evidence covers only the committed single-package tree.
+`heavy -- pnpm validate` passed type checks, primitive/component/render/pagination/output regressions, docs generation/build/contracts, API checks and the fresh package consumer. The final `test:consumer-release` stage stopped at `dev-preview start`: no free preview ports. This local invocation did not complete; no allocations belonging to other work were changed. GitHub CI subsequently passed the complete `pnpm validate` gate on e83924d ([run](https://github.com/alois-reinstadler/pdfcn-svelte/actions/runs/42552513324)). `validate:pack` was not reached. This evidence covers only the committed single-package tree.
 
 ## Owner checklist
 
