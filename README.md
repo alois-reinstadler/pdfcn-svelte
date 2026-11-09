@@ -1,5 +1,7 @@
 # pdfcn-svelte
 
+> Release candidate: see [release scope, limitations and owner checklist](RELEASE.md). This branch prepares a candidate; it does not certify publication readiness.
+
 PDF-oriented components and document blocks for Svelte 5, ported from
 [shadcn-labs/pdfcn](https://github.com/shadcn-labs/pdfcn) and adapted to
 shadcn-svelte conventions.
