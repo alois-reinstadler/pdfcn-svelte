@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — release preparation
+
+- Document the supported release boundary, upstream attribution and remaining qualification decisions.
+- Include release notes and attribution in the package file allowlist.
+
 ## Unreleased
 
 ### Release engineering update
